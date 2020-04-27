@@ -13,6 +13,8 @@ module.exports = {
           colors: {
             'mint-leaf': '#00b894',
             'light-greenish-blue': '#55efc4',
+            'secondary': '#1e272e',
+            'primary': '#3498db'
           }
         }
       },
