@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "parcel build ./src/index.html --no-cache",
+    "deploy": "npm run build && gh-pages -d dist",
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "gh-pages": "^2.2.0",
     "marked": "^1.0.0",
     "postcss-import": "^12.0.1",
     "postcss-typography": "^1.0.0",
