@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full w-full bg-gray-100" style="font-size: 1.2rem;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.pcss">
+    <link rel="stylesheet" href="./style.styl">
+</head>
+
+<body class="h-full flex flex-col w-full">
+    <include src="./header.html"></include>
+    <main>
+        <div class="flex flex-wrap md:flex-no-wrap max-w-4xl mx-auto justify-center my-12 md:my-24">
+            <div class="flex flex-col px-8">
+                <h1 class="text-6xl font-display font-bold m-0">Feather</h1>
+                <h2 class="flex font-body font-normal text-2xl"><span>A highly concurrent, performant, and extendable
+                        Minecraft server, powered by
+                        <a href="https://rust-lang.org">Rust</a>, <a href="https://docs.rs/legion/">LegionECS</a>, and
+                        <a href="https://docs.rs/libloading/">Dynamic linker</a>.
+                    </span></h2>
+            </div>
+            <div class="flex flex-col items-center justify-center whitespace-no-wrap px-8 my-12 ">
+                <br>
+                <button class="py-4 px-8 text-white text-xl font-display rounded-lg bg-blue-700">
+                    Get started
+                </button>
+                <p class="text-sm font-display m-0">1.15.2</p>
+            </div>
+        </div>
+        <div class="bg-orange-900 text-white py-16">
+            <div class="max-w-4xl mx-auto flex flex-col">
+                <h2 class="font-display m-0 px-8">Why Feather?</h2>
+                <div class="px-8" md>
+                    Feather is an experimental Minecraft server implementation written entirely in
+                    [Rust](https://www.rust-lang.org/) from scratch. Writing it from scratch have allowed us to...
+                    features.
+                </div>
+                <div class="flex flex-auto flex-wrap md:flex-no-wrap">
+                    <div class="px-8" md>
+                        ### Performance
+                        Feather is designed with performance in mind. Feather is designed around ECS which allow us to
+                        only fetch the required data for a calculations and we can therefor better utilize the cpu-cache
+                        synchronously, however each system can run its calculations safely in parralel on a threadpool
+                        thanks to [Rust]() and [Rayon]().
+                    </div>
+                    <div class="px-8" md>
+                        ### Plugins
+                        Rust’s rich type system and ownership model guarantee memory-safety and thread-safety —
+                        preventing many classes of bugs at compile-time.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-light-greenish-blue py-16">
+            <div class="max-w-4xl mx-auto flex flex-col">
+                <h2 class="font-display m-0 px-8">Why Rust?</h2>
+                <div class="flex flex-auto flex-wrap md:flex-no-wrap">
+                    <div class="px-8" md>
+                        ### Performance
+                        Rust is blazingly fast and memory-efficient: with no runtime or garbage collector, it can power
+                        performance-critical services, run on embedded devices, and easily integrate with other
+                        languages.
+                    </div>
+                    <div class="px-8" md>
+                        ### Reliability
+                        Rust’s rich type system and ownership model guarantee memory-safety and thread-safety —
+                        preventing many classes of bugs at compile-time.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-purple-900 text-white py-16">
+            <div class="max-w-4xl mx-auto flex flex-col">
+                <h2 class="font-display m-0 px-8">Why LegionECS?</h2>
+                <div class="flex flex-auto flex-wrap md:flex-no-wrap">
+                    <div class="px-8" md>
+                        ### Advanced Query Filters
+                    </div>
+                    <div class="px-8" md>
+                        ### Content Streaming
+                        Entities can be loaded and initialized in a background `World` on separate threads and then when
+                        ready, merged into the main `World` near instantaneously.
+                    </div>
+                    <div class="px-8" md>
+                        ### Chunk Iteration
+                        Entity data is allocated in blocks called `chunks`, each approximately containing 64KiB of data.
+                        The query API exposes each chunk via `iter_chunk`. As all entities in a chunk are guarenteed to
+                        contain the same set of entity data and shared data values, it is possible to do batch
+                        processing via the chunk API.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-purple-900 text-white py-16">
+            <div class="max-w-4xl mx-auto flex flex-col">
+                <h2 class="font-display m-0 px-8">Get involved</h2>
+                <div class="flex flex-auto flex-wrap md:flex-no-wrap">
+                    <div class="px-8" md>
+                        ### Write a plugin
+                    </div>
+                    <div class="px-8" md>
+                        ### Contribute code
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+    </footer>
+</body>
+
+</html>
