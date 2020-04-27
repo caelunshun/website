@@ -35,6 +35,7 @@ module.exports = {
         }
       },
       foundries: ['google']
-    }
+    },
+    '@fullhuman/postcss-purgecss': {}
   }
 }
