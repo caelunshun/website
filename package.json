@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "parcel build ./src/index.html --no-cache --public-url https://defman.github.io/feather-landing/",
+    "build": "parcel build ./src/index.html --no-cache --public-url https://feather-rs.github.io/website/",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "keywords": [],
