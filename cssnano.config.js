@@ -1,8 +1,3 @@
 module.exports = {
-    preset: [
-      'default',
-      {
-        discardUnused: true,
-      }
-    ]
+    preset: "advanced"
   }

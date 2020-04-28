@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "cssnano": "^4.1.10",
+    "cssnano-preset-advanced": "^4.0.7",
     "postcss-font-magician": "^2.3.1",
     "posthtml-include": "^1.4.3",
     "posthtml-inline-assets": "^3.1.0",
