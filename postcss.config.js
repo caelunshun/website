@@ -1,9 +1,7 @@
 module.exports = {
   plugins: {
-    'postcss-import': {
-
-    },
     'tailwindcss': {
+      important: false,
       theme: {
         fontFamily: {
           'display': ['Oswald'],
@@ -19,7 +17,6 @@ module.exports = {
         }
       },
     },
-    'autoprefixer': {},
     // 'postcss-typography': {
     //   includeNormalize: false,
     // },
@@ -38,5 +35,6 @@ module.exports = {
       },
       foundries: ['google']
     },
+    'autoprefixer': {},
   }
 }
