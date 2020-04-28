@@ -22,10 +22,10 @@
     "typography": "^0.16.19"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^2.1.2",
     "cssnano": "^4.1.10",
     "postcss-font-magician": "^2.3.1",
     "posthtml-include": "^1.4.3",
+    "posthtml-inline-assets": "^3.1.0",
     "posthtml-load-config": "^1.0.0",
     "posthtml-md": "^1.1.0",
     "stylus": "^0.54.7"
