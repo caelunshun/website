@@ -4,8 +4,8 @@ module.exports = {
       important: false,
       theme: {
         fontFamily: {
-          'display': ['Oswald'],
-          'body': ['Roboto Condensed'],
+          'display': ['Oswald', 'sans-serif'],
+          'body': ['Roboto Condensed', 'serif'],
         },
         extend: {
           colors: {
