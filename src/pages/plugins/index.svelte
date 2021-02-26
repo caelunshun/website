@@ -68,7 +68,7 @@
         </form>
         <ul class="flex flex-col flex-1 space-y-4 mt-8">
             {#each plugins as { id, name, description, all_time, recent, updated, homepage, repository, versions }}
-                <li class="flex flex-wrap justify-between p-4 shadow border-l-8 border-feather-light">
+                <li class="flex flex-wrap justify-between p-4 shadow border-l-4 border-feather-light">
                     <div class="flex flex-col justify-between">
                         <div>
                         <div class="flex items-end">
