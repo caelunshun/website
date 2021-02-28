@@ -4,6 +4,6 @@ WORKDIR /usr/src/website/frontend
 COPY . .
 
 RUN npm install
-run npm build:ssr
+RUN npm run build:app
 
 CMD ["npm run serve"]
