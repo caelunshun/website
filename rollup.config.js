@@ -8,7 +8,6 @@ import { copySync, removeSync } from "fs-extra"
 import { spassr } from "spassr"
 import getConfig from "@roxi/routify/lib/utils/config"
 import autoPreprocess from "svelte-preprocess"
-import postcssImport from "postcss-import"
 import { injectManifest } from "rollup-plugin-workbox"
 
 import includePaths from "rollup-plugin-includepaths"

@@ -21,8 +21,7 @@
     "serve": "spassr --ssr",
     "rollup": "rollup -cw",
     "nollup": "nollup -c",
-    "routify": "routify",
-    "deploy": "run-s build:static && gh-pages -d dist"
+    "routify": "routify"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",

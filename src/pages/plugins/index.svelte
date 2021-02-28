@@ -1,6 +1,7 @@
 <script>
     import { url, params, goto } from "@roxi/routify"
     import { SearchIcon } from "svelte-feather-icons"
+    import PluginCard from "components/plugin_card.svelte"
 
     let search = ""
     let selected_categories = []
@@ -11,8 +12,8 @@
             id: "world-edit",
             name: "WorldEdit",
             description: "WorldEdit is an in-game map editor for both creative and survival",
-            all_time: 420000,
-            recent: 690,
+            downloads: 420000,
+            downloads_recent: 690,
             updated: 20,
             homepage: "https://google.com",
             repository: "https://github.com",
@@ -22,8 +23,8 @@
             id: "world-edit",
             name: "WorldEdit",
             description: "WorldEdit is an in-game map editor for both creative and survival",
-            all_time: 420000,
-            recent: 690,
+            downloads: 420000,
+            downloads_recent: 690,
             updated: 20,
             versions: ["1.16"]
         },
@@ -31,8 +32,8 @@
             id: "world-edit",
             name: "WorldEdit",
             description: "WorldEdit is an in-game map editor for both creative and survival",
-            all_time: 420000,
-            recent: 690,
+            downloads: 420000,
+            downloads_recent: 690,
             updated: 20,
             versions: ["1.16"]
         },
@@ -67,44 +68,9 @@
             <SearchIcon class="ml-4 h-6 w-6 text-feather-dark" />
         </form>
         <ul class="flex flex-col flex-1 space-y-4 mt-8">
-            {#each plugins as { id, name, description, all_time, recent, updated, homepage, repository, versions }}
-                <li class="flex flex-wrap justify-between p-4 shadow border-l-4 border-feather-light">
-                    <div class="flex flex-col justify-between">
-                        <div>
-                        <div class="flex items-end">
-                            <a href="/plugins/:id" 
-                                use:$url={{ id }}
-                                class="text-4xl font-bold hover:text-gray-600">
-                                {name}
-                            </a>
-                            <ol class="flex">
-                            {#each versions as version}
-                                <li class="ml-2">{version}</li>
-                            {/each}
-                            </ol>
-                        </div>
-                        <p>{description}</p>
-                        </div>
-                        <ul class="flex space-x-2 mt-2">
-                        {#if homepage}
-                            <li><a href={homepage} class="font-bold border-b-2 border-feather-accent hover:text-gray-600">Homepage</a></li>
-                        {/if}
-                        {#if repository}
-                            <li><a href={homepage} class="font-bold border-b-2 border-feather-accent hover:text-gray-600">Repository</a></li>
-                        {/if}
-                        </ul>
-                    </div>
-                    <div class="flex flex-col justify-center text-lg my-2">
-                        <div>
-                        <span><abbr title="Total numbers of downloads">All-Time:</abbr> {all_time.toLocaleString()}</span>
-                        </div>
-                        <div>
-                        <span><abbr title="Downloads in the last 90 days">Recent:</abbr> {recent.toLocaleString()}</span>
-                        </div>
-                        <div>
-                        <span><abbr title="The last time plugin was updated">Updated:</abbr> {updated.toLocaleString()} days ago</span>
-                        </div>
-                    </div>
+            {#each plugins as plugin}
+                <li>
+                    <PluginCard {...plugin} />
                 </li>
             {/each}
         </ul>
