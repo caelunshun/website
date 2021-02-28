@@ -1,8 +1,12 @@
 version: '3.1'
 
 services:
-  rest:
-    build: ./rest
+  frontend:
+    build: ./frontend
+    ports:
+      - "5000:5000"
+  api:
+    build: ./api
     ports:
       - "3030:3030"
   postgres:
