@@ -1,0 +1,19 @@
+[package]
+name = "feather-rest"
+version = "0.1.0"
+authors = ["Defman <jacob@rosborg.dk>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+warp = "0.3"
+sqlx = { version = "0.5", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
+anyhow = "1.0"
+futures = "0.3"
+tokio-util = "0.6"
+chrono = { version = "0.4", features = ["serde"] }
+indexmap = { version = "1.6", features = ["serde"] }
+semver = { version = "0.11", features = ["serde"] }

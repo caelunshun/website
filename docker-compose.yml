@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  rest:
+    build: ./rest
+    ports:
+      - "3030:3030"
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: feather
+      POSTGRES_PASSWORD: feather
