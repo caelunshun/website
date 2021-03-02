@@ -1,4 +1,5 @@
 use rand::RngCore;
+use serde::Deserialize;
 use warp::{Filter, Rejection, Reply};
 
 use crate::{
@@ -28,37 +29,36 @@ pub fn filter_authorization(
         .and_then(handle_authorization)
 }
 
-pub async fn handle_authorization(
+#[derive(Deserialize)]
+pub struct AccessToken {
     code: String,
+}
+
+pub async fn handle_authorization(
+    access_token: AccessToken,
     client_id: String,
     client_secret: String,
     db: DB,
 ) -> Result<impl Reply, Rejection> {
-    let github_access_token = github::access_token(&client_id, &client_secret, &code)
+    log::info!("1");
+    let github_access_token = github::access_token(&client_id, &client_secret, &access_token.code)
         .await
         .map_err(|_| rejections::unauthorized())?;
 
-    let github_user = github::user(&github_access_token)
-        .await
-        .map_err(|_| rejections::unauthorized())?;
+    log::info!("2");
+    let github_user = github::user(&github_access_token).await.unwrap();
 
-    let token = db
-        .get_user_token_by_user_id_and_name(github_user.id, None)
-        .await;
+    log::info!("3");
+    db.insert_or_update_user(&github_user).await.unwrap();
 
+    log::info!("4");
     let mut secret = [0; 48];
 
-    let secret = match token {
-        Ok(ref token) => token.secret.as_slice(),
-        Err(sqlx::Error::RowNotFound) => {
-            rand::rngs::OsRng.fill_bytes(&mut secret);
-            db.insert_user_token_by_user_id_and_name(github_user.id, None, secret.as_ref())
-                .await
-                .map_err(rejections::Database::reject)?;
-            secret.as_ref()
-        }
-        Err(error) => return Err(rejections::Database::reject(error)),
-    };
+    rand::rngs::OsRng.fill_bytes(&mut secret);
+
+    db.get_create_auth_token(github_user.id, "feathermc.org", &mut secret)
+        .await
+        .map_err(rejections::Database::reject)?;
 
     let secret_hex = hex::encode(secret);
 

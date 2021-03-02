@@ -2,14 +2,13 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::{query, Result};
 
-use crate::DB;
+use crate::{github, DB};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
     pub id: u32,
     pub login: String,
     pub name: String,
-    pub email: Option<String>,
     pub created_at: DateTime<Utc>,
 }
 
@@ -21,7 +20,6 @@ impl DB {
                 id,
                 login, 
                 name, 
-                email,
                 created_at
             FROM 
                 users
@@ -35,42 +33,32 @@ impl DB {
             id: user.id as u32,
             login: user.login,
             name: user.name,
-            email: user.email,
             created_at: user.created_at,
         })
     }
 
-    pub async fn insert_or_update_user(&self, user: User) -> Result<()> {
+    pub async fn insert_or_update_user(&self, user: &github::User) -> Result<()> {
         query!(
             "
             INSERT INTO users (
                 id,
                 login, 
-                name, 
-                email
+                name
             ) VALUES (
                 $1,
                 $2,
-                $3,
-                $4
-            ) ON CONFLICT (
-                name, 
-                login, 
-                email
-            )
+                $3
+            ) ON CONFLICT (id)
             DO UPDATE SET (
                 login,
-                name,
-                email
+                name
             ) = (
                 $2,
-                $3,
-                $4
+                $3
             )",
             user.id as i32,
             user.login,
             user.name,
-            user.email
         )
         .execute(self.as_ref())
         .await?;

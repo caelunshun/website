@@ -7,42 +7,21 @@ use crate::DB;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UserToken {
     pub id: u32,
-    pub name: Option<String>,
+    pub name: String,
     pub secret: Vec<u8>,
     pub created_at: DateTime<Utc>,
     pub used_total: u32,
 }
 
 impl DB {
-    pub async fn get_user_token_by_user_id_and_name(
-        &self,
-        user_id: u32,
-        token_name: Option<&str>,
-    ) -> Result<UserToken> {
-        let token = query!(
-            "
-            SELECT 
-                id, 
-                name, 
-                secret, 
-                created_at, 
-                used_total 
-            FROM 
-                user_tokens
-            WHERE 
-                user_id = $1 AND name = $2",
-            user_id as i32,
-            token_name
+    pub async fn get_user_id_by_token_secret(&self, secret: &[u8]) -> Result<u32> {
+        let user = query!(
+            "SELECT user_id FROM user_tokens WHERE user_tokens.secret = $1",
+            secret
         )
         .fetch_one(self.as_ref())
         .await?;
-        Ok(UserToken {
-            id: token.id as u32,
-            name: token.name,
-            secret: token.secret,
-            created_at: token.created_at,
-            used_total: token.used_total as u32,
-        })
+        Ok(user.user_id as u32)
     }
 
     pub async fn get_user_tokens_by_user_id(&self, user_id: u32) -> Result<Vec<UserToken>> {
@@ -53,7 +32,7 @@ impl DB {
                 name, 
                 secret, 
                 created_at, 
-                used_total 
+                used
             FROM 
                 user_tokens
             WHERE 
@@ -70,30 +49,13 @@ impl DB {
                 name: token.name,
                 secret: token.secret,
                 created_at: token.created_at,
-                used_total: token.used_total as u32,
+                used_total: token.used as u32,
             })
             .collect())
     }
 
-    pub async fn get_user_id_by_auth_token_secret(&self, secret: &[u8]) -> Result<u32> {
-        let user_token = query!(
-            r#"
-                SELECT user_id FROM user_tokens WHERE name IS NULL AND secret = $1
-            "#,
-            secret
-        )
-        .fetch_one(self.as_ref())
-        .await?;
-        Ok(user_token.user_id as u32)
-    }
-
-    pub async fn insert_user_token_by_user_id_and_name(
-        &self,
-        user_id: u32,
-        name: Option<String>,
-        secret: &[u8],
-    ) -> Result<u32> {
-        let user_token = query!(
+    pub async fn insert_user_token(&self, user_id: u32, name: &str, secret: &[u8]) -> Result<u32> {
+        let token = query!(
             "INSERT INTO user_tokens (user_id, name, secret) VALUES ($1, $2, $3) RETURNING id",
             user_id as i32,
             name,
@@ -102,6 +64,26 @@ impl DB {
         .fetch_one(self.as_ref())
         .await?;
 
-        Ok(user_token.id as u32)
+        Ok(token.id as u32)
+    }
+
+    pub async fn get_create_auth_token(
+        &self,
+        user_id: u32,
+        name: &str,
+        secret: &mut [u8],
+    ) -> Result<()> {
+        let token = query!(
+            "INSERT INTO user_tokens (user_id, name, secret) VALUES ($1, $2, $3) ON CONFLICT (user_id, name) DO UPDATE SET user_id = EXCLUDED.user_id RETURNING secret",
+            user_id as i32,
+            name,
+            secret.as_ref()
+        )
+        .fetch_one(self.as_ref())
+        .await?;
+
+        secret.copy_from_slice(token.secret.as_ref());
+
+        Ok(())
     }
 }

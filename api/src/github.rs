@@ -31,8 +31,6 @@ pub async fn access_token(client_id: &str, client_secret: &str, code: &str) -> R
         .json::<AccessToken>()
         .await?;
 
-    log::info!("hmm");
-
     Ok(token.access_token)
 }
 

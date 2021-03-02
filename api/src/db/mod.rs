@@ -1,6 +1,8 @@
+mod plugins;
 mod user_tokens;
 mod users;
 
+pub use plugins::*;
 pub use user_tokens::*;
 pub use users::*;
 

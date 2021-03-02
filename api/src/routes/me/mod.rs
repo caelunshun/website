@@ -16,7 +16,8 @@ pub fn routes(db: DB) -> impl Filter<Extract = (impl Reply,), Error = Rejection>
 }
 
 pub fn filter_me(db: DB) -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
-    warp::path::end()
+    warp::get()
+        .and(warp::path::end())
         .and(authenticated(db.clone()))
         .and(with_state(db))
         .and_then(handle_me)
@@ -37,7 +38,7 @@ pub async fn handle_me(user_id: u32, db: DB) -> Result<impl Reply, Rejection> {
     #[derive(Serialize)]
     struct MeToken {
         id: u32,
-        name: Option<String>,
+        name: String,
         used_total: u32,
         created_at: DateTime<Utc>,
     }

@@ -1,7 +1,7 @@
 use std::convert::Infallible;
 
 use anyhow::Result;
-use feather_web_api::{routes, DB};
+use feather_web_api::{rejections, routes, DB};
 use futures::FutureExt;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions, PgSslMode};
 
@@ -49,15 +49,17 @@ async fn main() -> Result<()> {
 }
 
 async fn handle_rejection(err: warp::Rejection) -> Result<impl warp::Reply, Infallible> {
-    let code;
-    let message;
-
+    let mut code = StatusCode::INTERNAL_SERVER_ERROR;
+    let mut message = "INTERNAL_SERVER_ERROR";
     if err.is_not_found() {
         code = StatusCode::NOT_FOUND;
         message = "NOT_FOUND";
+    } else if let Some(err) = err.find::<rejections::Database>() {
+        log::info!(target: "api", "{:?}", err);
+    } else if let Some(_) = err.find::<rejections::Unauthorized>() {
+        code = StatusCode::UNAUTHORIZED;
     } else {
         code = StatusCode::INTERNAL_SERVER_ERROR;
-        message = "INTERNAL_SERVER_ERROR";
     }
 
     let json = warp::reply::json(&message);

@@ -23,7 +23,7 @@ pub fn authenticated(db: DB) -> impl Filter<Extract = (u32,), Error = Rejection>
             let mut secret = [0u8; 48];
             hex::decode_to_slice(&token, &mut secret).map_err(|_| rejections::unauthorized())?;
             let user_id = db
-                .get_user_id_by_auth_token_secret(secret.as_ref())
+                .get_user_id_by_token_secret(secret.as_ref())
                 .await
                 .map_err(|_| rejections::unauthorized())?;
 
