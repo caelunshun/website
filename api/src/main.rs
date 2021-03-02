@@ -1,12 +1,7 @@
-pub mod filters;
-pub mod github;
-pub mod handlers;
-pub mod models;
-pub mod rejections;
-
 use std::convert::Infallible;
 
 use anyhow::Result;
+use feather_web_api::{routes, DB};
 use futures::FutureExt;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions, PgSslMode};
 
@@ -29,9 +24,11 @@ async fn main() -> Result<()> {
 
     let pool = PgPoolOptions::new().connect_with(postgres).await?;
 
-    sqlx::migrate!("./migrations").run(&pool).await?;
+    let db = DB::new(pool);
 
-    let routes = filters::routes(pool);
+    sqlx::migrate!("./migrations").run(db.as_ref()).await?;
+
+    let routes = routes(db);
     let routes = routes.recover(handle_rejection);
     let routes = routes.with(warp::log("api"));
 

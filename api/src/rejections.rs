@@ -3,6 +3,19 @@ use warp::{
     Rejection,
 };
 
+pub trait IntoRejection<E>: Reject {
+    fn reject(error: E) -> Rejection;
+}
+
+impl<E, T> IntoRejection<E> for T
+where
+    T: From<E> + Reject
+{
+    fn reject(error: E) -> Rejection {
+        custom(Self::from(error))
+    }
+}
+
 #[derive(Debug)]
 pub struct Unauthorized;
 
@@ -13,10 +26,12 @@ pub fn unauthorized() -> Rejection {
 }
 
 #[derive(Debug)]
-pub struct Database;
+pub struct Database(sqlx::Error);
 
 impl Reject for Database {}
 
-pub fn database() -> Rejection {
-    custom(Database)
+impl From<sqlx::Error> for Database {
+    fn from(error: sqlx::Error) -> Self {
+        Database(error)
+    }
 }

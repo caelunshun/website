@@ -5,7 +5,7 @@ use serde::Deserialize;
 #[derive(Deserialize)]
 pub struct User {
     pub login: String,
-    pub id: i32,
+    pub id: u32,
     pub name: String,
 }
 
