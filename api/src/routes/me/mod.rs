@@ -1,9 +1,13 @@
 use chrono::{DateTime, Utc};
 use futures::future::join;
-use warp::{Filter, Rejection, Reply};
 use serde::Serialize;
+use warp::{Filter, Rejection, Reply};
 
-use crate::{authenticated, rejections::{self, IntoRejection}, with_state, DB};
+use crate::{
+    authenticated,
+    rejections::{self, IntoRejection},
+    with_state, DB,
+};
 
 mod authorization;
 
@@ -44,19 +48,22 @@ pub async fn handle_me(user_id: u32, db: DB) -> Result<impl Reply, Rejection> {
         login: String,
         name: String,
         tokens: Vec<MeToken>,
-        created_at: DateTime<Utc>
+        created_at: DateTime<Utc>,
     }
 
     Ok(warp::reply::json(&Me {
         id: user.id,
         login: user.login,
         name: user.name,
-        tokens: tokens.into_iter().map(|token| MeToken {
-            id: token.id,
-            name: token.name,
-            used_total: token.used_total,
-            created_at: token.created_at,
-        }).collect(),
+        tokens: tokens
+            .into_iter()
+            .map(|token| MeToken {
+                id: token.id,
+                name: token.name,
+                used_total: token.used_total,
+                created_at: token.created_at,
+            })
+            .collect(),
         created_at: user.created_at,
     }))
 }

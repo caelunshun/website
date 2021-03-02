@@ -1,7 +1,11 @@
 use rand::RngCore;
 use warp::{Filter, Rejection, Reply};
 
-use crate::{github, rejections::{self, IntoRejection}, with_state, DB};
+use crate::{
+    github,
+    rejections::{self, IntoRejection},
+    with_state, DB,
+};
 
 pub fn routes(db: DB) -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
     filter_authorization(db)
@@ -42,7 +46,7 @@ pub async fn handle_authorization(
         .get_user_token_by_user_id_and_name(github_user.id, None)
         .await;
 
-    let mut secret = [0; 48];   
+    let mut secret = [0; 48];
 
     let secret = match token {
         Ok(ref token) => token.secret.as_slice(),

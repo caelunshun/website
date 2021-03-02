@@ -9,7 +9,7 @@ pub trait IntoRejection<E>: Reject {
 
 impl<E, T> IntoRejection<E> for T
 where
-    T: From<E> + Reject
+    T: From<E> + Reject,
 {
     fn reject(error: E) -> Rejection {
         custom(Self::from(error))

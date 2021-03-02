@@ -30,4 +30,3 @@ impl AsRef<PgPool> for DB {
         self
     }
 }
-
