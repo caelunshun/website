@@ -3,15 +3,19 @@ version: '3.1'
 services:
   frontend:
     build: ./frontend
-    ports:
-      - "5000:5000"
+    restart: unless-stopped
+    links:
+      - api
   api:
     build: ./api
+    restart: unless-stopped
+    links:
+      - postgres
     ports:
-      - "3030:3030"
+      - "8000:6000"
   postgres:
     image: postgres
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: feather
       POSTGRES_PASSWORD: feather

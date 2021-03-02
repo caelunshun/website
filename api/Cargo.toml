@@ -1,5 +1,5 @@
 [package]
-name = "feather-rest"
+name = "feather-web-api"
 version = "0.1.0"
 authors = ["Defman <jacob@rosborg.dk>"]
 edition = "2018"
@@ -10,10 +10,16 @@ edition = "2018"
 serde = { version = "1.0", features = ["derive"] }
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
-sqlx = { version = "0.5", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
+sqlx = { version = "0.5", features = ["postgres", "runtime-tokio-rustls", "chrono", "migrate", "offline"] }
 anyhow = "1.0"
 futures = "0.3"
 tokio-util = "0.6"
 chrono = { version = "0.4", features = ["serde"] }
 indexmap = { version = "1.6", features = ["serde"] }
 semver = { version = "0.11", features = ["serde"] }
+log = "0.4"
+env_logger = "0.8"
+dotenv = "0.15"
+reqwest = { version = "0.11.1", features = ["json"] }
+rand = { version = "0.8", features = ["getrandom"] }
+hex = "0.4"

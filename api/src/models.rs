@@ -3,71 +3,67 @@ use indexmap::IndexMap;
 use semver::Version;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
-pub struct GithubToken {
-    access_token: String,
-}
-
-#[derive(Debug, Serialize)]
-pub struct Email {
-    address: String,
-    verified: bool,
+#[derive(Deserialize, Serialize)]
+pub struct Claims {
+    pub user_id: u32,
 }
 
 #[derive(Debug, Serialize)]
 pub struct Token {
-    id: u32,
-    name: String,
-    crated_at: DateTime<Utc>,
-    used_total: u32,
+    pub id: u32,
+    pub name: Option<String>,
+    pub created_at: DateTime<Utc>,
+    pub used_total: u32,
     #[serde(skip_serializing_if = "Option::is_none")]
-    secret: Option<String>,
+    pub secret: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
 pub struct Me {
     #[serde(flatten)]
-    user: User,
-    email: Email,
-    tokens: Vec<Token>,
+    pub user: User,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email: Option<String>,
+    pub tokens: Vec<Token>,
+    pub created_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Serialize)]
 pub struct User {
-    id: u32,
-    name: String,
-    github_id: u32,
-    github_name: String,
+    pub id: u32,
+    pub name: String,
+    pub login: String,
+    pub created_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Serialize)]
 pub struct Plugin {
-    id: String,
-    name: String,
+    pub id: String,
+    pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    description: Option<String>,
-    downloads_total: u32,
-    downloads_total_recent: u32,
-    last_updated: DateTime<Utc>,
+    pub description: Option<String>,
+    pub downloads_total: u32,
+    pub downloads_total_recent: u32,
+    pub last_updated: DateTime<Utc>,
     #[serde(skip_serializing_if = "IndexMap::is_empty")]
-    links: IndexMap<String, String>,
-    versions: Vec<Version>,
-    owners: Vec<User>,
-    dl: Vec<PluginTar>,
+    pub links: IndexMap<String, String>,
+    pub versions: Vec<Version>,
+    pub owners: Vec<User>,
+    pub dl: Vec<PluginTar>,
 }
 
 #[derive(Debug, Serialize)]
 pub struct UserPlugins {
     #[serde(flatten)]
-    user: User,
-    plugins: Vec<Plugin>,
+    pub user: User,
+    pub plugins: Vec<Plugin>,
 }
 
 #[derive(Debug, Serialize)]
 pub struct PluginTar {
-    arch: String,
+    pub arch: String,
     // Size in bytes
-    size: u32,
+    pub size: u32,
 }
 
 #[derive(Debug, Deserialize)]
