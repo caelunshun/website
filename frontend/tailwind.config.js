@@ -1,29 +1,42 @@
-const production = !process.env.ROLLUP_WATCH;
+const { tailwindExtractor } = require("tailwindcss/lib/lib/purgeUnusedStyles");
 
 module.exports = {
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
-  plugins: [],
-  purge: {
-    content: ["./src/**/*.svelte"],
-    enabled: production,
-  },
-  theme: {
-    fontFamily: {
-      sans: ["Roboto"],
-      display: ["Roboto", "sans-serif"],
-      body: ["Roboto", "sans-serif"],
-    },
-    extend: {
-      colors: {
-        feather: {
-          light: "#BADEDA",
-          dark: "#005E66",
-          accent: "#E29578",
-        },
-      },
-    },
-  },
-}
+	purge: {
+		content: [
+			"./src/**/*.html",
+			"./src/**/*.svelte",
+		],
+		options: {
+			defaultExtractor: (content) => [
+				// This is an internal Tailwind function that we're not supposed to be allowed to use
+				// So if this stops working, please open an issue at
+				// https://github.com/babichjacob/sapper-postcss-template/issues
+				// rather than bothering Tailwind Labs about it
+				...tailwindExtractor(content),
+				// Match Svelte class: directives (https://github.com/tailwindlabs/tailwindcss/discussions/1731)
+				...[...content.matchAll(/(?:class:)*([\w\d-/:%.]+)/gm)].map(([_match, group, ..._rest]) => group),
+			],
+			keyframes: true,
+		},
+	},
+	theme: {
+		fontFamily: {
+			sans: ["Roboto"],
+			display: ["Roboto", "sans-serif"],
+			body: ["Roboto", "sans-serif"],
+		},
+		extend: {
+			colors: {
+			feather: {
+					light: "#BADEDA",
+					dark: "#005E66",
+					accent: "#E29578",
+				},
+		  	},
+		},
+	},
+	variants: {
+		extend: {},
+	},
+	plugins: [],
+};

@@ -1,107 +1,227 @@
-import svelte from "rollup-plugin-svelte-hot"
-import Hmr from "rollup-plugin-hot"
-import resolve from "@rollup/plugin-node-resolve"
-import commonjs from "@rollup/plugin-commonjs"
-import livereload from "rollup-plugin-livereload"
-import { terser } from "rollup-plugin-terser"
-import { copySync, removeSync } from "fs-extra"
-import { spassr } from "spassr"
-import getConfig from "@roxi/routify/lib/utils/config"
-import autoPreprocess from "svelte-preprocess"
-import { injectManifest } from "rollup-plugin-workbox"
+import path from "path";
+import { spawn } from "child_process";
+import { performance } from "perf_hooks";
+import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
+import commonjs from "@rollup/plugin-commonjs";
+import svelte from "rollup-plugin-svelte";
+import babel from "@rollup/plugin-babel";
+import colors from "kleur";
+import { terser } from "rollup-plugin-terser";
+import config from "sapper/config/rollup";
+import alias from "@rollup/plugin-alias";
+import svelteSVG from "rollup-plugin-svelte-svg";
+import pkg from "./package.json";
 
-import includePaths from "rollup-plugin-includepaths"
-import json from "@rollup/plugin-json"
-import svelteSVG from "rollup-plugin-svelte-svg"
-import css from "rollup-plugin-import-css"
-import { mdsvex } from "mdsvex"
+const { createPreprocessors } = require("./svelte.config.js");
 
-const { distDir } = getConfig() // use Routify"s distDir for SSOT
-const assetsDir = "src/assets"
-const buildDir = `${distDir}/build`
-const isNollup = !!process.env.NOLLUP
-const production = !process.env.ROLLUP_WATCH
-process.env.NODE_ENV = production ? "production" : "development";
+const mode = process.env.NODE_ENV;
+const dev = mode === "development";
+const sourcemap = dev ? "inline" : false;
+const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
-// clear previous builds
-removeSync(distDir)
-removeSync(buildDir)
+const preprocess = createPreprocessors({ sourceMap: !!sourcemap });
+
+// Changes in these files will trigger a rebuild of the global CSS
+const globalCSSWatchFiles = ["postcss.config.js", "tailwind.config.js", "src/global.pcss"];
+
+const onwarn = (warning, onwarn) =>
+	(warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
+	(warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
+	onwarn(warning);
+
+const projectRootDir = path.resolve(__dirname);
+const aliases = alias({
+	entries: [
+		{
+			find: "$src",
+			replacement: path.resolve(projectRootDir, "src")
+		},
+		{
+			find: "$components",
+			replacement: path.resolve(projectRootDir, "src/components")
+		},
+		{
+			find: "$static",
+			replacement: path.resolve(projectRootDir, "static")
+		},
+		{
+			find: "$assets",
+			replacement: path.resolve(projectRootDir, "src/assets")
+		}
+	]
+});
 
 
-const serve = () => ({
-    writeBundle: async () => {
-        const options = {
-            assetsDir: [assetsDir, distDir],
-            entrypoint: `${assetsDir}/__app.html`,
-            script: `${buildDir}/main.js`
-        }
-        spassr({ ...options, port: 5000 })
-        spassr({ ...options, ssr: true, port: 5005, ssrOptions: { inlineDynamicImports: true, dev: true } })
-    }
-})
-const copyToDist = () => ({ writeBundle() { copySync(assetsDir, distDir) } })
-
+const feather_api_client = process.env.FEATHER_CLIENT_API || "localhost:4000";
+const feather_api_server = process.env.FEATHER_SERVER_API || feather_api_client;
 
 export default {
-    preserveEntrySignatures: false,
-    input: ["src/main.js"],
-    output: {
-        sourcemap: true,
-        format: "esm",
-        dir: buildDir,
-        // for performance, disabling filename hashing in development
-        chunkFileNames: `[name]${production && "-[hash]" || ""}.js`
-    },
-    plugins: [
-        includePaths({ paths: ["./src"] }),
-        svelteSVG({ dev: !production }),
-        css(),
-        json(),
-        svelte({
-            dev: !production, // run-time checks      
-            // Extract component CSS — better performance
-            css: css => css.write("bundle.css"),
-            hot: isNollup,
-            extensions: [".svelte", ".svx"],
-            preprocess: [
-                mdsvex(),
-                autoPreprocess({
-                    postcss: require("./postcss.config.js"),
-                    defaults: { style: "postcss" }
-                })
-            ]
-        }),
+	client: {
+		input: config.client.input(),
+		output: { ...config.client.output(), sourcemap },
+		plugins: [
+			aliases,
+			svelteSVG({ dev }),
+			replace({
+				preventAssignment: true,
+				values: {
+					"process.browser": true,
+					"process.env.NODE_ENV": JSON.stringify(mode),
+					"process.env.FEATHER_API": feather_api_client
+				}
+			}),
+			svelte({
+				compilerOptions: {
+					dev,
+					hydratable: true,
+				},
+				emitCss: true,
+				preprocess,
+			}),
+			resolve({
+				browser: true,
+				dedupe: ["svelte"],
+			}),
+			commonjs({
+				sourceMap: !!sourcemap,
+			}),
 
-        // resolve matching modules from current working directory
-        resolve({
-            browser: true,
-            dedupe: importee => !!importee.match(/svelte(\/|$)/)
-        }),
-        commonjs(),
+			legacy && babel({
+				extensions: [".js", ".mjs", ".html", ".svelte"],
+				babelHelpers: "runtime",
+				exclude: ["node_modules/@babel/**"],
+				presets: [
+					["@babel/preset-env", {
+						targets: "> 0.25%, not dead",
+					}],
+				],
+				plugins: [
+					"@babel/plugin-syntax-dynamic-import",
+					["@babel/plugin-transform-runtime", {
+						useESModules: true,
+					}],
+				],
+			}),
 
-        production && terser(),
-        !production && !isNollup && serve(),
-        !production && !isNollup && livereload(distDir), // refresh entire window when code is updated
-        !production && isNollup && Hmr({ inMemory: true, public: assetsDir, }), // refresh only updated code
-        {
-            // provide node environment on the client
-            transform: code => ({
-                code: code.replace("process.env.NODE_ENV", `"${process.env.NODE_ENV}"`),
-                map: { mappings: "" }
-            })
-        },
-        injectManifest({
-            globDirectory: assetsDir,
-            globPatterns: ["**/*.{js,css,svg}", "__app.html"],
-            swSrc: `src/sw.js`,
-            swDest: `${distDir}/serviceworker.js`,
-            maximumFileSizeToCacheInBytes: 10000000, // 10 MB,
-            mode: "production"
-        }),
-        production && copyToDist(),
-    ],
-    watch: {
-        clearScreen: false,
-        buildDelay: 100,
-    }
-}
+			!dev && terser({
+				module: true,
+			}),
+
+			(() => {
+				let builder;
+				let rebuildNeeded = false;
+
+				const buildGlobalCSS = () => {
+					if (builder) {
+						rebuildNeeded = true;
+						return;
+					}
+					rebuildNeeded = false;
+					const start = performance.now();
+
+					try {
+						builder = spawn("node", ["--experimental-modules", "--unhandled-rejections=strict", "build-global-css.mjs", sourcemap]);
+						builder.stdout.pipe(process.stdout);
+						builder.stderr.pipe(process.stderr);
+
+						builder.on("close", (code) => {
+							if (code === 0) {
+								const elapsed = parseInt(performance.now() - start, 10);
+								console.log(`${colors.bold().green("✔ global css")} (src/global.pcss → static/global.css${sourcemap === true ? " + static/global.css.map" : ""}) ${colors.gray(`(${elapsed}ms)`)}`);
+							} else if (code !== null) {
+								if (dev) {
+									console.error(`global css builder exited with code ${code}`);
+									console.log(colors.bold().red("✗ global css"));
+								} else {
+									throw new Error(`global css builder exited with code ${code}`);
+								}
+							}
+
+							builder = undefined;
+
+							if (rebuildNeeded) {
+								console.log(`\n${colors.bold().italic().cyan("something")} changed. rebuilding...`);
+								buildGlobalCSS();
+							}
+						});
+					} catch (err) {
+						console.log(colors.bold().red("✗ global css"));
+						console.error(err);
+					}
+				};
+
+				return {
+					name: "build-global-css",
+					buildStart() {
+						buildGlobalCSS();
+						globalCSSWatchFiles.forEach((file) => this.addWatchFile(file));
+					},
+					generateBundle: buildGlobalCSS,
+				};
+			})(),
+		],
+
+		preserveEntrySignatures: false,
+		onwarn,
+	},
+
+	server: {
+		input: config.server.input(),
+		output: { ...config.server.output(), sourcemap },
+		plugins: [
+			aliases,
+			svelteSVG({ generate: "ssr", dev }),
+			replace({
+				preventAssignment: true,
+				values: {
+					"process.browser": false,
+					"process.env.NODE_ENV": JSON.stringify(mode),
+					"process.env.FEATHER_API": feather_api_server
+				}
+			}),
+			svelte({
+				compilerOptions: {
+					dev,
+					generate: "ssr",
+				},
+				preprocess,
+			}),
+			resolve({
+				dedupe: ["svelte"],
+			}),
+			commonjs({
+				sourceMap: !!sourcemap,
+			}),
+		],
+		external: Object.keys(pkg.dependencies).concat(
+			require("module").builtinModules || Object.keys(process.binding("natives")), // eslint-disable-line global-require
+		),
+
+		preserveEntrySignatures: "strict",
+		onwarn,
+	},
+
+	serviceworker: {
+		input: config.serviceworker.input(),
+		output: { ...config.serviceworker.output(), sourcemap },
+		plugins: [
+			resolve(),
+			replace({
+				preventAssignment: true,
+				values: {
+					"process.browser": true,
+					"process.env.NODE_ENV": JSON.stringify(mode),
+					"process.env.FEATHER_API": feather_api_client,
+				}
+			}),
+			commonjs({
+				sourceMap: !!sourcemap,
+			}),
+			!dev && terser(),
+		],
+
+		preserveEntrySignatures: false,
+		onwarn,
+	},
+};
