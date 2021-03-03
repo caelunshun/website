@@ -1,3 +1,4 @@
+use crate::rejections::{self, IntoRejection};
 use chrono::{DateTime, Utc};
 use indexmap::IndexMap;
 use semver::Version;
@@ -13,33 +14,42 @@ pub struct PluginVersion {
     pub versions: Vec<String>,
     pub downloads_total: u32,
     pub downloads_total_recent: u32,
-    pub last_updated: DateTime<Utc>,
+    pub summary: String,
+    pub created_at: DateTime<Utc>,
     pub links: IndexMap<String, String>,
 }
 
 impl DB {
     /// Get all the latest version for all plugins
     pub async fn get_plugins(&self, page: u32) -> Result<PluginVersion> {
-        let plugin_version = query!("
+        let plugin_version = query!(
+            "
             SELECT
-                plugin_versions.version as version_lts,
-                plugin_versions.description,
+                plugin_versions.version,
+                plugin_versions.summary,
                 plugin_versions.downloads,
                 plugin_versions.stars,
                 plugin_versions.created_at,
                 plugins.downloads as downloads_total,
-                plugins.stars as stars_total
+                plugins.stars as stars_totlal
             FROM 
                 plugin_versions,
                 plugins
             WHERE 
-                plugin_versions.plugin_id = plugins.id AND
-                plugins.id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10) AND
-                plugin_versions.version = (SELECT MAX(plugin_versions.version) FROM plugin_versions WHERE plugin_versions.plugin_id = plugins.id)
+                plugin_versions.plugin_id = plugins.lts_version_id
+            ORDER BY
+                plugins.downloads
+            DESC
+            LIMIT 10
             ;
-        ").fetch_all(self.as_ref());
+        "
+        )
+        .fetch_all(self.as_ref())
+        .await
+        .map_err(rejections::Database::reject);
 
-        let plugin_versions = query!("
+        let plugin_versions = query!(
+            "
             SELECT
                 plugin_id,
                 version
@@ -48,9 +58,14 @@ impl DB {
             WHERE
                 plugin_id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10)
             ;
-        ");
+        "
+        )
+        .fetch_all(self.as_ref())
+        .await
+        .map_err(rejections::Database::reject);
 
-        let owners = query!("
+        let owners = query!(
+            "
             SELECT 
                 plugin_id, 
                 user_id
@@ -61,9 +76,14 @@ impl DB {
                 users.id = plugin_owners.user_id AND
                 plugin_id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10)
             ;
-        ");
+        "
+        )
+        .fetch_all(self.as_ref())
+        .await
+        .map_err(rejections::Database::reject);
 
-        let authors = query!("
+        let authors = query!(
+            "
             SELECT 
                 plugin_version_id, 
                 name 
@@ -72,7 +92,12 @@ impl DB {
             WHERE 
                 plugin_version_id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10)
             ;
-        ");
+        "
+        )
+        .fetch_all(self.as_ref())
+        .await
+        .map_err(rejections::Database::reject);
+        
         todo!()
     }
 

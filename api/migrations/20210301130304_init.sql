@@ -24,12 +24,10 @@ CREATE TABLE "plugins"(
     "name" VARCHAR NOT NULL,
     "stars" VARCHAR NOT NULL,
     "downloads" INT DEFAULT 0 NOT NULL,
+    "lts_version_id" INT NULL,
     PRIMARY KEY ("id"),
     UNIQUE ("name")
 );
-
-CREATE INDEX "idx_plugins_downloads" ON "plugins"("downloads");
-CREATE INDEX "idx_plugins_stars" ON "plugins"("stars");
 
 CREATE TABLE "plugin_owners"(
     "plugin_id" INT NOT NULL,
@@ -51,7 +49,7 @@ CREATE TABLE "plugin_versions"(
     "id" SERIAL NOT NULL,
     "plugin_id" INT NOT NULL,
     "version" VARCHAR NOT NULL,
-    "description" VARCHAR NOT NULL,
+    "summary" VARCHAR NOT NULL,
     "created_at" TIMESTAMPTZ DEFAULT NOW() NOT NULL,
     "stars" INT DEFAULT 0 NOT NULL,
     "downloads" INT DEFAULT 0 NOT NULL,
@@ -59,23 +57,6 @@ CREATE TABLE "plugin_versions"(
     FOREIGN KEY ("plugin_id") REFERENCES "plugins"("id"),
     UNIQUE ("plugin_id", "version")
 );
-
-CREATE FUNCTION update_plugins_downloads_stars() 
-    RETURNS TRIGGER
-    LANGUAGE PLPGSQL
-    AS
-$$
-BEGIN
-    UPDATE plugins 
-        SET plugins.downloads = plugins.downloads + NEW.downloads - OLD.downloads, plugins.stars = NEW.stars - OLD.stars;
-    RETURN NEW;
-END;
-$$;
-
-CREATE TRIGGER sum_plugins_download_downloads
-    AFTER UPDATE ON plugin_versions
-    FOR EACH ROW
-    EXECUTE PROCEDURE update_plugins_downloads_stars();
 
 CREATE TABLE "plugin_version_categories"(
     "plugin_version_id" INT NOT NULL,
@@ -91,27 +72,21 @@ CREATE TABLE "plugin_version_authors"(
     FOREIGN KEY ("plugin_version_id") REFERENCES "plugin_versions"("id")
 );
 
-CREATE TABLE "plugin_version_downloads"(
+CREATE TABLE "plugin_version_artifacts"(
+    "id" SERIAL NOT NULL,
     "plugin_version_id" INT NOT NULL,
     "arch" VARCHAR NOT NULL,
     "size" INT NOT NULL,
     "downloads" INT DEFAULT 0 NOT NULL,
-    PRIMARY KEY ("plugin_version_id", "arch")
+    "downloads_recent" INT DEFAULT 0 NOT NULL,
+    PRIMARY KEY ("id"),
+    UNIQUE ("plugin_version_id", "arch")
 );
 
-CREATE FUNCTION update_plugin_versions_downloads() 
-    RETURNS TRIGGER
-    LANGUAGE PLPGSQL
-    AS
-$$
-BEGIN
-    UPDATE plugin_versions 
-        SET plugin_versions.downloads = plugin_versions.downloads + NEW.downloads - OLD.downloads;
-    RETURN NEW;
-END;
-$$;
-
-CREATE TRIGGER sum_plugin_version_download
-    AFTER UPDATE ON plugin_versions
-    FOR EACH ROW
-    EXECUTE PROCEDURE update_plugin_versions_downloads();
+CREATE TABLE "plugin_version_artifact_daily_downloads"(
+    "plugin_version_artifact_id" INT NOT NULL,
+    "date" DATE DEFAULT NOW(),
+    "downloads" INT DEFAULT 0 NOT NULL,
+    PRIMARY KEY ("plugin_version_artifact_id", "date"),
+    FOREIGN KEY ("plugin_version_artifact_id") REFERENCES "plugin_version_artifacts"("id")
+);
