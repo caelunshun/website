@@ -1,9 +1,12 @@
-use std::convert::Infallible;
+use std::{convert::Infallible, str::FromStr, time::Duration};
 
 use anyhow::Result;
 use feather_web_api::{rejections, routes, DB};
 use futures::FutureExt;
-use sqlx::postgres::{PgConnectOptions, PgPoolOptions, PgSslMode};
+use sqlx::{
+    postgres::{PgConnectOptions, PgPoolOptions, PgSslMode},
+    ConnectOptions,
+};
 
 use dotenv::dotenv;
 use warp::{hyper::StatusCode, Filter};
@@ -16,11 +19,11 @@ async fn main() -> Result<()> {
         .filter_level(log::LevelFilter::Info)
         .init();
 
-    let postgres = PgConnectOptions::new()
-        .host("localhost")
-        .username("feather")
-        .password("feather")
-        .ssl_mode(PgSslMode::Prefer);
+    let mut postgres = PgConnectOptions::new().application_name("api");
+
+    postgres
+        .disable_statement_logging()
+        .log_slow_statements(log::LevelFilter::Error, Duration::from_millis(200));
 
     let pool = PgPoolOptions::new().connect_with(postgres).await?;
 
@@ -29,13 +32,16 @@ async fn main() -> Result<()> {
     sqlx::migrate!("./migrations").run(db.as_ref()).await?;
 
     let routes = routes(db);
+
     let routes = routes.recover(handle_rejection);
     let routes = routes.with(warp::log("api"));
+    let cors = warp::cors().allow_any_origin();
+    let routes = routes.with(cors);
 
     let ctrl_c = tokio::signal::ctrl_c();
 
     let (addr, server) = warp::serve(routes).bind_with_graceful_shutdown(
-        ([0, 0, 0, 0], 7000),
+        ([0, 0, 0, 0], 4000),
         ctrl_c.map(|_| log::info!(target: "api", "shutting down!")),
     );
 

@@ -20,6 +20,59 @@ pub struct PluginVersion {
 impl DB {
     /// Get all the latest version for all plugins
     pub async fn get_plugins(&self, page: u32) -> Result<PluginVersion> {
+        let plugin_version = query!("
+            SELECT
+                plugin_versions.version as version_lts,
+                plugin_versions.description,
+                plugin_versions.downloads,
+                plugin_versions.stars,
+                plugin_versions.created_at,
+                plugins.downloads as downloads_total,
+                plugins.stars as stars_total
+            FROM 
+                plugin_versions,
+                plugins
+            WHERE 
+                plugin_versions.plugin_id = plugins.id AND
+                plugins.id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10) AND
+                plugin_versions.version = (SELECT MAX(plugin_versions.version) FROM plugin_versions WHERE plugin_versions.plugin_id = plugins.id)
+            ;
+        ").fetch_all(self.as_ref());
+
+        let plugin_versions = query!("
+            SELECT
+                plugin_id,
+                version
+            FROM
+                plugin_versions
+            WHERE
+                plugin_id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10)
+            ;
+        ");
+
+        let owners = query!("
+            SELECT 
+                plugin_id, 
+                user_id
+            FROM 
+                users, 
+                plugin_owners
+            WHERE 
+                users.id = plugin_owners.user_id AND
+                plugin_id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10)
+            ;
+        ");
+
+        let authors = query!("
+            SELECT 
+                plugin_version_id, 
+                name 
+            FROM 
+                plugin_version_authors 
+            WHERE 
+                plugin_version_id IN (SELECT id FROM plugins ORDER BY downloads DESC LIMIT 10)
+            ;
+        ");
         todo!()
     }
 

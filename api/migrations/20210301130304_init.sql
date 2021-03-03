@@ -28,6 +28,9 @@ CREATE TABLE "plugins"(
     UNIQUE ("name")
 );
 
+CREATE INDEX "idx_plugins_downloads" ON "plugins"("downloads");
+CREATE INDEX "idx_plugins_stars" ON "plugins"("stars");
+
 CREATE TABLE "plugin_owners"(
     "plugin_id" INT NOT NULL,
     "user_id" INT NOT NULL,
@@ -49,6 +52,7 @@ CREATE TABLE "plugin_versions"(
     "plugin_id" INT NOT NULL,
     "version" VARCHAR NOT NULL,
     "description" VARCHAR NOT NULL,
+    "created_at" TIMESTAMPTZ DEFAULT NOW() NOT NULL,
     "stars" INT DEFAULT 0 NOT NULL,
     "downloads" INT DEFAULT 0 NOT NULL,
     PRIMARY KEY ("id"),

@@ -1,3 +1,11 @@
+<script context="module">
+    export async function preload({}) {
+        let health = await this.fetch("process.env.FEATHER_API/health")
+
+		return { health: "" };
+	}
+</script>
+
 <script>
     import { SearchIcon } from "svelte-feather-icons"
     import PluginCard from "$components/PluginCard.svelte"
@@ -7,8 +15,7 @@
 
     let plugins = [
         {
-            id: "world-edit",
-            name: "WorldEdit",
+            name: "world-edit",
             description: "WorldEdit is an in-game map editor for both creative and survival",
             downloads: 420000,
             downloads_recent: 690,
@@ -18,8 +25,7 @@
             versions: ["1.0.4", "1.13"]
         },
         {
-            id: "world-edit",
-            name: "WorldEdit",
+            name: "world-edit",
             description: "WorldEdit is an in-game map editor for both creative and survival",
             downloads: 420000,
             downloads_recent: 690,
@@ -27,8 +33,7 @@
             versions: ["1.16"]
         },
         {
-            id: "world-edit",
-            name: "WorldEdit",
+            name: "world-edit",
             description: "WorldEdit is an in-game map editor for both creative and survival",
             downloads: 420000,
             downloads_recent: 690,
@@ -57,6 +62,8 @@
         "World Editing and Mangement",
         "World Generators",
     ]
+
+    export const health
 </script>
 
 <div class="container mx-auto flex flex-1 p-4 flex-col-reverse lg:flex-row">

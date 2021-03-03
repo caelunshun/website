@@ -53,7 +53,7 @@ const aliases = alias({
 });
 
 
-const feather_api_client = process.env.FEATHER_CLIENT_API || "localhost:4000";
+const feather_api_client = process.env.FEATHER_CLIENT_API || "http://localhost:4000";
 const feather_api_server = process.env.FEATHER_SERVER_API || feather_api_client;
 
 export default {

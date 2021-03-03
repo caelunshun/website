@@ -1,6 +1,8 @@
 <script>
 	import Logo from "$assets/chicken2.svg";
 	import GithubMark from "$assets/github-mark.svg"
+
+    export let segment = undefined
 </script>
 
 <header class="flex bg-feather-dark text-white">
