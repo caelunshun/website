@@ -133,5 +133,7 @@
                 </ul>
             </div>
         </div>
+    {:catch}
+        Could not fetch user information!
     {/await}
 </div>
