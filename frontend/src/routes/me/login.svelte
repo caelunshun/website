@@ -11,7 +11,9 @@
     export let code;
 
     const login = async (code) => {
-        if ($token) {
+        if (!process.browser) {
+            return {};
+        } else if ($token.secret) {
             await goto("/me");
         } else if (code) {
             const response = await fetch(
@@ -19,7 +21,7 @@
             );
             if (response.status === 200) {
                 const { secret } = await response.json();
-                $token = secret;
+                $token = { secret };
             }
             await goto("/me");
         } else {

@@ -24,4 +24,4 @@ const createLocalStore = (key, startValue) => {
   };
 }
 
-export const token = createLocalStore("token", undefined);
+export const token = createLocalStore("token", {});

@@ -17,17 +17,18 @@
         if (!process.browser) {
             return { }
         }
-        const response = await fetch("process.env.FEATHER_API/me/", {
-            headers: {
-                "Authorization": $token,
+        if ($token.secret) {
+            const response = await fetch("process.env.FEATHER_API/me/", {
+                headers: {
+                    "Authorization": $token.secret,
+                }
+            });
+            if (response.status === 200) {
+                let me = await response.json();
+                return me
             }
-        });
-        if (response.status === 200) {
-            let me = await response.json();
-            return me
-        } else {
-            await goto("/me/login");
         }
+        await goto("/me/login");
     }
 </script>
 
@@ -35,14 +36,14 @@
     <h1 class="text-4xl font-bold mt-8">Account settings</h1>
     {#await user()}
         <p>Loading...</p>
-    {:then { login, name, tokens}}         
+    {:then { id, login, name, tokens}}         
         <div class="flex flex-col">
             <div>
                 <h2 class="text-xl font-bold mt-8">Profile Information</h2>
                 <Card class="mt-4">
                     <div class="flex items-center">
                         <img
-                            src="https://avatars.githubusercontent.com/u/1496019?v=4&s=170"
+                            src={`https://avatars.githubusercontent.com/u/${id}`}
                             alt={name}
                             class="h-16 w-16 mr-4"
                         />
