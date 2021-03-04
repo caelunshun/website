@@ -48,6 +48,10 @@ const aliases = alias({
 		{
 			find: "$assets",
 			replacement: path.resolve(projectRootDir, "src/assets")
+		},
+		{
+			find: "$stores",
+			replacement: path.resolve(projectRootDir, "src/stores")
 		}
 	]
 });
@@ -55,6 +59,7 @@ const aliases = alias({
 
 const feather_api_client = process.env.FEATHER_CLIENT_API || "http://localhost:4000";
 const feather_api_server = process.env.FEATHER_SERVER_API || feather_api_client;
+const github_identity = process.env.GITHUB_IDENTITY || "https://github.com/login/oauth/authorize?client_id=fd248e478ca35447716b"
 
 export default {
 	client: {
@@ -68,7 +73,8 @@ export default {
 				values: {
 					"process.browser": true,
 					"process.env.NODE_ENV": JSON.stringify(mode),
-					"process.env.FEATHER_API": feather_api_client
+					"process.env.FEATHER_API": feather_api_client,
+					"process.env.GITHUB_IDENTITY": github_identity,
 				}
 			}),
 			svelte({
@@ -177,7 +183,8 @@ export default {
 				values: {
 					"process.browser": false,
 					"process.env.NODE_ENV": JSON.stringify(mode),
-					"process.env.FEATHER_API": feather_api_server
+					"process.env.FEATHER_API": feather_api_server,
+					"process.env.GITHUB_IDENTITY": github_identity
 				}
 			}),
 			svelte({

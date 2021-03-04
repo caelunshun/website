@@ -31,8 +31,8 @@ pub async fn handle_me(user_id: u32, db: DB) -> Result<impl Reply, Rejection> {
     .await;
 
     let (user, tokens) = (
-        user.map_err(rejections::Database::reject)?,
-        tokens.map_err(rejections::Database::reject)?,
+        user.unwrap(),
+        tokens.unwrap(),
     );
 
     #[derive(Serialize)]

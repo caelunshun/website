@@ -1,8 +1,11 @@
 <script>
+    import { token } from "$stores/local.js";
 	import Logo from "$assets/chicken2.svg";
 	import GithubMark from "$assets/github-mark.svg"
 
-    export let segment = undefined
+    if (process.browser) {
+        token.useLocalStorage();
+    }
 </script>
 
 <header class="flex bg-feather-dark text-white">
@@ -13,6 +16,7 @@
             <li><a href="/docs">Docs</a></li>
             <li><a href="/faq">FAQ</a></li>
             <li><a href="https://github.com/feather-rs/feather"><GithubMark class="h-8 sm:h-12 fill-current text-feather-light hover:text-white" /></a></li>
+            <li><a href="/me/login" sapper:prefetch>Login with github</a></li>
         </ul>
     </nav>
 </header>

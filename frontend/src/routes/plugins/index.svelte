@@ -63,7 +63,6 @@
         "World Generators",
     ]
 
-    export const health
 </script>
 
 <div class="container mx-auto flex flex-1 p-4 flex-col-reverse lg:flex-row">

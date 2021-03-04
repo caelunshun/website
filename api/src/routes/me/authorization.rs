@@ -1,5 +1,5 @@
 use rand::RngCore;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use warp::{Filter, Rejection, Reply};
 
 use crate::{
@@ -40,18 +40,18 @@ pub async fn handle_authorization(
     client_secret: String,
     db: DB,
 ) -> Result<impl Reply, Rejection> {
-    log::info!("1");
     let github_access_token = github::access_token(&client_id, &client_secret, &access_token.code)
         .await
         .map_err(|_| rejections::unauthorized())?;
 
-    log::info!("2");
-    let github_user = github::user(&github_access_token).await.unwrap();
+    let github_user = github::user(&github_access_token)
+        .await
+        .map_err(|_| rejections::unauthorized())?;
 
-    log::info!("3");
-    db.insert_or_update_user(&github_user).await.unwrap();
+    db.insert_or_update_user(&github_user)
+        .await
+        .map_err(rejections::Database::reject)?;
 
-    log::info!("4");
     let mut secret = [0; 48];
 
     rand::rngs::OsRng.fill_bytes(&mut secret);
@@ -62,5 +62,10 @@ pub async fn handle_authorization(
 
     let secret_hex = hex::encode(secret);
 
-    Ok(warp::reply::json(&secret_hex))
+    #[derive(Serialize)]
+    struct Token {
+        secret: String,
+    }
+
+    Ok(warp::reply::json(&Token { secret: secret_hex }))
 }

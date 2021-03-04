@@ -17,11 +17,13 @@ pub fn with_state<S: Clone + Send + 'static>(
 }
 
 pub fn authenticated(db: DB) -> impl Filter<Extract = (u32,), Error = Rejection> + Clone {
-    warp::header::header(warp::hyper::header::ACCEPT.as_str()).and_then(move |token: String| {
+    warp::header::header("Authorization").and_then(move |token: String| {
         let db = db.clone();
         async move {
+            log::info!("token: {}", token);
             let mut secret = [0u8; 48];
             hex::decode_to_slice(&token, &mut secret).map_err(|_| rejections::unauthorized())?;
+
             let user_id = db
                 .get_user_id_by_token_secret(secret.as_ref())
                 .await

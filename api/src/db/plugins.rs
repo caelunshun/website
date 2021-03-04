@@ -97,7 +97,7 @@ impl DB {
         .fetch_all(self.as_ref())
         .await
         .map_err(rejections::Database::reject);
-        
+
         todo!()
     }
 

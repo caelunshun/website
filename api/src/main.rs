@@ -4,12 +4,12 @@ use anyhow::Result;
 use feather_web_api::{rejections, routes, DB};
 use futures::FutureExt;
 use sqlx::{
-    postgres::{PgConnectOptions, PgPoolOptions, PgSslMode},
+    postgres::{PgConnectOptions, PgPoolOptions},
     ConnectOptions,
 };
 
 use dotenv::dotenv;
-use warp::{hyper::StatusCode, Filter};
+use warp::{hyper::{StatusCode, Method}, Filter};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -34,9 +34,28 @@ async fn main() -> Result<()> {
     let routes = routes(db);
 
     let routes = routes.recover(handle_rejection);
-    let routes = routes.with(warp::log("api"));
-    let cors = warp::cors().allow_any_origin();
+    let cors = warp::cors()
+        .allow_any_origin()
+        .allow_headers(vec![
+            "Access-Control-Allow-Headers",
+            "Access-Control-Request-Method",
+            "Access-Control-Request-Headers",
+            "Origin",
+            "Accept",
+            "X-Requested-With",
+            "Content-Type",
+        ])
+        .allow_methods(&[
+            Method::GET,
+            Method::POST,
+            Method::PUT,
+            Method::PATCH,
+            Method::DELETE,
+            Method::OPTIONS,
+            Method::HEAD,
+        ]);
     let routes = routes.with(cors);
+    let routes = routes.with(warp::log("api"));
 
     let ctrl_c = tokio::signal::ctrl_c();
 
@@ -67,6 +86,8 @@ async fn handle_rejection(err: warp::Rejection) -> Result<impl warp::Reply, Infa
     } else {
         code = StatusCode::INTERNAL_SERVER_ERROR;
     }
+
+    log::info!("err: {:?}", err);
 
     let json = warp::reply::json(&message);
 
