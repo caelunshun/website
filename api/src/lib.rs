@@ -20,7 +20,6 @@ pub fn authenticated(db: DB) -> impl Filter<Extract = (u32,), Error = Rejection>
     warp::header::header("Authorization").and_then(move |token: String| {
         let db = db.clone();
         async move {
-            log::info!("token: {}", token);
             let mut secret = [0u8; 48];
             hex::decode_to_slice(&token, &mut secret).map_err(|_| rejections::unauthorized())?;
 

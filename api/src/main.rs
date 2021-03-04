@@ -9,7 +9,7 @@ use sqlx::{
 };
 
 use dotenv::dotenv;
-use warp::{hyper::{StatusCode, Method}, Filter};
+use warp::{hyper::{StatusCode, Method, header}, Filter};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -33,29 +33,15 @@ async fn main() -> Result<()> {
 
     let routes = routes(db);
 
+    let routes = routes.with(warp::log("api"));
+
     let routes = routes.recover(handle_rejection);
     let cors = warp::cors()
         .allow_any_origin()
-        .allow_headers(vec![
-            "Access-Control-Allow-Headers",
-            "Access-Control-Request-Method",
-            "Access-Control-Request-Headers",
-            "Origin",
-            "Accept",
-            "X-Requested-With",
-            "Content-Type",
-        ])
-        .allow_methods(&[
-            Method::GET,
-            Method::POST,
-            Method::PUT,
-            Method::PATCH,
-            Method::DELETE,
-            Method::OPTIONS,
-            Method::HEAD,
-        ]);
+        .allow_header(header::AUTHORIZATION)
+        .allow_methods(vec![Method::GET, Method::POST, Method::DELETE])
+        ;
     let routes = routes.with(cors);
-    let routes = routes.with(warp::log("api"));
 
     let ctrl_c = tokio::signal::ctrl_c();
 

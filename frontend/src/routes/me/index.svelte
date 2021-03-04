@@ -11,20 +11,23 @@
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+
+
     const user = async () => {
+        if (!process.browser) {
+            return { }
+        }
         const response = await fetch("process.env.FEATHER_API/me/", {
             headers: {
                 "Authorization": $token,
             }
         });
         if (response.status === 200) {
-            let json = await response.json();
-            return json
+            let me = await response.json();
+            return me
         } else {
-            // await goto("/me/login");
+            await goto("/me/login");
         }
-        await timeout(2000);
-        return { login: "Defman", name: "Jacob", tokens: [] }
     }
 </script>
 
@@ -86,7 +89,7 @@
                             </div>
                         </Card>
                     </li>
-                    {#each tokens as { name, used_total, created_at }}
+                    {#each tokens as { name, used_total, created_at, token }}
                         <li class="mt-4">
                             <Card>
                                 <div class="flex justify-between">
