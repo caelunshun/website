@@ -6,14 +6,13 @@
 
 <script>
     import { goto } from "@sapper/app";
+    import { onMount } from "svelte";
     import { token } from "$stores/local.js";
 
     export let code;
 
-    const login = async (code) => {
-        if (!process.browser) {
-            return {};
-        } else if ($token.secret) {
+    onMount(async() => {
+        if ($token.secret) {
             await goto("/me");
         } else if (code) {
             const response = await fetch(
@@ -27,11 +26,5 @@
         } else {
             await goto("process.env.GITHUB_IDENTITY");
         }
-    };
+    })
 </script>
-
-{#await login(code, token)}
-    ...
-{:then { }}
-    ...
-{/await}
