@@ -5,38 +5,40 @@
 
 <script>
     import { goto } from "@sapper/app";
+    import { onMount } from "svelte";
     import { token } from "$stores/local.js";
+    import Loading from "$components/Loading.svelte";
 
     function timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-
-
-    const user = async () => {
-        if (!process.browser) {
-            return { }
+    onMount(async () => {
+        if (!$token.secret) {
+            return await goto("/me/login");
         }
-        if ($token.secret) {
-            const response = await fetch("process.env.FEATHER_API/me/", {
-                headers: {
-                    "Authorization": $token.secret,
-                }
-            });
-            if (response.status === 200) {
-                let me = await response.json();
-                return me
+    });
+
+    const me = async () => {
+        const response = await fetch("process.env.FEATHER_API/me/", {
+            headers: {
+                "Authorization": $token.secret,
             }
+        });
+        await timeout(5000);
+        if (response.status === 200) {
+            return await response.json(); 
+        } else {
+            throw new Error("could not fetch user data.");
         }
-        await goto("/me/login");
     }
 </script>
 
 <div class="container mx-auto flex flex-col px-4 my-8">
     <h1 class="text-4xl font-bold mt-8">Account settings</h1>
-    {#await user()}
-        <p>Loading...</p>
-    {:then { id, login, name, tokens}}         
+    {#await me() }
+        <Loading />
+    {:then { id, login, name, tokens }}
         <div class="flex flex-col">
             <div>
                 <h2 class="text-xl font-bold mt-8">Profile Information</h2>
@@ -134,7 +136,7 @@
                 </ul>
             </div>
         </div>
-    {:catch}
-        Could not fetch user information!
+    {:catch error}
+        {error}
     {/await}
 </div>

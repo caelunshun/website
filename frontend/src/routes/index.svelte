@@ -44,15 +44,15 @@
         <h1 class="text-6xl m-4 sm:m-8">Why Rust?</h1>
         <div class="flex flex-wrap lg:flex-nowrap">
             <div class="m-4 sm:m-8">
-                <h2 class="text-3xl font-bold">Performance</h2>
-                <p class="mt-4">
+                <h2 class="text-3xl">Performance</h2>
+                <p class="mt-4 text-lg">
                     Rust is blazingly fast and memory-efficient: with no runtime or garbage collector,
                     it can power performance-critical services,run on embedded devices,
                     and easily integrate with other languages.
                 </p>
             </div>
             <div class="m-4 sm:m-8">
-                <h2 class="text-3xl font-bold">Reliability</h2>
+                <h2 class="text-3xl">Reliability</h2>
                 <p class="mt-4 text-lg">
                     Rust’s rich type system and ownership model guarantee memory-safety and thread-safety — preventing
                     many classes of bugs at compile-time.
@@ -66,7 +66,7 @@
         <h1 class="text-6xl m-4 sm:m-8">Get involved</h1>
         <div class="flex flex-wrap lg:flex-nowrap">
             <div class="m-4 sm:m-8">
-                <h2 class="text-3xl font-bold">Issue tracker</h2>
+                <h2 class="text-3xl">Issue tracker</h2>
                 <p class="mt-4 text-lg">
                     Want to contribute? Check out our issue tracker to look for features which appeal to you.
                     Even if you're not a developer, feel free to share what you want to see in Feather's feature.It
@@ -74,13 +74,13 @@
                 </p>
             </div>
             <div class="m-4 sm:m-8">
-                <h2 class="text-3xl font-bold">Discord</h2>
+                <h2 class="text-3xl">Discord</h2>
                 <p class="mt-4 text-lg">
                     Our Discord server is our central information hub. We'd love to hear your thoughts on Feather!
                 </p>
             </div>
             <div class="m-4 sm:m-8">
-                <h2 class="text-3xl font-bold">Association</h2>
+                <h2 class="text-3xl">Association</h2>
                 <p class="mt-4 text-lg">
                     Feather is run and funded by an open nonprofit association, where everyone is free to <a
                         href="/association/joiun">join at the cost of 10 EUR</a>.

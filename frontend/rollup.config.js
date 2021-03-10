@@ -11,6 +11,7 @@ import { terser } from "rollup-plugin-terser";
 import config from "sapper/config/rollup";
 import alias from "@rollup/plugin-alias";
 import svelteSVG from "rollup-plugin-svelte-svg";
+import json from "@rollup/plugin-json";
 import pkg from "./package.json";
 
 const { createPreprocessors } = require("./svelte.config.js");
@@ -68,6 +69,7 @@ export default {
 		plugins: [
 			aliases,
 			svelteSVG({ dev }),
+			json(),
 			replace({
 				preventAssignment: true,
 				values: {
@@ -178,6 +180,7 @@ export default {
 		plugins: [
 			aliases,
 			svelteSVG({ generate: "ssr", dev }),
+			json(),
 			replace({
 				preventAssignment: true,
 				values: {
