@@ -1,3 +1,4 @@
+mod docs;
 mod health;
 mod me;
 mod plugins;
@@ -11,4 +12,5 @@ pub fn routes(db: DB) -> impl Filter<Extract = (impl Reply,), Error = Rejection>
     health::routes(db.clone())
         .or(me::routes(db.clone()))
         .or(plugins::routes(db))
+        .or(docs::routes())
 }

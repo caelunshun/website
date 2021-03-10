@@ -1,8 +1,9 @@
 <script>
     import { onMount } from "svelte";
-    import { goto } from "@sapper/app";
+    import { token } from "$stores/local";
 
     onMount(async () => {
-        await goto("/docs/introduction");
+        $token = {};
+        await goto("/")
     })
 </script>

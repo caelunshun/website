@@ -11,7 +11,7 @@
 
     export let code;
 
-    onMount(async() => {
+    onMount(async () => {
         if ($token.secret) {
             await goto("/me");
         } else if (code) {
@@ -26,5 +26,5 @@
         } else {
             await goto("process.env.GITHUB_IDENTITY");
         }
-    })
+    });
 </script>
