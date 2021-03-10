@@ -8,4 +8,4 @@ services:
       POSTGRES_USER: feather
       POSTGRES_PASSWORD: feather
     ports:
-      - "5432:5432"
+      - "4001:5432"
