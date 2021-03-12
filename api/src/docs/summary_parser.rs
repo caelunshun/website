@@ -95,17 +95,11 @@ impl<'a> SummaryParser<'a> {
                     items.push(SummaryItem::Link(link))
                 }
                 Event::End(Tag::Item) if open > 0 => {
-                    open -= 1;
-                    self.next();
+                    open -= 1; self.next();
                 }
                 Event::End(Tag::Item) => break,
-                Event::Rule => {
-                    self.next();
-                    items.push(SummaryItem::Separator)
-                }
-                _ => {
-                    self.next();
-                }
+                Event::Rule => { self.next(); items.push(SummaryItem::Separator)},
+                _ => { self.next(); },
             }
         }
 
@@ -310,7 +304,9 @@ mod tests {
         ];
 
         let mut parser = SummaryParser::new(src);
-        let got = parser.parse_numbered().unwrap();
+        let got = parser
+            .parse_numbered()
+            .unwrap();
 
         assert_eq!(got, should_be);
     }
@@ -333,7 +329,9 @@ mod tests {
         ];
 
         let mut parser = SummaryParser::new(src);
-        let got = parser.parse_numbered().unwrap();
+        let got = parser
+            .parse_numbered()
+            .unwrap();
 
         assert_eq!(got, should_be);
     }
@@ -393,7 +391,9 @@ mod tests {
         ];
 
         let mut parser = SummaryParser::new(src);
-        let got = parser.parse_numbered().unwrap();
+        let got = parser
+            .parse_numbered()
+            .unwrap();
 
         assert_eq!(got, should_be);
     }
@@ -440,7 +440,9 @@ mod tests {
         ];
 
         let mut parser = SummaryParser::new(src);
-        let got = parser.parse_numbered().unwrap();
+        let got = parser
+            .parse_numbered()
+            .unwrap();
 
         assert_eq!(got, should_be);
     }
@@ -456,7 +458,9 @@ mod tests {
         })];
 
         let mut parser = SummaryParser::new(src);
-        let got = parser.parse_numbered().unwrap();
+        let got = parser
+            .parse_numbered()
+            .unwrap();
 
         assert_eq!(got, should_be);
     }
