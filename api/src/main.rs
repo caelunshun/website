@@ -9,7 +9,10 @@ use sqlx::{
 };
 
 use dotenv::dotenv;
-use warp::{hyper::{StatusCode, Method, header}, Filter};
+use warp::{
+    hyper::{header, Method, StatusCode},
+    Filter,
+};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -39,8 +42,7 @@ async fn main() -> Result<()> {
     let cors = warp::cors()
         .allow_any_origin()
         .allow_header(header::AUTHORIZATION)
-        .allow_methods(vec![Method::GET, Method::POST, Method::DELETE])
-        ;
+        .allow_methods(vec![Method::GET, Method::POST, Method::DELETE]);
     let routes = routes.with(cors);
 
     let ctrl_c = tokio::signal::ctrl_c();

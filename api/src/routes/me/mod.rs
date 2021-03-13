@@ -30,10 +30,7 @@ pub async fn handle_me(user_id: u32, db: DB) -> Result<impl Reply, Rejection> {
     )
     .await;
 
-    let (user, tokens) = (
-        user.unwrap(),
-        tokens.unwrap(),
-    );
+    let (user, tokens) = (user.unwrap(), tokens.unwrap());
 
     #[derive(Serialize)]
     struct MeToken {
