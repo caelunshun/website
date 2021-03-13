@@ -44,8 +44,6 @@
 :global(.summary ul > li::before) { 
     content: counters(item, ".") ". ";
     @apply font-bold;
-<<<<<<< HEAD
-=======
 }
 :global(.summary hr) {
     margin-top: 5px;
@@ -57,6 +55,5 @@
 }
 :global(article code::before, article code::after) {
     content: "" !important;
->>>>>>> 4a79665933737d77310f562f62776e2200b9174f
 }
 </style>
