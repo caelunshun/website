@@ -31,7 +31,7 @@ impl<'a> DocsParser<'a> {
                         Err(url::ParseError::RelativeUrlWithoutBase) => {
                             let url = self.base.join(href.trim_end_matches(".md")).unwrap();
                             CowStr::from(url.to_string())
-                        },
+                        }
                         Ok(url) => CowStr::from(url.to_string()),
                         _ => CowStr::from("foo"),
                     }
