@@ -58,7 +58,9 @@ pub async fn get_budget() -> Result<String> {
             .text()
             .await?;
 
-    let parser = Parser::new_ext(&response[..], Options::empty());
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_TABLES);
+    let parser = Parser::new_ext(&response[..], options);
     let mut out_html = String::new();
     html::push_html(&mut out_html, parser);
 
