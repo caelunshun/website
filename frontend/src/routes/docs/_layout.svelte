@@ -22,6 +22,10 @@
 </div>
 
 <style>
+:global(.summary > h1:first-child) {
+    @apply hidden;
+}
+
 :global(.summary h1) {
     @apply text-xl mt-8;
 }
@@ -35,10 +39,10 @@
 }
 :global(.summary ul > li) { 
     counter-increment: item;
-    @apply mt-2;
+    @apply mt-4;
 }
 :global(.summary ul > li::before) { 
     content: counters(item, ".") ". ";
-    @apply font-bold; 
+    @apply font-bold;
 }
 </style>
