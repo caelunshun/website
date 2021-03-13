@@ -1,3 +1,4 @@
+mod association;
 mod docs;
 mod health;
 mod me;
@@ -13,4 +14,5 @@ pub fn routes(db: DB) -> impl Filter<Extract = (impl Reply,), Error = Rejection>
         .or(me::routes(db.clone()))
         .or(plugins::routes(db))
         .or(docs::routes())
+        .or(association::routes())
 }

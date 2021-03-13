@@ -16,7 +16,7 @@
             {@html html}
         </nav>
     </aside>
-    <article class="flex flex-1 flex-col mx-auto py-4 px-8">
+    <article class="flex flex-1 flex-col py-4 px-8 prose">
         <slot></slot>
     </article>
 </div>
@@ -44,5 +44,19 @@
 :global(.summary ul > li::before) { 
     content: counters(item, ".") ". ";
     @apply font-bold;
+<<<<<<< HEAD
+=======
+}
+:global(.summary hr) {
+    margin-top: 5px;
+}
+:global(article code) {
+    background-color: #ecf0f1;
+    padding: 2px;
+    border-radius: 5px;
+}
+:global(article code::before, article code::after) {
+    content: "" !important;
+>>>>>>> 4a79665933737d77310f562f62776e2200b9174f
 }
 </style>
