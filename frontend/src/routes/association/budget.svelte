@@ -10,6 +10,6 @@
     export let html
 </script>
 
-<div class="text-lg container mx-auto px-4 py-4 md:py-32 sm:flex-nowrap justify-center items-center prose">
+<div class="text-lg container mx-auto px-4 py-4 md:py-32 sm:flex-nowrap justify-center items-center markdown">
     {@html html}
 </div>

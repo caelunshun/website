@@ -16,7 +16,7 @@
             {@html html}
         </nav>
     </aside>
-    <article class="flex flex-1 flex-col py-4 px-8 prose">
+    <article class="flex flex-1 flex-col py-4 px-8 prose markdown">
         <slot></slot>
     </article>
 </div>
