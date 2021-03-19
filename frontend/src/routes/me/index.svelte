@@ -34,6 +34,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Me | Feather</title>
+</svelte:head>
+
 <div class="container mx-auto flex flex-col px-4 my-8">
     <h1 class="text-4xl font-bold mt-8">Account settings</h1>
     {#await me() }

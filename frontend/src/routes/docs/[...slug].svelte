@@ -6,11 +6,17 @@
     }
 </script>
 
+<svelte:head>
+    <title>Docs | Feather</title>
+</svelte:head>
+
 <script>
     export let html
 </script>
 
-{@html html}
+<div class="prose prose-sm sm:prose xl:prose-xl markdown mx-auto">
+    {@html html}
+</div>
 
 <style>
 

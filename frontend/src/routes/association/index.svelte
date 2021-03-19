@@ -1,6 +1,11 @@
 <script>
 
 </script>
+
+<svelte:head>
+    <title>Association | Feather</title>
+</svelte:head>
+
 <section class="bg-feather-dark text-white typography">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8">The Feather Association</h1>
