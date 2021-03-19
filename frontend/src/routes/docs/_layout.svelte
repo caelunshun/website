@@ -10,13 +10,13 @@
     export let html
 </script>
 
-<div class="flex w-full">
+<div class="flex flex-1">
     <aside class="flex flex-shrink px-12 pb-8 bg-feather-dark text-white">
         <nav class="summary">
             {@html html}
         </nav>
     </aside>
-    <article class="flex-grow flex-col py-24 px-8 text-lg">
+    <article class="flex flex-1 flex-col py-24 px-8 text-lg">
         <slot></slot>
     </article>
 </div>
