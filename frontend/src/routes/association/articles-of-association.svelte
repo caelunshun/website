@@ -10,7 +10,7 @@
     export let html
 </script>
 
-<div class="text-lg container mx-auto px-4 py-4 md:py-32 sm:flex-nowrap justify-center items-center prose">
+<div class="container mx-auto prose prose-sm sm:prose xl:prose-xl markdown py-32">
     {@html html}
 </div>
 

@@ -47,7 +47,7 @@
                 <h2 class="text-3xl">Performance</h2>
                 <p class="mt-4 text-lg">
                     Rust is blazingly fast and memory-efficient: with no runtime or garbage collector,
-                    it can power performance-critical services,run on embedded devices,
+                    it can power performance-critical services, run on embedded devices,
                     and easily integrate with other languages.
                 </p>
             </div>
@@ -83,7 +83,7 @@
                 <h2 class="text-3xl">Association</h2>
                 <p class="mt-4 text-lg">
                     Feather is run and funded by an open nonprofit association, where everyone is free to <a
-                        href="/association/joiun">join at the cost of 10 EUR</a>.
+                        href="/association/join">join at the cost of 10 EUR</a>.
                     All the members are invited once a year by the end of ___ to elect five to ten maintainers.
                     These maintainers are responsible for the daily maintenance of the association and the development
                     of feather.

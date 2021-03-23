@@ -65,6 +65,10 @@
 
 </script>
 
+<svelte:head>
+    <title>Plugins | Feather</title>
+</svelte:head>
+
 <div class="container mx-auto flex flex-1 p-4 flex-col-reverse lg:flex-row">
     <div class="flex flex-1 flex-col my-4">
         <form class="flex justify-between items-center border border-feather-light w-full rounded text-xl px-4 py-2">

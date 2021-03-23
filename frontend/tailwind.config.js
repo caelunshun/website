@@ -34,6 +34,14 @@ module.exports = {
 				},
 		  	},
 		},
+		minWidth: {
+			"1/2": "50%",
+			"70p": "70%",
+		},
+		maxWidth: {
+			47: "47%",
+			22: "22rem",
+		},
 	},
 	variants: {
 		extend: {},

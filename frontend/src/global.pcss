@@ -38,3 +38,70 @@ html, body {
     @apply text-lg;
 }
 
+.markdown code {
+    background-color: #ecf0f1;
+    padding: 4px;
+    border-radius: 5px;
+}
+.markdown code:before {
+    content: "" !important;
+}
+.markdown code:after {
+    content: "" !important;
+}
+
+.summary > h1:first-child {
+    @apply hidden;
+}
+
+.summary h1 {
+    @apply text-xl mt-8;
+}
+
+.summary ul {
+    counter-reset: item;
+    list-style-type: none;
+}
+.summary ul ul {
+    @apply pl-4;
+}
+.summary ul > li { 
+    counter-increment: item;
+    @apply mt-4;
+}
+.summary ul > li::before { 
+    content: counters(item, ".") ". ";
+    @apply font-bold;
+}
+.summary hr {
+    margin-top: 5px;
+}
+
+.summary > ul:last-child {
+    @apply pb-8;
+}
+
+@media (min-width: 1280px) {
+    .summary h1 {
+        font-size: 2rem;
+    }
+    .summary {
+        font-size: 1.3rem;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #dfe6e9; 
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #95a5a6;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #7f8c8d; 
+}

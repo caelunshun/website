@@ -8,7 +8,7 @@
 </script>
 
 <header class="flex bg-feather-dark text-white">
-    <nav class="flex flex-1 justify-between items-center h-16 sm:h-24 py-4 px-8">
+    <nav class="flex flex-1 justify-between items-center h-16 sm:h-24 py-4 px-12">
         <a href="/" class="flex items-center"><Logo class="h-8 sm:h-12" /><span class="ml-3 text-4xl hidden sm:block">Feather</span></a>
         <ul class="flex items-center space-x-6 text-normal sm:text-xl font-bold">
             <li><a href="/association">Association</a></li>
