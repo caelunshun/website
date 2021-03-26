@@ -8,7 +8,29 @@
     let multiplier = 1;
     let currentmp = multiplier;
 
-    onMount(createTerm);
+    const interval = () => {
+        let timeout = 15000;
+        switch(multiplier) {
+            case 1000:
+                timeout = 18000;
+                break;
+            case 2500:
+                timeout = 18000;
+                break;
+        }
+        setTimeout(() => {
+            lines = [];
+            createTerm();
+            interval();
+        }, timeout)
+    }
+
+    onMount(() => {
+        if(process.browser) {
+            createTerm();
+            interval();
+        }
+    });
     async function createTerm() {
         currentmp = multiplier;
         let curcallbackstack: number = 0;
@@ -42,24 +64,6 @@
             curcallbackstack+=(timeout + (output.typewriter ? output.message().length*105+1000 : 0));
         }
     }
-
-    const interval = () => {
-        let timeout = 15000;
-        switch(multiplier) {
-            case 1000:
-                timeout = 18000;
-                break;
-            case 2500:
-                timeout = 18000;
-                break;
-        }
-        setTimeout(() => {
-            lines = [];
-            createTerm();
-            interval();
-        }, timeout)
-    }
-    interval();
 </script>
     
 <div id="term" class="w-11/12 lg:w-7/12 mx-auto font-mono" on:mouseenter={() => {ismultiplierselshown = true}} on:mouseleave={() => {ismultiplierselshown = false}}>
