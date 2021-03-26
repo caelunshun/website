@@ -24,23 +24,16 @@ module.exports = {
 			sans: ["Roboto"],
 			display: ["Roboto", "sans-serif"],
 			body: ["Roboto", "sans-serif"],
+			mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
 		},
 		extend: {
 			colors: {
-			feather: {
+				feather: {
 					light: "#BADEDA",
 					dark: "#005E66",
 					accent: "#E29578",
 				},
-		  	},
-		},
-		minWidth: {
-			"1/2": "50%",
-			"70p": "70%",
-		},
-		maxWidth: {
-			47: "47%",
-			22: "22rem",
+			},
 		},
 	},
 	variants: {
