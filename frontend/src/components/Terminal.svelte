@@ -8,6 +8,12 @@
     let multiplier = 1;
     let currentmp = multiplier;
 
+    const awaitfocus = async () => {
+        while(document.visibilityState === 'hidden') {
+            await timeout(100);
+        }
+    }
+
     const interval = () => {
         let timeout = 15000;
         switch(multiplier) {
@@ -20,8 +26,10 @@
         }
         setTimeout(() => {
             lines = [];
-            createTerm();
-            interval();
+            awaitfocus().then(() => {
+                createTerm();
+                interval();
+            });
         }, timeout)
     }
 
@@ -63,6 +71,10 @@
             }, curcallbackstack+timeout);
             curcallbackstack+=(timeout + (output.typewriter ? output.message().length*105+1000 : 0));
         }
+    }
+
+    function timeout(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 </script>
     
