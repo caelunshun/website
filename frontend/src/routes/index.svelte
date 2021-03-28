@@ -1,64 +1,7 @@
 <script lang="ts">
-import Terminal from "../components/Terminal.svelte";
-import type {Output} from '../types';
-function rn() {
-    let date = new Date();
-    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()},${date.getMilliseconds()} `
-}
-let outputs: Output[] = [
-    {
-        timeout: 1000,
-        message: () => "feather-test$ ",
-        newline: true,
-        noslow: true
-    },
-    {
-        timeout: 2000,
-        message: () => "./feather-server",
-        newline: false,
-        typewriter: true,
-        noslow: true
-    },
-    {
-        timeout: 0,
-        message: () => "Loading configuration",
-        newline: true
-    },
-    {
-        timeout: 0.38,
-        message: () => (rn() + "INFO  [feather_server] Creating server"),
-        newline: true
-    },
-    {
-        timeout: 0.3,
-        message: () => (rn() + "INFO  [feather_server] Server is listening on 0.0.0.0:25565"),
-        newline: true
-    },
-    {
-        timeout: 0.1,
-        message: () => (rn() + "INFO  [feather_common::world_source::region] Chunk worker started"),
-        newline: true
-    },
-    {
-        timeout: 6700,
-        message: () => "^C",
-        newline: true,
-        noslow: true
-    },
-    {
-        timeout: 100,
-        message: () => "feather-test$ ",
-        newline: true,
-        noslow: true
-    },
-    {
-        timeout: 700,
-        message: () => "clear",
-        newline: false,
-        typewriter: true,
-        noslow: true
-    }
-];
+import FeatherStartTerminalWrapper from "../components/FeatherStartTerminalWrapper.svelte";
+
+
 </script>
 
 
@@ -72,7 +15,7 @@ let outputs: Output[] = [
     
 </section>
 <section class="container mx-auto items-center justify-center py-4">
-    <Terminal outputs={outputs} />
+    <FeatherStartTerminalWrapper />
 </section>
 <section class="bg-feather-dark text-white typography">
     <div class="container mx-auto flex flex-col py-16">

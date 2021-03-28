@@ -73,7 +73,6 @@
     <div id="termscreen" class="w-full mx-auto p-0.5 rounded-b-lg overflow-y-auto relative" style="height: 30rem;">
         <ul class="flex flex-col">
             {#each lines as message, idx (idx)}
-                
                 <li class="termline">
                     {#if message.startsWith("feather-test$")}
                         <span>{ message }</span>
