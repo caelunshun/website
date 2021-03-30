@@ -10,7 +10,8 @@ let outputs: Output[] = [
         timeout: 1000,
         message: () => "feather-test$ ",
         newline: true,
-        noslow: true
+        noslow: true,
+        caret: true
     },
     {
         timeout: 2000,
@@ -49,7 +50,8 @@ let outputs: Output[] = [
         timeout: 100,
         message: () => "feather-test$ ",
         newline: true,
-        noslow: true
+        noslow: true,
+        caret: true
     },
     {
         timeout: 700,

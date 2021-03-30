@@ -1,9 +1,9 @@
 <script lang="ts">
     import {onMount} from 'svelte';
-    import type {Output} from '../types';
+    import type {Output, TerminalOutput} from '../types';
 
     export let outputs: Output[] = [];
-    let lines = [];
+    let lines: TerminalOutput[] = [];
     let ismultiplierselshown = false;
     let multiplier = 1;
     let currentmp = multiplier;
@@ -49,7 +49,7 @@
             }
             setTimeout(() => {
                 if(output.newline) {
-                    lines = [...lines, output.message()];
+                    lines = [...lines, {message: output.message(), caret: output.caret === true}];
                 } else {
                     if(output.typewriter) {
                         const msg = output.message();
@@ -57,14 +57,14 @@
                         for(let char of Array.from(msg)) {
                             setTimeout(() => {
                                 let clines = lines;
-                                clines[clines.length-1]+=char;
+                                clines[clines.length-1].message+=char;
                                 lines = clines;
                             }, curcallbackstack2+100);
                             curcallbackstack2+=100;
                         }
                     } else {
                         let clines = lines;
-                        clines[clines.length-1]+=output.message();
+                        clines[clines.length-1].message+=output.message();
                         lines = clines;
                     }
                 }
@@ -86,13 +86,8 @@
         <ul class="flex flex-col">
             {#each lines as message, idx (idx)}
                 <li class="termline">
-                    {#if message.startsWith("feather-test$")}
-                        <span>{ message }</span>
-                    {:else}
-                        {message}
-                    {/if}
+                    <span class:caret={message.caret === true}>{message.message}</span>
                 </li>
-                
             {/each}
         </ul>
         <div id="termsel" class="{ismultiplierselshown ? "opacity-100" : "opacity-0"} border border-gray-200 transform -translate-y-1/2 -translate-x-1/2 w-10/12 transition-opacity duration-1000 rounded-xl absolute -bottom-4 left-1/2">
@@ -121,7 +116,7 @@
         text-align: left;
         position: static;
     }
-    .termline:last-child span {
+    .termline:last-child .caret {
         border-right: .15em solid #fff;
         animation: blink-caret .75s step-end infinite;
     }
