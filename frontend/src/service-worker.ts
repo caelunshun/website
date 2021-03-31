@@ -10,18 +10,18 @@ const ASSETS = `cache${timestamp}`;
 const toCache = shell.concat(files);
 const cached = new Set(toCache);
 
-self.addEventListener("install", (event) => { // eslint-disable-line no-shadow,no-inline-comments,line-comment-position
+self.addEventListener("install", (event: any) => { // eslint-disable-line no-shadow,no-inline-comments,line-comment-position
 	event.waitUntil(
 		caches
 			.open(ASSETS)
 			.then((cache) => cache.addAll(toCache))
 			.then(() => {
-				self.skipWaiting();
+				(self as any).skipWaiting();
 			}),
 	);
 });
 
-self.addEventListener("activate", (event) => { // eslint-disable-line no-shadow,no-inline-comments,line-comment-position
+self.addEventListener("activate", (event: any) => { // eslint-disable-line no-shadow,no-inline-comments,line-comment-position
 	event.waitUntil(
 		caches.keys().then(async (keys) => {
 			// Delete old caches
@@ -29,12 +29,12 @@ self.addEventListener("activate", (event) => { // eslint-disable-line no-shadow,
 				if (key !== ASSETS) await caches.delete(key); // eslint-disable-line no-await-in-loop
 			}
 
-			self.clients.claim();
+			(self as any).clients.claim();
 		}),
 	);
 });
 
-self.addEventListener("fetch", (event) => { // eslint-disable-line no-shadow,no-inline-comments,line-comment-position
+self.addEventListener("fetch", (event: any) => { // eslint-disable-line no-shadow,no-inline-comments,line-comment-position
 	if (event.request.method !== "GET" || event.request.headers.has("range")) return;
 
 	const url = new URL(event.request.url);

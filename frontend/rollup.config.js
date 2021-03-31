@@ -12,6 +12,7 @@ import config from "sapper/config/rollup";
 import alias from "@rollup/plugin-alias";
 import svelteSVG from "rollup-plugin-svelte-svg";
 import json from "@rollup/plugin-json";
+import typescript from "@rollup/plugin-typescript";
 import pkg from "./package.json";
 
 const { createPreprocessors } = require("./svelte.config.js");
@@ -26,45 +27,43 @@ const preprocess = createPreprocessors({ sourceMap: !!sourcemap });
 // Changes in these files will trigger a rebuild of the global CSS
 const globalCSSWatchFiles = ["postcss.config.js", "tailwind.config.js", "src/global.pcss"];
 
-const onwarn = (warning, onwarn) =>
-	(warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
-	(warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
-	onwarn(warning);
+const onwarn = (warning, onwarnc) => (warning.code === "MISSING_EXPORT" && /'preload'/.test(warning.message)) 
+	|| (warning.code === "CIRCULAR_DEPENDENCY" && /[/\\]@sapper[/\\]/.test(warning.message)) 
+	|| onwarnc(warning);
 
 const projectRootDir = path.resolve(__dirname);
 const aliases = alias({
 	entries: [
 		{
 			find: "$src",
-			replacement: path.resolve(projectRootDir, "src")
+			replacement: path.resolve(projectRootDir, "src"),
 		},
 		{
 			find: "$components",
-			replacement: path.resolve(projectRootDir, "src/components")
+			replacement: path.resolve(projectRootDir, "src/components"),
 		},
 		{
 			find: "$static",
-			replacement: path.resolve(projectRootDir, "static")
+			replacement: path.resolve(projectRootDir, "static"),
 		},
 		{
 			find: "$assets",
-			replacement: path.resolve(projectRootDir, "src/assets")
+			replacement: path.resolve(projectRootDir, "src/assets"),
 		},
 		{
 			find: "$stores",
-			replacement: path.resolve(projectRootDir, "src/stores")
-		}
-	]
+			replacement: path.resolve(projectRootDir, "src/stores"),
+		},
+	],
 });
 
-
-const feather_api_client = process.env.FEATHER_CLIENT_API || "http://localhost:4000";
-const feather_api_server = process.env.FEATHER_SERVER_API || feather_api_client;
-const github_identity = process.env.GITHUB_IDENTITY || "https://github.com/login/oauth/authorize?client_id=fd248e478ca35447716b"
+const FEAHTER_API_CLIENT = process.env.FEATHER_CLIENT_API || "http://localhost:4000";
+const FEATHER_API_SERVER = process.env.FEATHER_SERVER_API || FEAHTER_API_CLIENT;
+const GITHUB_IDENTITY = process.env.GITHUB_IDENTITY || "https://github.com/login/oauth/authorize?client_id=fd248e478ca35447716b";
 
 export default {
 	client: {
-		input: config.client.input(),
+		input: config.client.input().replace(/\.js$/, ".ts"),
 		output: { ...config.client.output(), sourcemap },
 		plugins: [
 			aliases,
@@ -75,9 +74,9 @@ export default {
 				values: {
 					"process.browser": true,
 					"process.env.NODE_ENV": JSON.stringify(mode),
-					"process.env.FEATHER_API": feather_api_client,
-					"process.env.GITHUB_IDENTITY": github_identity,
-				}
+					"process.env.FEATHER_API": FEAHTER_API_CLIENT,
+					"process.env.GITHUB_IDENTITY": GITHUB_IDENTITY,
+				},
 			}),
 			svelte({
 				compilerOptions: {
@@ -168,6 +167,10 @@ export default {
 					generateBundle: buildGlobalCSS,
 				};
 			})(),
+			typescript({
+				noEmitOnError: !dev,
+				sourceMap: !!sourcemap,
+			}),
 		],
 
 		preserveEntrySignatures: false,
@@ -175,7 +178,7 @@ export default {
 	},
 
 	server: {
-		input: config.server.input(),
+		input: config.server.input().server.replace(/\.js$/, ".ts"),
 		output: { ...config.server.output(), sourcemap },
 		plugins: [
 			aliases,
@@ -186,9 +189,9 @@ export default {
 				values: {
 					"process.browser": false,
 					"process.env.NODE_ENV": JSON.stringify(mode),
-					"process.env.FEATHER_API": feather_api_server,
-					"process.env.GITHUB_IDENTITY": github_identity
-				}
+					"process.env.FEATHER_API": FEATHER_API_SERVER,
+					"process.env.GITHUB_IDENTITY": GITHUB_IDENTITY,
+				},
 			}),
 			svelte({
 				compilerOptions: {
@@ -203,17 +206,20 @@ export default {
 			commonjs({
 				sourceMap: !!sourcemap,
 			}),
+			typescript({
+				noEmitOnError: !dev,
+				sourceMap: !!sourcemap,
+			}),
 		],
 		external: Object.keys(pkg.dependencies).concat(
 			require("module").builtinModules || Object.keys(process.binding("natives")), // eslint-disable-line global-require
 		),
-
 		preserveEntrySignatures: "strict",
 		onwarn,
 	},
 
 	serviceworker: {
-		input: config.serviceworker.input(),
+		input: config.serviceworker.input().replace(/\.js$/, ".ts"),
 		output: { ...config.serviceworker.output(), sourcemap },
 		plugins: [
 			resolve(),
@@ -222,13 +228,17 @@ export default {
 				values: {
 					"process.browser": true,
 					"process.env.NODE_ENV": JSON.stringify(mode),
-					"process.env.FEATHER_API": feather_api_client,
-				}
+					"process.env.FEATHER_API": FEAHTER_API_CLIENT,
+				},
 			}),
 			commonjs({
 				sourceMap: !!sourcemap,
 			}),
 			!dev && terser(),
+			typescript({
+				noEmitOnError: !dev,
+				sourceMap: !!sourcemap,
+			}),
 		],
 
 		preserveEntrySignatures: false,
