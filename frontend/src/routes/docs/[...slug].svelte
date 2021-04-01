@@ -14,9 +14,7 @@
     export let html
 </script>
 
-<div class="prose prose-sm sm:prose xl:prose-xl markdown mx-auto">
-    {@html html}
-</div>
+{@html html}
 
 <style>
 

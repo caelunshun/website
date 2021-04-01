@@ -3,13 +3,13 @@
     import Card from "$components/Card.svelte";
 </script>
 
-<script>
+<script lang="ts">
     import { goto } from "@sapper/app";
     import { onMount } from "svelte";
-    import { token } from "$stores/local.js";
+    import { token } from "$stores/local";
     import Loading from "$components/Loading.svelte";
 
-    function timeout(ms) {
+    function timeout(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 

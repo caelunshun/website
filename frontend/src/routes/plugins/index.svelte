@@ -6,7 +6,7 @@
 	}
 </script>
 
-<script>
+<script lang="ts">
     import { SearchIcon } from "svelte-feather-icons"
     import PluginCard from "$components/PluginCard.svelte"
 
