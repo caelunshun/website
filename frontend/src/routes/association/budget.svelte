@@ -1,5 +1,5 @@
 <script context="module">
-    export async function preload({ params: { slug } }) {
+    export async function preload() {
         const response = await this.fetch('process.env.FEATHER_API/association/budget')
         let markdown_html = await response.text();
         return { html: markdown_html };

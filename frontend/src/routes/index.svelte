@@ -1,5 +1,5 @@
 <script lang="ts">
-import FeatherStartTerminalWrapper from "../components/FeatherStartTerminalWrapper.svelte";
+import FeatherStartTerminalWrapper from "$components/FeatherStartTerminalWrapper.svelte";
 import GithubMark from "$assets/github-mark.svg";
 </script>
 

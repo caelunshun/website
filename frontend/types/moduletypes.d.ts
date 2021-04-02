@@ -3,10 +3,6 @@ declare module "*.svg" {
     export default content;
 }
 
-declare module "$stores/local" {
-    export const token: any;
-} 
-
 declare function goto(path:string);
 
 declare module "timeago-simple" {

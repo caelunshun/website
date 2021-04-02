@@ -1,8 +1,17 @@
 {
     "extends": "@tsconfig/svelte/tsconfig.json",
     "compilerOptions": {
-        "types": ["node"]
+        "types": ["node"],
+        "baseUrl": ".",
+        "paths": {
+            "$stores/*": ["src/stores/*"],
+            "$components/*": ["src/components/*"],
+            "$static/*": ["static/*"],
+            "$assets/*": ["src/assets/*"],
+            "$src/*": ["src/*"]
+        }
     },
     "include": ["src/**/*", "src/node_modules", "types/moduletypes.d.ts", "types/SvelteFeatehrIcons.d.ts"],
-    "exclude": ["node_modules/*", "__sapper__/*", "static/*"],
+    "exclude": ["node_modules/*", "__sapper__/*", "static/*"]
+    
 }

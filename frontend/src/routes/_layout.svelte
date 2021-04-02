@@ -23,7 +23,7 @@
             }
         };
         document.addEventListener('click', clicklistener, false);
-        for(let anchorelem of document.querySelectorAll('a[href^="/"]')) {
+        for(let anchorelem of document.querySelectorAll('header a[href^="/"]')) {
             (anchorelem as HTMLAnchorElement).addEventListener('click', anchorclicklistener, false);
         }
         
@@ -43,7 +43,7 @@
             <!-- where should we put the link to the main git repo -->
             <!-- <li><a href="https://github.com/feather-rs/feather"><GithubMark class="h-8 sm:h-12 fill-current text-feather-light hover:text-white" /></a></li> -->
             <!-- Should be logged in users avatar -->
-            {#if !$token.secret}
+            {#if $token.secret}
             <li class="noaflex flex md:hidden"><a href="/me">
                 <SettingsIcon class="h-6 w-6" />
                 <span class="mx-2 my-auto">Account</span>
