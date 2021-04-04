@@ -31,7 +31,7 @@
 
 </script>
 
-<header class="flex bg-feather-dark text-white">
+<header class="flex bg-feather-dark text-white border-b border-gray-300">
     <nav class="md:flex flex-1 justify-between items-center md:h-24 py-4 px-12 relative {isDropdownShown ? "max-h-96" : "max-h-20 md:max-h-24"}" style="transition: max-height .5s;">
         <a href="/" class="flex items-center"><Logo class="h-8 sm:h-12" /><div class="ml-3 text-4xl block"><span>Feather</span></div></a>
         <ul class="md:flex items-center md:space-x-6 space-y-4 md:space-y-0 mt-4 md:mt-0 text-normal sm:text-xl font-bold {isDropdownShown ? "" : "hidden md:block"}">
@@ -78,6 +78,7 @@
     </nav>
 </header>
 <main class="flex flex-col flex-1"><slot></slot></main>
+<footer class="flex bg-feather-dark border-t border-gray-300"><h4 class="text-lg mx-auto my-2 text-white">Made with <span class="text-red-600">&#10084;</span> by the Feather Association</h4></footer>
 
 <style>
     li > a {
