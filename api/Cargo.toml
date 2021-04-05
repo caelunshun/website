@@ -26,3 +26,5 @@ rand = { version = "0.8", features = ["getrandom"] }
 hex = "0.4"
 pulldown-cmark = "0.8"
 url = "2.2"
+syntect = "4.5.0"
+lazy_static = "1.4.0"
