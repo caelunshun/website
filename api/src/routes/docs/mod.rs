@@ -66,8 +66,11 @@ pub async fn handle_summary(cache: Cache) -> Result<impl Reply, Rejection> {
 
     let summary = response.text().await.map_err(|_| warp::reject())?;
 
-    let html =
-        DocsParser::new(&summary, url::Url::from_str("http://localhost:3000/docs/").unwrap()).parse();
+    let html = DocsParser::new(
+        &summary,
+        url::Url::from_str("http://localhost:3000/docs/").unwrap(),
+    )
+    .parse();
 
     let summary = SummaryParser::new(&summary)
         .parse()
@@ -109,7 +112,8 @@ pub async fn handle_page(tail: Tail, cache: Cache) -> Result<impl Reply, Rejecti
     let mut html = DocsParser::new(
         &page,
         url::Url::from_str(&format!("http://localhost:3000/docs/{}", tail.as_str())).unwrap(),
-    ).parse();
+    )
+    .parse();
 
     Ok(html)
 }

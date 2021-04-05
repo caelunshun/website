@@ -1,4 +1,4 @@
-use serde::{Serialize};
+use serde::Serialize;
 
 /// A struct representing an entry in the `SUMMARY.md`, possibly with nested
 /// entries.
