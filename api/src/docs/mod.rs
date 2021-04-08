@@ -17,6 +17,8 @@ use syntect::{
 
 use lazy_static::lazy_static;
 
+use crate::featherurl::FeatherUrl;
+
 lazy_static! {
     pub static ref SYNTAXSET: SyntaxSet = {
         let mut builder: SyntaxSetBuilder = SyntaxSet::load_defaults_newlines().into_builder();
@@ -30,12 +32,12 @@ lazy_static! {
 }
 
 pub struct DocsParser<'a> {
-    base: Url,
+    base: FeatherUrl,
     events: Parser<'a>,
 }
 
 impl<'a> DocsParser<'a> {
-    pub fn new(src: &'a str, base: Url) -> Self {
+    pub fn new(src: &'a str, base: FeatherUrl) -> Self {
         Self {
             base,
             events: Parser::new(src),
@@ -53,18 +55,23 @@ impl<'a> DocsParser<'a> {
         for mut event in self.events {
             match &mut event {
                 Event::Start(Tag::Link(_, href, _)) => {
-                    *href = match Url::from_str(href) {
+                    /* *href = match Url::from_str(href) {
                         Err(url::ParseError::RelativeUrlWithoutBase) => {
                             let url = self.base.join(href.trim_end_matches(".md")).unwrap();
                             CowStr::from(url.to_string())
                         }
                         Ok(url) => CowStr::from(url.to_string()),
                         _ => CowStr::from("foo"),
-                    };
+                    };*/
+                    if !href.starts_with("http") {
+                        let mut abc = self.base.clone();
+                        abc.join(href.trim_end_matches(".md"));
+                        *href = CowStr::from(abc.to_string_basic());
+                    }
                     new_p.push(event);
                 }
-                Event::Start(Tag::CodeBlock(cb)) => match cb {
-                    CodeBlockKind::Fenced(token) => {
+                Event::Start(Tag::CodeBlock(cb)) => {
+                    if let CodeBlockKind::Fenced(token) = cb {
                         in_code_block = true;
                         if let Some(syn) = SYNTAXSET.find_syntax_by_token(token) {
                             syntax = syn;
@@ -72,8 +79,7 @@ impl<'a> DocsParser<'a> {
                             syntax = SYNTAXSET.find_syntax_by_extension("rs").unwrap();
                         }
                     }
-                    _ => {}
-                },
+                }
                 Event::End(Tag::CodeBlock(_)) => {
                     if in_code_block {
                         let html =
