@@ -4,7 +4,7 @@ const createLocalStore = (key, startValue) => {
   const {
     subscribe,
     set,
-    update
+    update,
   } = writable(startValue);
 
   return {
@@ -17,11 +17,11 @@ const createLocalStore = (key, startValue) => {
         set(JSON.parse(json));
       }
 
-      subscribe(current => {
+      subscribe((current) => {
         localStorage.setItem(key, JSON.stringify(current));
       });
-    }
+    },
   };
-}
+};
 
 export const token = createLocalStore("token", {});

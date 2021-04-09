@@ -4,12 +4,12 @@
     }
 </script>
 
-<script>
+<script lang="ts">
     import { goto } from "@sapper/app";
     import { onMount } from "svelte";
-    import { token } from "$stores/local.js";
+    import { token } from "$stores/local";
 
-    export let code;
+    export let code: string;
 
     onMount(async () => {
         if ($token.secret) {

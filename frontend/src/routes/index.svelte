@@ -1,7 +1,6 @@
 <script lang="ts">
-import FeatherStartTerminalWrapper from "../components/FeatherStartTerminalWrapper.svelte";
-
-
+import FeatherStartTerminalWrapper from "$components/FeatherStartTerminalWrapper.svelte";
+import GithubMark from "$assets/github-mark.svg";
 </script>
 
 
@@ -42,9 +41,18 @@ import FeatherStartTerminalWrapper from "../components/FeatherStartTerminalWrapp
             <div class="m-4 sm:m-8">
                 <h2 class="text-3xl">More flexability</h2>
                 <p class="mt-4 text-lg">
-                    Thanks to Feather's modular architecture, users can configure gameplay features to meet their needs.
+                    Thanks to Feather's modular architec-ture, users can configure gameplay features to meet their needs.
                     Without writing code, you can configure Feather to the exact needs of your server, with-out
                     sacrificing performance.
+                </p>
+            </div>
+            <div class="m-4 sm:m-8">
+                <h2 class="text-3xl flex">Open Source <GithubMark class="mx-2 text-white fill-current text-feather-light h-8" /></h2>
+                <p class="mt-4 text-lg">
+                    <!--Please add lots of irrelevant text here so that it looks good.-->
+                    Feather is Open Source and the Source code can be browsed on <a href="https://github.com/feather-rs/feather">GitHub</a>. Feel free to contribute!
+                    Just a bunch of a's to test te alignment: aaaaa aaaaaaaaa aaaaaa aaaaaa 
+                    aaaaaaa aaaaaa aaaaaa aaaaaa aaaaaaa aaaaaaaa aaaaaaaaaaaa aaaaaaaaa aaaaaaa aaaaaaa aaaa
                 </p>
             </div>
         </div>

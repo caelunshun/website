@@ -1,12 +1,13 @@
 use pulldown_cmark::Parser;
 use reqwest::Client;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, str::FromStr, sync::Arc};
 use tokio::sync::RwLock;
 use warp::{http, path::Tail, Filter, Rejection, Reply};
 
 use crate::{
     docs::{DocsParser, Summary, SummaryParser},
+    featherurl::FeatherUrl,
     with_state,
 };
 
@@ -66,12 +67,11 @@ pub async fn handle_summary(cache: Cache) -> Result<impl Reply, Rejection> {
 
     let summary = response.text().await.map_err(|_| warp::reject())?;
 
-    let html =
-        DocsParser::new(&summary, url::Url::from_str("http://localhost:3000/docs").unwrap()).parse();
+    let html = DocsParser::new(&summary, FeatherUrl::from("http://localhost:3000/docs/")).parse();
 
-    let summary = SummaryParser::new(&summary)
-        .parse()
-        .map_err(|_| warp::reject())?;
+    //let summary = SummaryParser::new(&summary)
+    //    .parse()
+    //    .map_err(|_| warp::reject())?;
 
     Ok(html)
 }
@@ -82,6 +82,7 @@ pub fn filter_page(
     warp::get()
         .and(warp::path("page"))
         .and(warp::path::tail())
+        .and(warp::query::query::<DocsPageQuery>())
         .and(with_state(cache))
         .and_then(handle_page)
 }
@@ -91,7 +92,16 @@ pub struct PageResponse {
     html: String,
 }
 
-pub async fn handle_page(tail: Tail, cache: Cache) -> Result<impl Reply, Rejection> {
+#[derive(Debug, Deserialize)]
+pub struct DocsPageQuery {
+    base_url: String,
+}
+
+pub async fn handle_page(
+    tail: Tail,
+    query: DocsPageQuery,
+    cache: Cache,
+) -> Result<impl Reply, Rejection> {
     let response = reqwest::get(&format!(
         "https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/{}.md",
         tail.as_str()
@@ -103,13 +113,18 @@ pub async fn handle_page(tail: Tail, cache: Cache) -> Result<impl Reply, Rejecti
         return Err(warp::reject());
     }
 
-    let page = response.text().await.map_err(|_| warp::reject())?;
+    let mut page: String = response.text().await.map_err(|_| warp::reject())?;
+
+    if tail.as_str() == "quill/ecs" {
+        page = page.replace("# ECS", "# ECS\n> See also [ECS](../ecs.md)\n");
+    }
 
     let parser = Parser::new(&page);
     let mut html = DocsParser::new(
         &page,
-        url::Url::from_str(&format!("http://localhost:3000/docs/{}", tail.as_str())).unwrap(),
-    ).parse();
+        FeatherUrl::from(&format!("http://localhost:3000/docs/{}", tail.as_str())[..]),
+    )
+    .parse();
 
     Ok(html)
 }

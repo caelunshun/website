@@ -1,8 +1,17 @@
-<script context="module">
-    export async function preload({ params: { slug } }) {
-        const response = await this.fetch(`process.env.FEATHER_API/docs/page/${encodeURI(slug)}`)
-        let markdown_html = await response.text();
-        return { html: markdown_html };
+<script context="module" lang="ts">
+    import * as docscache from '$stores/docscache';
+
+    export async function preload({ params: { slug } }: {params: {slug: string[]}}) {
+        let slugpath = slug.join("/");
+        if(docscache.has(slugpath)) {
+            return { html: docscache.get(slugpath) }
+        } else {
+            const response = await this.fetch(`process.env.FEATHER_API/docs/page/${encodeURI(slugpath)}?base_url=${encodeURIComponent("/")}`)
+            let markdown_html = await response.text();
+            markdown_html = markdown_html.replaceAll("http://localhost:3000/docs/", "/docs/");
+            docscache.set(slugpath, markdown_html);
+            return { html: markdown_html };
+        }
     }
 </script>
 
@@ -10,13 +19,11 @@
     <title>Docs | Feather</title>
 </svelte:head>
 
-<script>
-    export let html
+<script lang="ts">
+    export let html: string;
 </script>
 
-<div class="prose prose-sm sm:prose xl:prose-xl markdown mx-auto">
-    {@html html}
-</div>
+{@html html}
 
 <style>
 

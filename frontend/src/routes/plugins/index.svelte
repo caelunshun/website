@@ -1,12 +1,4 @@
-<script context="module">
-    export async function preload({}) {
-        let health = await this.fetch("process.env.FEATHER_API/health")
-
-		return { health: "" };
-	}
-</script>
-
-<script>
+<script lang="ts">
     import { SearchIcon } from "svelte-feather-icons"
     import PluginCard from "$components/PluginCard.svelte"
 
