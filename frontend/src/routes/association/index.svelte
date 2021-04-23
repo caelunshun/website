@@ -6,7 +6,7 @@
     <title>Association | Feather</title>
 </svelte:head>
 
-<section class="bg-feather-dark text-white typography">
+<section class="bg-feather-b text-black typography">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8">The Feather Association</h1>
         <div class="flex flex-wrap lg:flex-nowrap">

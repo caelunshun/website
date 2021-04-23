@@ -22,10 +22,11 @@
     "eslint:fix": "eslint --fix ./*.js ./src/*.js ./src/routes/**/*.svelte ./src/components/**/*.svelte",
     "dev": "sapper dev",
     "build": "cross-env NODE_ENV=production sapper build --legacy",
-    "prod": "npm run build",
+    "prod": "yarn build",
     "export": "cross-env NODE_ENV=production sapper export --legacy",
-    "start": "npm run build && node __sapper__/build",
-    "check": "svelte-check"
+    "start": "yarn build && node __sapper__/build",
+    "check": "svelte-check",
+    "lhr": "lighthouse http://localhost:3000/ --output html --output-path LHR.html --locale en-GB"
   },
   "dependencies": {
     "compression": "^1.7.4",

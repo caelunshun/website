@@ -1,22 +1,25 @@
 <script lang="ts">
 import FeatherStartTerminalWrapper from "$components/FeatherStartTerminalWrapper.svelte";
 import GithubMark from "$assets/github-mark.svg";
+import {DownloadIcon} from "svelte-feather-icons";
 </script>
 
 
-<section class="container mx-auto px-4 py-4 md:py-32 flex flex-wrap sm:flex-nowrap items-center justify-center">
+<section class="w-full mx-auto px-4 py-4 md:py-32 flex flex-wrap sm:flex-nowrap items-center justify-center">
     <div class="flex flex-col m-8 sm:m-8">
         <h1 class="text-8xl font-bold font-display text-feather-accent">Feather</h1>
         <p class="text-2xl typography">A highly concurrent, performant, and extensible Minecraft server, powered by <a
                 href="https://www.rust-lang.org/">Rust</a>.</p>
     </div>
-    <button class="bg-feather-light text-feather-accent font-bold px-8 py-6 m-4 sm:m-8 text-2xl">Download</button>
+    <a href="download">
+        <button class="bg-feather-light text-feather-accent font-bold px-8 py-6 m-4 sm:m-8 text-2xl flex">Download <DownloadIcon class="w-8 h-8 ml-4 my-auto" /></button>
+    </a>
     
 </section>
-<section class="container mx-auto items-center justify-center py-4">
+<!--section class="container mx-auto items-center justify-center py-4 text-white">
     <FeatherStartTerminalWrapper />
-</section>
-<section class="bg-feather-dark text-white typography">
+</section-->
+<section class="typography">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8">Why Feather?</h1>
         <div class="flex flex-wrap lg:flex-nowrap">
@@ -47,12 +50,12 @@ import GithubMark from "$assets/github-mark.svg";
                 </p>
             </div>
             <div class="m-4 sm:m-8">
-                <h2 class="text-3xl flex">Open Source <GithubMark class="mx-2 text-white fill-current text-feather-light h-8" /></h2>
+                <h2 class="text-3xl flex">Open Source <GithubMark class="mx-2 text-white fill-current h-8" /></h2>
                 <p class="mt-4 text-lg">
                     <!--Please add lots of irrelevant text here so that it looks good.-->
                     Feather is Open Source and the Source code can be browsed on <a href="https://github.com/feather-rs/feather">GitHub</a>. Feel free to contribute!
-                    Just a bunch of a's to test te alignment: aaaaa aaaaaaaaa aaaaaa aaaaaa 
-                    aaaaaaa aaaaaa aaaaaa aaaaaa aaaaaaa aaaaaaaa aaaaaaaaaaaa aaaaaaaaa aaaaaaa aaaaaaa aaaa
+                    <!--span style="color: transparent;">Just a bunch of a's to test te alignment: aaaaa aaaaaaaaa aaaaaa aaaaaa 
+                    aaaaaaa aaaaaa aaaaaa aaaaaa aaaaaaa aaaaaaaa aaaaaaaaaaaa aaaaaaaaa aaaaaaa aaaaaaa aaaa</span-->
                 </p>
             </div>
         </div>
@@ -80,7 +83,7 @@ import GithubMark from "$assets/github-mark.svg";
         </div>
     </div>
 </section>
-<section class="bg-feather-dark text-white typography">
+<section class="typography">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8">Get involved</h1>
         <div class="flex flex-wrap lg:flex-nowrap">
@@ -118,3 +121,12 @@ import GithubMark from "$assets/github-mark.svg";
 <svelte:head>
 	<title>Feather | Wicked Fast Minecraft</title>
 </svelte:head>
+
+<style>
+    section:nth-child(odd) {
+        background-color: #EDF6F9;
+    }
+    section > div > div > div > p {
+        max-width: 50ch;
+    }
+</style>

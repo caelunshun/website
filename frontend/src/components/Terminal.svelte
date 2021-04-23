@@ -79,7 +79,7 @@
 </script>
     
 <div id="term" class="w-11/12 lg:w-7/12 mx-auto font-mono" on:mouseenter={() => {ismultiplierselshown = true}} on:mouseleave={() => {ismultiplierselshown = false}}>
-    <div id="termbar" class="flex w-full h-6 rounded-t-lg">
+    <div id="termbar" class="flex w-full h-6 rounded-t-lg text-gray-700">
         <strong class="m-auto">feather-test &mdash; -bash</strong>
     </div>
     <div id="termscreen" class="w-full mx-auto p-0.5 rounded-b-lg overflow-y-auto relative" style="height: 30rem;">

@@ -2,7 +2,7 @@
     import { token } from "$stores/local";
 	import Logo from "$assets/chicken2.svg";
 	import GithubMark from "$assets/github-mark.svg"
-    import { LockIcon, SettingsIcon, ChevronDownIcon } from "svelte-feather-icons"
+    import { LockIcon, SettingsIcon, MenuIcon, ChevronDownIcon } from "svelte-feather-icons"
     import { onMount } from "svelte";
     import {scale} from 'svelte/transition';
 
@@ -31,8 +31,8 @@
 
 </script>
 
-<header class="flex bg-feather-dark text-white border-b border-gray-300">
-    <nav class="md:flex flex-1 justify-between items-center md:h-24 py-4 px-12 relative {isDropdownShown ? "max-h-96" : "max-h-20 md:max-h-24"}" style="transition: max-height .5s;">
+<header class="flex bg-feather-a text-white border-b border-gray-300 sticky top-0 z-50">
+    <nav class="md:flex flex-1 justify-between items-center md:h-24 py-4 px-4 container mx-auto relative {isDropdownShown ? "max-h-96" : "max-h-20 md:max-h-24"}" style="transition: max-height .5s;">
         <a href="/" class="flex items-center"><Logo class="h-8 sm:h-12" /><div class="ml-3 text-4xl block"><span>Feather</span></div></a>
         <ul class="md:flex items-center md:space-x-6 space-y-4 md:space-y-0 mt-4 md:mt-0 text-normal sm:text-xl font-bold {isDropdownShown ? "" : "hidden md:block"}">
             <li><a href="/association">Association</a></li>
@@ -72,13 +72,13 @@
             <li><a href="/me/login" class="flex items-center"><LockIcon class="h-6 w-6" /><span class="mx-2 my-auto">Login (GitHub)</span></a></li>
             {/if}    
         </ul>
-        <div class="absolute transition-transform right-6 top-9 md:hidden z-50 text-white transform -translate-x-1/2 -translate-y-1/2 {isDropdownShown ? "" : "rotate-90"}" on:click={() => {isDropdownShown = !isDropdownShown;}}>
-            <ChevronDownIcon class="text-white h-10 w-10" />
+        <div class="absolute transition-transform right-6 top-9 md:hidden z-50 text-white transform -translate-x-1/2 -translate-y-1/2" on:click={() => {isDropdownShown = !isDropdownShown;}}>
+            <MenuIcon class="text-white h-10 w-10" />
         </div>
     </nav>
 </header>
 <main class="flex flex-col flex-1"><slot></slot></main>
-<footer class="flex bg-feather-dark border-t border-gray-300"><h4 class="text-lg mx-auto my-2 text-white">Made with <span class="text-red-600">&#10084;</span> by the Feather Association</h4></footer>
+<footer class="bg-feather-a text-white"><bold class="text-lg my-2 block text-center">Made with <span class="text-red-600">&#10084;</span> by the Feather Association. <a href="credits" class="underline">Credits</a></bold></footer>
 
 <style>
     li > a {

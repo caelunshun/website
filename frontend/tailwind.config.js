@@ -30,8 +30,13 @@ module.exports = {
       colors: {
         feather: {
           light: "#BADEDA",
-          dark: "#005E66",
+          dark: "#57804d",
           accent: "#E29578",
+          a: "#006D77",
+          b: "#83c58e",
+          c: "#EDF6F9",
+          d: "#FFDDD2",
+          e: "#E29578",
         },
       },
     },
