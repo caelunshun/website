@@ -23,12 +23,16 @@ lazy_static! {
     pub static ref SYNTAXSET: SyntaxSet = {
         let mut builder: SyntaxSetBuilder = SyntaxSet::load_defaults_newlines().into_builder();
         builder
-            .add_from_folder(Path::new("./syntaxes/TOML"), true)
+            .add_from_folder(Path::new("./markdown/TOML"), true)
             .expect("Failed to load TOML Syntax. Is it up-to-date?");
         builder.build()
     };
-    pub static ref THEMESET: ThemeSet = ThemeSet::load_defaults();
-    pub static ref THEME: Theme = THEMESET.themes["base16-ocean.dark"].clone();
+    pub static ref THEMESET: ThemeSet = {
+        let mut ts = ThemeSet::load_defaults();
+        ts.add_from_folder(Path::new("./markdown/Themes")).expect("Failed to load Themes!");
+        ts
+    };
+    pub static ref THEME: Theme = THEMESET.themes["GitHub Dark"].clone();
 }
 
 pub struct DocsParser<'a> {

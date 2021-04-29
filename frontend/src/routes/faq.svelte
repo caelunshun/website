@@ -1,4 +1,5 @@
 <script lang="ts">
+    import {preferences} from "$stores/local";
 interface Question {
     question: string;
     answer: string;
@@ -15,20 +16,23 @@ let questions: Question[] = [
     },
     {
         question: "Does Feather support plugins?",
-        answer: "Yes. Feather allows developers to write plugins with basically any language that can be turned into <a href=\"https://webassembly.org/\" target=\"_blank\">Wasm</a>."
+        answer: "Yes. Feather allows developers to write plugins with basically any language that can be turned into "+
+        "<a href=\"https://webassembly.org/\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">Wasm</a>."
     },
     {
         question: "Why are plugins written in Wasm and not Lua?",
-        answer: "The reason that plugins are written in Wasm is that it allows development in many languages, is pretty performant and doesn't increase Feathers binary size."
+        answer: "The reason that plugins are written in Wasm is that it allows development in many languages, "+
+        "is pretty performant and doesn't increase Feathers binary size."
     },
     {
         question: "Where can I submit bugs/undefined behavior?",
-        answer: "Bugs (etc.) can be submitted either on <a href=\"https://github.com/feather-rs/feather/issues\" target=\"_blank\">GitHub</a> "
-        +"or on our <a href=\"https://discordapp.com/invite/4eYmK69\" target=\"_blank\">Discord</a>."
+        answer: "Bugs (etc.) can be submitted either on <a href=\"https://github.com/feather-rs/feather/issues\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">GitHub</a> "
+        +"or on our <a href=\"https://discordapp.com/invite/4eYmK69\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">Discord</a>."
     },
     {
         question: "Where can I submit problems with the website?",
-        answer: "Problems with the website of Feather can be submitted on <a href=\"https://github.com/feather-rs/website/issues\" target=\"_blank\">its GitHub repository</a>."
+        answer: "Problems with the website of Feather can be submitted on "+
+        "<a href=\"https://github.com/feather-rs/website/issues\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">its GitHub repository</a>."
     }
 ];
 </script>
@@ -37,10 +41,10 @@ let questions: Question[] = [
     <h2 class="text-4xl font-bold my-4">FAQ &mdash; Feather</h2>
     <hr class="mb-4">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 typography">
-        {#each questions as question}
-        <div class="">
+        {#each questions as question, idx (idx)}
+        <div>
             <span class="text-xl font-bold">{question.question}</span> 
-            <p class="mt-2 text-lg text-gray-500">{@html question.answer}</p>
+            <p class="mt-2 text-lg {$preferences.dark ? "text-gray-300" : "text-gray-500"}">{@html question.answer}</p>
         </div>
         {/each}
     </div>

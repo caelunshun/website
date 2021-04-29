@@ -64,7 +64,7 @@
 <div class="container mx-auto flex flex-1 p-4 flex-col-reverse lg:flex-row">
     <div class="flex flex-1 flex-col my-4">
         <form class="flex justify-between items-center border border-feather-light w-full rounded text-xl px-4 py-2">
-            <input class="flex-1" type="text" placeholder="Search..." bind:value={search} />
+            <input class="flex-1 dark:bg-gray-900" type="text" placeholder="Search..." bind:value={search} tabindex={2} />
             <SearchIcon class="ml-4 h-6 w-6 text-feather-dark" />
         </form>
         <ul class="flex flex-col flex-1 space-y-4 mt-8">
@@ -77,7 +77,7 @@
     </div>
     <aside class="border-0 lg:border-l-2 m-0 lg:mx-8 lg:pl-4 my-4">
         <h2 class="text-2xl font-bold">Categories</h2>
-        <button on:click={() => { show_categories = !show_categories }} class="text-sm font-light lg:hidden hover:text-feather-dark">
+        <button on:click={() => { show_categories = !show_categories }} class="text-sm font-light lg:hidden hover:text-feather-dark" tabindex={2}>
         {#if show_categories}
             Hide categories
         {:else}
@@ -88,7 +88,7 @@
             {#each categories as category}
                 <li class="mr-4 my-2">
                     <label class="flex items-center">
-                        <input type="checkbox" bind:group={selected_categories} value={category} />
+                        <input type="checkbox" bind:group={selected_categories} value={category} tabindex={2} />
                         <span class="ml-2 font-light text-sm">{category}</span>
                     </label>
                 </li>

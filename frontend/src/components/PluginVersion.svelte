@@ -53,8 +53,9 @@
             </div>
             <div class="flex flex-col mt-8">
                 <span class="text-lg font-bold">Install</span>
-                <div
-                    class="flex justify-betwteen border-2 border-feather-light px-2 py-1 rounded font-mono bg-white hover:bg-feather-light items-center">
+                <div tabindex={3}
+                    class={"flex justify-betwteen border-2 border-feather-light px-2 py-1 rounded font-mono bg-white dark:bg-gray-800 hover:bg-feather-light items-center "+
+                    "cursor-pointer focus-within:bg-green-500 focus-within:text-black"} on:click={() => navigator.clipboard.writeText("quill install " + name)}>
                     <code class="flex flex-1 text-sm">quill install {name}</code>
                     <CopyIcon class="h-4 w-4" />
                 </div>
@@ -64,7 +65,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.downloads as arch}
                         <li>
-                            <a href="/plugins/{name}/{version}/{arch}" 
+                            <a href="/plugins/{name}/{version}/{arch}" tabindex={3} 
                                 class="mr-2 border-b-2 border-feather-accent">{arch}</a>
                         </li>
                     {/each}
@@ -75,7 +76,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.owners as owner}
                         <li>
-                            <a href="/users/{owner.id}"
+                            <a href="/users/{owner.id}" tabindex={3}
                                 class="mr-2 border-b-2 border-feather-accent">{owner}</a>
                         </li>
                     {/each}
@@ -105,7 +106,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.categories as category}
                         <li>
-                            <a href="/plugins"
+                            <a href="/plugins" tabindex={3}
                                 class="mr-2 border-b-2 border-feather-accent">{category}</a>
                         </li>
                     {/each}
@@ -116,7 +117,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.versions as version}
                         <li>
-                            <a href="/plugins"
+                            <a href="/plugins" tabindex={3}
                                 class="mr-2 border-b-2 border-feather-accent">{version}</a>
                         </li>
                     {/each}

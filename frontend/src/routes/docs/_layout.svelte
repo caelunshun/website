@@ -41,7 +41,7 @@
 
 
 <div class="flex flex-1">
-    <aside class="sp-flex-grow z-40 flex transition-transform transform md:translate-x-0 md:flex-shrink {isAsideShown ? "translate-x-0" : "-translate-x-full"} px-12 pb-8 bg-feather-dark text-white md:static absolute">
+    <aside class="sp-flex-grow z-40 flex transition-transform transform md:translate-x-0 md:flex-shrink {isAsideShown ? "translate-x-0" : "-translate-x-full"} px-12 pb-8 bg-green-600 dark:bg-green-700 text-white md:static absolute">
         <nav class="summary">
             {@html html}
         </nav>
@@ -51,9 +51,9 @@
     </aside>
     <article class="flex flex-1 flex-col px-8 text-lg overflow-x-scroll md:overflow-x-visible">
         <div class="block md:hidden z-30 mt-4" on:click={() => isAsideShown = true}>
-            <MenuIcon class="md:hidden text-white fill-current h-10 w-10 bg-feather-dark rounded-lg p-2 border border-gray-300" />
+            <MenuIcon class="md:hidden text-white fill-current h-10 w-10 bg-green-600 dark:bg-green-800 rounded-lg p-2 border border-gray-300" />
         </div>
-        <div class="prose-sm md:prose xl:prose-xl markdown mx-auto md:my-24 my-6">
+        <div class="prose-sm md:prose xl:prose-xl dark:prose-dark markdown mx-auto md:my-24 my-6">
             <slot></slot>
         </div>
     </article>

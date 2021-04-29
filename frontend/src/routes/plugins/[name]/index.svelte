@@ -10,3 +10,7 @@
 </script>
 
 <PluginVersion name={name} />
+
+<svelte:head>
+    <title>{name} | Feather Plugins</title>
+</svelte:head>
