@@ -5,7 +5,6 @@ use warp::{Filter, Rejection, Reply};
 
 use crate::{
     authenticated,
-    rejections::{self, IntoRejection},
     with_state, DB,
 };
 

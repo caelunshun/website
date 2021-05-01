@@ -4,19 +4,23 @@ import GithubMark from "$assets/github-mark.svg";
 import {DownloadIcon} from "svelte-feather-icons";
 
 import {preferences} from "$stores/local";
+import {goto} from "@sapper/app";
 </script>
 
 
 <section class="w-full mx-auto px-4 py-4 md:py-32 flex flex-wrap sm:flex-nowrap items-center justify-center {$preferences.dark ? "bg-gray-800" : "bg-blue-50"}">
     <div class="flex flex-col m-8 sm:m-8">
         <h1 class="text-8xl font-bold font-display text-feather-accent">Feather</h1>
-        <p class="text-2xl typography">A highly concurrent, performant, and extensible Minecraft server, powered by <a
-                href="https://www.rust-lang.org/" tabindex={2}>Rust</a>.</p>
+        <p class="text-2xl typography">A highly concurrent, performant, and extensible Minecraft server, powered by 
+            <a href="https://www.rust-lang.org/" tabindex={2}>Rust</a>.</p>
     </div>
-    <a href="download" class="m-4 sm:m-8" tabindex={2}>
-        <button class="bg-green-600 dark:bg-green-700 text-white font-bold px-8 py-6 text-2xl flex rounded" tabindex={-1}>
-            Download <DownloadIcon class="w-8 h-8 ml-4 my-auto" /></button>
-    </a>
+    <button 
+        class="bg-green-600 dark:bg-green-700 text-white font-bold px-8 py-6 text-2xl flex rounded m-4 sm:m-8" 
+        tabindex={2} 
+        on:click={async () => await goto("download")}
+    >
+        Download <DownloadIcon class="w-8 h-8 ml-4 my-auto" />
+    </button>
     
 </section>
 <!--section class="container mx-auto items-center justify-center py-4 text-white">
@@ -56,7 +60,8 @@ import {preferences} from "$stores/local";
                 <h2 class="text-3xl flex">Open Source <GithubMark class="mx-2 {$preferences.dark ? "text-gray-50" : "text-black"} fill-current h-8" /></h2>
                 <p class="mt-4 text-lg">
                     <!--Please add lots of irrelevant text here so that it looks good.-->
-                    Feather is Open Source and the Source code can be browsed on <a href="https://github.com/feather-rs/feather" tabindex={2}>GitHub</a>. Feel free to contribute!
+                    Feather is Open Source and the Source code can be browsed on 
+                    <a href="https://github.com/feather-rs/feather" tabindex={2}>GitHub</a>. Feel free to contribute!
                     <!--span style="color: transparent;">Just a bunch of a's to test te alignment: aaaaa aaaaaaaaa aaaaaa aaaaaa 
                     aaaaaaa aaaaaa aaaaaa aaaaaa aaaaaaa aaaaaaaa aaaaaaaaaaaa aaaaaaaaa aaaaaaa aaaaaaa aaaa</span-->
                 </p>
@@ -102,7 +107,8 @@ import {preferences} from "$stores/local";
                 <h2 class="text-3xl">Discord</h2>
                 <p class="mt-4 text-lg">
                     Our Discord server is our central information hub. We'd love to hear your thoughts on Feather! Here you get information about new releases, 
-                    can ask questions about develo-ping or find people that you can put in your server team! <a href="https://discordapp.com/invite/4eYmK69" tabindex={2}>Join!</a>
+                    can ask questions about develo-ping or find people that you can put in your server team! 
+                    <a href="https://discordapp.com/invite/4eYmK69" tabindex={2}>Join!</a>
                 </p>
             </div>
             <div class="m-4 sm:m-8">

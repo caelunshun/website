@@ -7,7 +7,7 @@
         } else {
             const response = await this.fetch('process.env.FEATHER_API/docs/summary')
             let markdown_html = await response.text();
-            markdown_html = markdown_html.replaceAll("http://localhost:3000", "");
+            markdown_html = markdown_html.replaceAll("https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/", "/docs/");
             docscache.set("$summary", markdown_html);
             return { html: markdown_html };
         }

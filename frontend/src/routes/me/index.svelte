@@ -84,11 +84,13 @@
                         <Card>
                             <div class="flex justify-between">
                                 <input
+                                    tabindex={2}
                                     type="text"
                                     class="flex flex-1 px-4 py-2 border border-feather-light box-border mr-4"
                                     placeholder="New token name"
                                 />
                                 <button
+                                    tabindex={2}
                                     class="bg-feather-dark text-white px-4 py-2 hover:text-feather-light font-bold"
                                 >
                                     Create
@@ -117,6 +119,7 @@
                                             {/if}
                                         </div>
                                         <button
+                                            tabindex={2}
                                             class="bg-feather-dark text-white px-4 py-2 hover:text-feather-light font-bold"
                                         >
                                             Revoke

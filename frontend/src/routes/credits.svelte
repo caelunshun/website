@@ -1,8 +1,14 @@
 <div class="container mx-auto">
     <ul>
-        <li>Svelte (Sapper)</li>
-        <li>fontawesome (https://fontawesome.com/license)</li>
-        <li>svelte-feather-icons</li>
-        <li>tailwindcss</li>
+        <li>
+            Frontend
+            <ul>
+                <li>Svelte</li>
+                <li>fontawesome</li>
+                <li>svelte-feather-icons</li>
+                <li>tailwindcss</li>
+            </ul>
+        </li>
+        
     </ul>
 </div>

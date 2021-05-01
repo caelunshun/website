@@ -1,4 +1,7 @@
 # tabindex values
-- 0-20: Header
-- 20-100: Content
+- 1: Header
+- Content
+    - Usually
+        - Routes: 2
+        - Components: 3
 - 100 and above: Footer

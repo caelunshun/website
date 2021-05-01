@@ -268,7 +268,7 @@ impl FeatherUrl {
     }
 }
 
-fn encode_uri_component(component: &str) -> String {
+pub fn encode_uri_component(component: &str) -> String {
     let mut res = String::from(component);
     for (uri_char, uri_replace) in URI_ESCAPE_CODES.clone() {
         res = res.replace(uri_char, uri_replace);
@@ -276,7 +276,7 @@ fn encode_uri_component(component: &str) -> String {
     res
 }
 
-fn decode_uri_component(component: &str) -> String {
+pub fn decode_uri_component(component: &str) -> String {
     let mut res = String::from(component);
     for (uri_replace, uri_char) in URI_ESCAPE_CODES.clone() {
         res = res.replace(uri_char, uri_replace);

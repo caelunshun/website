@@ -1,7 +1,7 @@
-use std::{convert::Infallible, str::FromStr, time::Duration};
+use std::{convert::Infallible, time::Duration};
 
 use anyhow::Result;
-use feather_web_api::{rejections, routes, DB};
+use feather_web_api::{docsbuilder, rejections, routes, DB};
 use futures::FutureExt;
 use sqlx::{
     postgres::{PgConnectOptions, PgPoolOptions},
@@ -34,7 +34,11 @@ async fn main() -> Result<()> {
 
     sqlx::migrate!("./migrations").run(db.as_ref()).await?;
 
-    let routes = routes(db);
+    let doccontainer: docsbuilder::Documents = Default::default();
+
+    docsbuilder::create_docs(doccontainer.clone()).await;
+
+    let routes = routes(db, doccontainer);
 
     let routes = routes.with(warp::log("api"));
 

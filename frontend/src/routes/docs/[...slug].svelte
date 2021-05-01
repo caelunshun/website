@@ -8,7 +8,7 @@
         } else {
             const response = await this.fetch(`process.env.FEATHER_API/docs/page/${encodeURI(slugpath)}?base_url=${encodeURIComponent("/")}`)
             let markdown_html = await response.text();
-            markdown_html = markdown_html.replaceAll("http://localhost:3000/docs/", "/docs/");
+            markdown_html = markdown_html.replaceAll("https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/", "/docs/");
             docscache.set(slugpath, markdown_html);
             return { html: markdown_html };
         }
