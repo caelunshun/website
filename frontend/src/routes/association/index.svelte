@@ -29,13 +29,13 @@
             <div class="m-4 sm:m-8">
                 <h4>Budget</h4>
                 <p class="mt-4 text-lg">
-                    To learn more about the income and general budget of Fether click <a href="/association/budget" tabindex={2}>here</a>!
+                    To learn more about the income and general budget of Fether click <a href="/association/budget" >here</a>!
                 </p>
             </div>
             <div class="m-4 sm:m-8">
                 <h4>Articles of Association</h4>
                 <p class="mt-4 text-lg">
-                    To learn more about the articles of association of Fether click <a href="/association/articles-of-association" tabindex={2}>here</a>!
+                    To learn more about the articles of association of Fether click <a href="/association/articles-of-association" >here</a>!
                 </p>
             </div>
         </div>

@@ -17,7 +17,7 @@ let questions: Question[] = [
     {
         question: "Does Feather support plugins?",
         answer: "Yes. Feather allows developers to write plugins with basically any language that can be turned into "+
-        "<a href=\"https://webassembly.org/\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">Wasm</a>."
+        "<a href=\"https://webassembly.org/\" target=\"_blank\" rel=\"noopener\">Wasm</a>."
     },
     {
         question: "Why are plugins written in Wasm and not Lua?",
@@ -26,13 +26,13 @@ let questions: Question[] = [
     },
     {
         question: "Where can I submit bugs/undefined behavior?",
-        answer: "Bugs (etc.) can be submitted either on <a href=\"https://github.com/feather-rs/feather/issues\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">GitHub</a> "
-        +"or on our <a href=\"https://discordapp.com/invite/4eYmK69\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">Discord</a>."
+        answer: "Bugs (etc.) can be submitted either on <a href=\"https://github.com/feather-rs/feather/issues\" target=\"_blank\" rel=\"noopener\">GitHub</a> "
+        +"or on our <a href=\"https://discordapp.com/invite/4eYmK69\" target=\"_blank\" rel=\"noopener\">Discord</a>."
     },
     {
         question: "Where can I submit problems with the website?",
         answer: "Problems with the website of Feather can be submitted on "+
-        "<a href=\"https://github.com/feather-rs/website/issues\" target=\"_blank\" rel=\"noopener\" tabindex=\"2\">its GitHub repository</a>."
+        "<a href=\"https://github.com/feather-rs/website/issues\" target=\"_blank\" rel=\"noopener\">its GitHub repository</a>."
     }
 ];
 </script>

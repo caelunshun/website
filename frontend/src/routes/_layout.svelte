@@ -41,6 +41,21 @@
         isAccountDropdownShown = !isAccountDropdownShown;
     }
 
+    let isEventChannelBlocked = false;
+
+    //Apparently Click is fired 50-100ms after focus
+    function blockedEventChannel(e: FocusEvent | MouseEvent) {
+        if(!isEventChannelBlocked) {
+            if(e instanceof FocusEvent) {
+                isAccountDropdownShown = true;
+            } else {
+                toggleAccountDropDown();
+            }
+            isEventChannelBlocked = true;
+            setTimeout(() => isEventChannelBlocked = false, 100);
+        }
+    }
+
 </script>
 
 <header 
@@ -52,29 +67,29 @@
         style="transition: max-height .5s;"
         role="navigation"
     >
-        <a href="/" class="flex items-center" tabindex={1}><Logo class="h-8 sm:h-12" /><div class="ml-3 text-4xl block"><span>Feather</span></div></a>
+        <a href="/" class="flex items-center" ><Logo class="h-8 sm:h-12" /><div class="ml-3 text-4xl block"><span>Feather</span></div></a>
         <ul class="md:flex items-center md:space-x-6 space-y-4 md:space-y-0 mt-4 md:mt-0 text-normal sm:text-xl font-bold {isDropdownShown ? "" : "hidden md:block"}">
-            <li><a href="/association" tabindex={1}>Association</a></li>
-            <li><a href="/plugins" tabindex={1}>Plugins</a></li>
-            <li><a href="/docs" tabindex={1}>Docs</a></li>
-            <li><a href="/faq" tabindex={1}>FAQ</a></li>
+            <li><a href="/association" >Association</a></li>
+            <li><a href="/plugins" >Plugins</a></li>
+            <li><a href="/docs" >Docs</a></li>
+            <li><a href="/faq" >FAQ</a></li>
             <hr class="md:hidden">
             <!-- where should we put the link to the main git repo -->
             <!-- <li><a href="https://github.com/feather-rs/feather"><GithubMark class="h-8 sm:h-12 fill-current text-feather-light hover:text-white" /></a></li> -->
             <!-- Should be logged in users avatar -->
             {#if !$token.secret}
-            <li class="noaflex flex md:hidden"><a href="/me" tabindex={1}>
+            <li class="noaflex flex md:hidden"><a href="/me">
                 <SettingsIcon class="h-6 w-6" />
                 <span class="mx-2 my-auto">Account</span>
             </a></li>
-            <li class="noaflex font-normal flex md:hidden"><a href="/me/logout" tabindex={1}><LockIcon class="h-6 w-6" /><span class="mx-2 my-auto">Logout</span></a></li>
+            <li class="noaflex font-normal flex md:hidden"><a href="/me/logout" ><LockIcon class="h-6 w-6" /><span class="mx-2 my-auto">Logout</span></a></li>
             <li 
                 bind:this={accountdropdownli} 
                 class="noaflex hidden md:flex cursor-pointer hover:underline relative" 
-                tabindex={1}
+                tabindex={0}
                 on:keyup={(e) => {if(e.code === "Space") toggleAccountDropDown()}}
-                on:focus={toggleAccountDropDown}
-                on:click={toggleAccountDropDown}
+                on:focus={blockedEventChannel}
+                on:click={blockedEventChannel}
             >
                 <span class="mx-2 my-auto">Account</span>
                 <div class="my-auto">
@@ -86,19 +101,19 @@
                         out:scale={{ duration: 75, start: 0.95}}
                         class="origin-top-right absolute right-0 w-48 mt-10 bg-gray-800 rounded-lg"
                         >
-                        <a href="/me" class="block px-4 py-2 hover:bg-green-500 hover:text-green-100 rounded-t-lg" tabindex={1}>Profile</a>
+                        <a href="/me" class="block px-4 py-2 hover:bg-green-500 hover:text-green-100 rounded-t-lg">Profile</a>
                         <hr>
-                        <a href="/me/logout" class="block px-4 py-2 hover:bg-green-500 hover:text-green-100 rounded-b-lg" tabindex={1}>Logout</a>
+                        <a href="/me/logout" class="block px-4 py-2 hover:bg-green-500 hover:text-green-100 rounded-b-lg" on:keydown={(e) => {if(e.code === "Tab") toggleAccountDropDown()}}>Logout</a>
 
                     </div>
                 {/if}
             </li>
             {:else}
             <!-- How should the login button look? -->
-            <li><a href="/me/login" class="flex items-center" tabindex={1}><LockIcon class="h-6 w-6" /><span class="mx-2 my-auto">Login (GitHub)</span></a></li>
+            <li><a href="/me/login" class="flex items-center" ><LockIcon class="h-6 w-6" /><span class="mx-2 my-auto">Login (GitHub)</span></a></li>
             {/if}    
         </ul>
-        <div class="absolute transition-transform right-6 top-9 md:hidden z-50 text-white transform -translate-x-1/2 -translate-y-1/2" tabindex={1} on:click={() => {isDropdownShown = !isDropdownShown;}}>
+        <div class="absolute transition-transform right-6 top-9 md:hidden z-50 text-white transform -translate-x-1/2 -translate-y-1/2"  on:click={() => {isDropdownShown = !isDropdownShown;}}>
             <MenuIcon class="text-white h-10 w-10" />
         </div>
     </nav>
@@ -112,14 +127,14 @@
 <footer class="{$preferences.dark ? "bg-green-700" : "bg-green-600"} text-white sm:flex sm:items-center justify-center transition-colors duration-500">
     <bold class="text-lg my-2 block sm:flex text-center">
         Made with <span class="text-red-600 sm:mx-1">&#10084;</span> by the Feather Association. 
-        <a href="credits" class="underline sm:mx-1" tabindex={100}>Credits</a>
+        <a href="credits" class="underline sm:mx-1" >Credits</a>
         <!--span class="switch" checked={$preferences.dark} on:click={() => $preferences.dark = !$preferences.dark}>
             <span></span>
         </span-->
     </bold>
     <div 
         class="w-16 h-8 flex items-center mx-auto sm:mx-2 my-2 sm:my-0 {$preferences.dark ? "bg-gray-900" : "bg-gray-300"} rounded-full cursor-pointer" 
-        tabindex={100} 
+         
         role="switch"
         aria-checked={$preferences.dark}
         aria-label="Toggle Dark Mode"

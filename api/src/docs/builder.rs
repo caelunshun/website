@@ -11,12 +11,11 @@ const PREPATH_LENGTH: usize =
     "https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/".len();
 
 pub async fn create_docs(container: Documents) {
-    let paths: StringList = Default::default();
+    let mut paths: Vec<String> = Vec::new();
     let mut locked_container = container.lock().await;
     locked_container.clear();
 
-    let summary = fetch_and_parse(
-        paths.clone(),
+    let (summary, mut paths_2) = fetch_and_parse(
         "https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/SUMMARY.md",
     )
     .await
@@ -24,25 +23,24 @@ pub async fn create_docs(container: Documents) {
     locked_container.insert("summary".to_owned(), summary);
 
     let mut cur_stage: i32 = 1;
-
-    let mut fin_paths = paths.lock().await;
+    paths.append(&mut paths_2);
     loop {
-        fin_paths.retain(|i| !i.ends_with("/"));
+        paths.retain(|i| !i.ends_with("/"));
         let mut pathindex: u64 = 1;
-        let pathsize: usize = fin_paths.len() + 1;
-        if fin_paths.is_empty() {
+        let pathsize: usize = paths.len() + 1;
+        if paths.is_empty() {
             break;
         }
-        log::debug!(target: "api", "Links ({}): {}", cur_stage, fin_paths.join(", "));
+        log::debug!(target: "api", "Links ({}): {}", cur_stage, paths.join(", "));
         let pb = ProgressBar::new(pathsize as u64);
         pb.set_style(ProgressStyle::default_bar().template(&format!(
             "[{{elapsed_precise}}] Stage {} ({{pos}}/{{len}}): {{msg}}",
             cur_stage
         )));
 
-        let temp_arc: StringList = Default::default();
+        let mut temp_links: Vec<String> = Vec::new();
 
-        for path in fin_paths.iter() {
+        for path in paths.iter() {
             thread::sleep(Duration::from_millis(100));
             pb.set_position(pathindex);
             let shortended_path = &path[PREPATH_LENGTH..].to_lowercase();
@@ -50,34 +48,30 @@ pub async fn create_docs(container: Documents) {
             if !locked_container.contains_key(shortended_path) {
                 let mut path_a = path.clone();
                 path_a.push_str(".md");
-                let cur = fetch_and_parse(temp_arc.clone(), &path_a)
+                let (cur, mut temp_2_links) = fetch_and_parse(&path_a)
                     .await
                     .expect(&format!("FFS: {}", path));
                 locked_container.insert(shortended_path.to_owned(), cur);
+                temp_links.append(&mut temp_2_links);
             }
             pathindex += 1;
         }
         pb.finish();
 
-        let res_temp_arc = temp_arc.lock().await;
-
-        fin_paths.clear();
-        if !res_temp_arc.is_empty() {
-            for i in res_temp_arc.iter() {
-                fin_paths.push(i.clone());
+        paths.clear();
+        if !temp_links.is_empty() {
+            for i in temp_links.iter() {
+                paths.push(i.clone());
             }
         }
-
-        drop(res_temp_arc);
         cur_stage += 1;
     }
-    drop(fin_paths);
     drop(locked_container);
 
     log::info!("Finished building docs!");
 }
 
-async fn fetch_and_parse(links: StringList, url: &str) -> Result<String, Rejection> {
+async fn fetch_and_parse(url: &str) -> Result<(String, Vec<String>), Rejection> {
     let response = reqwest::get(url).await.map_err(|_| warp::reject())?;
 
     if response.status() != http::StatusCode::OK {
@@ -86,8 +80,7 @@ async fn fetch_and_parse(links: StringList, url: &str) -> Result<String, Rejecti
 
     let page: String = response.text().await.map_err(|_| warp::reject())?;
 
-    let parser = DocsParser::new(&page, FeatherUrl::from(url));
-    let res = parser.parse_links(links).await;
+    let res = DocsParser::static_parse_links(FeatherUrl::from(url), page);
 
     Ok(res)
 }

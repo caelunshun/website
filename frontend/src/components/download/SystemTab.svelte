@@ -18,14 +18,14 @@
 </script>
 
 <div 
-    class="flex mx-auto px-4 cursor-pointer transition-colors duration-300 hover:bg-gray-500 hover:bg-opacity-10 {curSelIndex === desSelIndex ? "border-b border-blue-500 text-blue-500" : ""}" 
-    tabindex={2} 
+    class="flex mx-auto px-4 cursor-pointer transition-colors duration-300 hover:bg-gray-500 hover:bg-opacity-10 {curSelIndex === desSelIndex ? "border-b border-blue-500 text-blue-500" : ""}"
+    tabindex={0}
     role="tab"
     id="os-tab-{desSelIndex}"
     on:keyup={(e) => {if(e.code === "Space") setSelIndex(desSelIndex)}}
     on:click={() => setSelIndex(desSelIndex)}>
     <OSIcon class="w-8 h-8 my-2 mx-2 {fill ? "fill-current" : ""}" />
-    <label class="text-xl my-auto" for="os-tab-{desSelIndex}">{name}</label>
+    <label class="text-xl my-auto cursor-pointer" for="os-tab-{desSelIndex}">{name}</label>
     <div class="md:hidden my-auto ml-auto mr-2">
         <ChevronLeftIcon class="w-8 h-8 transition-transform transform {curSelIndex === desSelIndex ? "-rotate-90" : ""}" />
     </div>

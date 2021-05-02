@@ -1,13 +1,11 @@
 mod summary;
-mod summary_parser;
+mod builder;
 
 pub use summary::*;
-pub use summary_parser::*;
+pub use builder::*;
 
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Parser, Tag};
 use std::{
-    marker::Send,
-    mem::drop,
     path::Path,
 };
 
@@ -112,8 +110,9 @@ impl<'a> DocsParser<'a> {
         output
     }
 
-    pub async fn parse_links(self, links: crate::docsbuilder::StringList) -> String {
-        let mut locked_links = links.lock().await;
+    pub fn static_parse_links(base: FeatherUrl, src: String) -> (String, Vec<String>) {
+        let events = Parser::new(src.as_str());
+        let mut links: Vec<String> = Vec::new();
 
         let mut syntax = SYNTAXSET.find_syntax_by_extension("rs").unwrap();
 
@@ -122,7 +121,7 @@ impl<'a> DocsParser<'a> {
         let mut in_code_block = false;
 
         let mut output = String::new();
-        for mut event in self.events {
+        for mut event in events {
             match &mut event {
                 Event::Start(Tag::Link(_, href, _)) => {
                     /* *href = match Url::from_str(href) {
@@ -134,12 +133,12 @@ impl<'a> DocsParser<'a> {
                         _ => CowStr::from("foo"),
                     };*/
                     if !href.starts_with("http") {
-                        let mut abc = self.base.clone();
+                        let mut abc = base.clone();
                         abc.join(href.trim_end_matches(".md"));
                         let finished_url = abc.to_string_basic();
                         *href = CowStr::from(finished_url.clone());
-                        if !locked_links.contains(&finished_url) {
-                            locked_links.push(finished_url.clone());
+                        if !links.contains(&finished_url) {
+                            links.push(finished_url.clone());
                         }
                     }
                     new_p.push(event);
@@ -176,9 +175,7 @@ impl<'a> DocsParser<'a> {
             }
         }
         html::push_html(&mut output, new_p.into_iter());
-        drop(locked_links);
-        output
+        (output, links)
     }
-}
 
-unsafe impl Send for DocsParser<'_> {}
+}

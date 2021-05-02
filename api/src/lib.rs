@@ -1,6 +1,5 @@
 pub mod db;
 pub mod docs;
-pub mod docsbuilder;
 pub mod featherurl;
 pub mod github;
 pub mod rejections;

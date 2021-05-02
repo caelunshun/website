@@ -7,7 +7,7 @@ mod users;
 
 use warp::{Filter, Rejection, Reply};
 
-use crate::{docsbuilder::Documents, DB};
+use crate::{docs::Documents, DB};
 
 pub fn routes(
     db: DB,

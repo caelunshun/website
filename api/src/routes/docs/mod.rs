@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, env};
 use warp::{path::Tail, Filter, Rejection, Reply};
 
-use crate::{docs::Summary, docsbuilder::Documents, with_state};
+use crate::{docs::Summary, docs::Documents, with_state};
 
 #[derive(Default, Serialize)]
 pub struct Docs {
@@ -85,7 +85,7 @@ pub async fn handle_webhook(
         "push" => {
             let push_json: crate::types::PushAction = parse_json(&body).unwrap();
             if push_json.r#ref == "refs/heads/Docs" {
-                tokio::spawn(crate::docsbuilder::create_docs(documents));
+                tokio::spawn(crate::docs::create_docs(documents));
             }
         }
         "ping" => {

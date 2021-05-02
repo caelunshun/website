@@ -12,11 +12,11 @@ import {goto} from "@sapper/app";
     <div class="flex flex-col m-8 sm:m-8">
         <h1 class="text-8xl font-bold font-display text-feather-accent">Feather</h1>
         <p class="text-2xl typography">A highly concurrent, performant, and extensible Minecraft server, powered by 
-            <a href="https://www.rust-lang.org/" tabindex={2}>Rust</a>.</p>
+            <a href="https://www.rust-lang.org/" >Rust</a>.</p>
     </div>
     <button 
         class="bg-green-600 dark:bg-green-700 text-white font-bold px-8 py-6 text-2xl flex rounded m-4 sm:m-8" 
-        tabindex={2} 
+         
         on:click={async () => await goto("download")}
     >
         Download <DownloadIcon class="w-8 h-8 ml-4 my-auto" />
@@ -61,7 +61,7 @@ import {goto} from "@sapper/app";
                 <p class="mt-4 text-lg">
                     <!--Please add lots of irrelevant text here so that it looks good.-->
                     Feather is Open Source and the Source code can be browsed on 
-                    <a href="https://github.com/feather-rs/feather" tabindex={2}>GitHub</a>. Feel free to contribute!
+                    <a href="https://github.com/feather-rs/feather" >GitHub</a>. Feel free to contribute!
                     <!--span style="color: transparent;">Just a bunch of a's to test te alignment: aaaaa aaaaaaaaa aaaaaa aaaaaa 
                     aaaaaaa aaaaaa aaaaaa aaaaaa aaaaaaa aaaaaaaa aaaaaaaaaaaa aaaaaaaaa aaaaaaa aaaaaaa aaaa</span-->
                 </p>
@@ -108,19 +108,19 @@ import {goto} from "@sapper/app";
                 <p class="mt-4 text-lg">
                     Our Discord server is our central information hub. We'd love to hear your thoughts on Feather! Here you get information about new releases, 
                     can ask questions about develo-ping or find people that you can put in your server team! 
-                    <a href="https://discordapp.com/invite/4eYmK69" tabindex={2}>Join!</a>
+                    <a href="https://discordapp.com/invite/4eYmK69" >Join!</a>
                 </p>
             </div>
             <div class="m-4 sm:m-8">
                 <h2 class="text-3xl">Association</h2>
                 <p class="mt-4 text-lg">
                     Feather is run and funded by an open nonprofit association, where everyone is free to 
-                    <a href="/association/join" tabindex={2}>join at the cost of 10 EUR</a>.
+                    <a href="/association/join" >join at the cost of 10 EUR</a>.
                     All the members are invited once a year by the end of ___ to elect five to ten maintainers.
                     These maintainers are responsible for the daily mainte-nance of the association and the development
                     of feather.
                     All the money raised through the association goes towards paying for web and demo server; you can
-                    read more about it in the <a href="/association/budget" tabindex={2}>budget</a>.
+                    read more about it in the <a href="/association/budget" >budget</a>.
                 </p>
             </div>
         </div>
