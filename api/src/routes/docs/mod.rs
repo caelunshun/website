@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, env};
 use warp::{path::Tail, Filter, Rejection, Reply};
 
-use crate::{docs::Summary, docs::Documents, with_state};
+use crate::{docs::Documents, docs::Summary, with_state};
 
 #[derive(Default, Serialize)]
 pub struct Docs {

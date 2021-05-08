@@ -88,6 +88,9 @@ module.exports = {
       "1/2": "50%",
       "70p": "70%",
     },
+    maxHeight: {
+      120: "30rem",
+    },
   },
   variants: {
     extend: {

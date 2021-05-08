@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {preferences} from "$stores/local";
 interface Question {
     question: string;
     answer: string;
@@ -44,7 +43,7 @@ let questions: Question[] = [
         {#each questions as question, idx (idx)}
         <div>
             <span class="text-xl font-bold">{question.question}</span> 
-            <p class="mt-2 text-lg {$preferences.dark ? "text-gray-300" : "text-gray-500"}">{@html question.answer}</p>
+            <p class="mt-2 text-lg dark:text-gray-300 text-gray-500">{@html question.answer}</p>
         </div>
         {/each}
     </div>

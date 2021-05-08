@@ -1,13 +1,11 @@
-mod summary;
 mod builder;
+mod summary;
 
-pub use summary::*;
 pub use builder::*;
+pub use summary::*;
 
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Parser, Tag};
-use std::{
-    path::Path,
-};
+use std::path::Path;
 
 use syntect::{
     highlighting::{Theme, ThemeSet},
@@ -56,6 +54,9 @@ impl<'a> DocsParser<'a> {
         let mut to_highlight = String::new();
         let mut in_code_block = false;
 
+        let mut cur_heading = String::new();
+        let mut in_heading = false;
+
         let mut output = String::new();
         for mut event in self.events {
             match &mut event {
@@ -94,9 +95,22 @@ impl<'a> DocsParser<'a> {
                         in_code_block = false;
                     }
                 }
+                Event::Start(Tag::Heading(_)) => {
+                    in_heading = true;
+                }
+                Event::End(Tag::Heading(level)) => {
+                    if in_heading {
+                        let html = format!("<h{} id=\"h-{}\">{}</h{}>", level, crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()), cur_heading, level);
+                        new_p.push(Event::Html(CowStr::from(html)));
+                        cur_heading = String::new();
+                        in_heading = false;
+                    }
+                }
                 Event::Text(t) => {
                     if in_code_block {
                         to_highlight.push_str(&t);
+                    } else if in_heading {
+                        cur_heading.push_str(&t);
                     } else {
                         new_p.push(event);
                     }
@@ -120,18 +134,13 @@ impl<'a> DocsParser<'a> {
         let mut to_highlight = String::new();
         let mut in_code_block = false;
 
+        let mut cur_heading = String::new();
+        let mut in_heading = false;
+
         let mut output = String::new();
         for mut event in events {
             match &mut event {
                 Event::Start(Tag::Link(_, href, _)) => {
-                    /* *href = match Url::from_str(href) {
-                        Err(url::ParseError::RelativeUrlWithoutBase) => {
-                            let url = self.base.join(href.trim_end_matches(".md")).unwrap();
-                            CowStr::from(url.to_string())
-                        }
-                        Ok(url) => CowStr::from(url.to_string()),
-                        _ => CowStr::from("foo"),
-                    };*/
                     if !href.starts_with("http") {
                         let mut abc = base.clone();
                         abc.join(href.trim_end_matches(".md"));
@@ -162,9 +171,22 @@ impl<'a> DocsParser<'a> {
                         in_code_block = false;
                     }
                 }
+                Event::Start(Tag::Heading(_)) => {
+                    in_heading = true;
+                }
+                Event::End(Tag::Heading(level)) => {
+                    if in_heading {
+                        let html = format!("<h{} id=\"h-{}\">{}</h{}>", level, crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()), cur_heading, level);
+                        new_p.push(Event::Html(CowStr::from(html)));
+                        cur_heading = String::new();
+                        in_heading = false;
+                    }
+                }
                 Event::Text(t) => {
                     if in_code_block {
                         to_highlight.push_str(&t);
+                    } else if in_heading {
+                        cur_heading.push_str(&t);
                     } else {
                         new_p.push(event);
                     }
@@ -177,5 +199,16 @@ impl<'a> DocsParser<'a> {
         html::push_html(&mut output, new_p.into_iter());
         (output, links)
     }
+}
 
+#[cfg(test)]
+mod tests {
+    use crate::docs::DocsParser;
+
+    #[test]
+    fn heading() {
+        let to_parse = "# Lol";
+        let parser = DocsParser::new(to_parse, crate::featherurl::FeatherUrl::from("http://localhost:3000/"));
+        assert_eq!("<h1 id=\"h-lol\">Lol</h1>", parser.parse());
+    }
 }

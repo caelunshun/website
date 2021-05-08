@@ -1,4 +1,4 @@
-use futures::{Stream};
+use futures::Stream;
 use warp::{Buf, Filter, Rejection, Reply};
 
 use crate::{authenticated, with_state, DB};

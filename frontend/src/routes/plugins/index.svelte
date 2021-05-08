@@ -64,7 +64,7 @@
 <div class="container mx-auto flex flex-1 p-4 flex-col-reverse lg:flex-row">
     <div class="flex flex-1 flex-col my-4">
         <form class="flex justify-between items-center border border-feather-light w-full rounded text-xl px-4 py-2">
-            <input class="flex-1 dark:bg-gray-900" type="text" placeholder="Search..." bind:value={search}  />
+            <input class="flex-1 bg-transparent" type="text" placeholder="Search..." bind:value={search}  />
             <SearchIcon class="ml-4 h-6 w-6 text-feather-dark" />
         </form>
         <ul class="flex flex-col flex-1 space-y-4 mt-8">

@@ -3,10 +3,7 @@ use futures::future::join;
 use serde::Serialize;
 use warp::{Filter, Rejection, Reply};
 
-use crate::{
-    authenticated,
-    with_state, DB,
-};
+use crate::{authenticated, with_state, DB};
 
 mod authorization;
 

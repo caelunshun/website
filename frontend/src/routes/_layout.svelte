@@ -37,29 +37,30 @@
         if(event.code === "Space") toggleDarkMode();
     }
 
-    function toggleAccountDropDown() {
-        isAccountDropdownShown = !isAccountDropdownShown;
-    }
-
     let isEventChannelBlocked = false;
+
+    function toggleAccountDropDown() {
+        if(!isEventChannelBlocked) isAccountDropdownShown = !isAccountDropdownShown;
+    }
 
     //Apparently Click is fired 50-100ms after focus
     function blockedEventChannel(e: FocusEvent | MouseEvent) {
-        if(!isEventChannelBlocked) {
-            if(e instanceof FocusEvent) {
-                isAccountDropdownShown = true;
-            } else {
-                toggleAccountDropDown();
-            }
+        if(e instanceof FocusEvent) {
+            isAccountDropdownShown = true;
             isEventChannelBlocked = true;
             setTimeout(() => isEventChannelBlocked = false, 100);
+        } else {
+            toggleAccountDropDown();
         }
     }
 
+    let scrollY: number;
 </script>
 
+<svelte:window bind:scrollY={scrollY} />
+
 <header 
-    class="flex {$preferences.dark ? "bg-green-700" : "bg-green-600"} text-white sticky top-0 z-50 transition-colors duration-500"
+    class="flex {$preferences.dark ? "bg-green-700" : "bg-green-600"} text-white sticky top-0 z-50 transition duration-500 {scrollY > 0 ? "shadow-xl" : ""}"
     role="heading"
     >
     <nav 
@@ -77,7 +78,7 @@
             <!-- where should we put the link to the main git repo -->
             <!-- <li><a href="https://github.com/feather-rs/feather"><GithubMark class="h-8 sm:h-12 fill-current text-feather-light hover:text-white" /></a></li> -->
             <!-- Should be logged in users avatar -->
-            {#if !$token.secret}
+            {#if $token.secret}
             <li class="noaflex flex md:hidden"><a href="/me">
                 <SettingsIcon class="h-6 w-6" />
                 <span class="mx-2 my-auto">Account</span>
@@ -99,7 +100,7 @@
                     <div
                         in:scale={{ duration: 100, start: 0.95}}
                         out:scale={{ duration: 75, start: 0.95}}
-                        class="origin-top-right absolute right-0 w-48 mt-10 bg-gray-800 rounded-lg"
+                        class="origin-top-right absolute right-0 w-48 mt-10 bg-gray-800 rounded-lg border border-white"
                         >
                         <a href="/me" class="block px-4 py-2 hover:bg-green-500 hover:text-green-100 rounded-t-lg">Profile</a>
                         <hr>

@@ -6,35 +6,34 @@ use lazy_static::lazy_static;
 lazy_static! {
     static ref REGEX: Regex = Regex::new(r"^((?P<scheme>[^:/?#]+):(//))?(//)?(((?P<login>[^:]+)(?::(?P<password>[^@]+)?)?@)?(?P<host>[^@/?#:]*)(?::(?P<port>\d+)?)?)?(?P<path>[^?#]*)(\?(?P<query>[^#]*))?(#(?P<fragment>.*))?").unwrap();
     static ref PATH_REGEX: Regex = Regex::new("/(?P<path>[^/]*)").unwrap();
-    static ref URI_ESCAPE_CODES: HashMap<&'static str, &'static str> = {
-        let mut escape_codes: HashMap<&str, &str> = HashMap::new();
-        escape_codes.insert(" ", "%20");
-        escape_codes.insert("\"", "%22");
-        escape_codes.insert("#", "%23");
-        escape_codes.insert("$", "%24");
-        escape_codes.insert("%", "%25");
-        escape_codes.insert("&", "%26");
-        escape_codes.insert("+", "%2B");
-        escape_codes.insert(",", "%2C");
-        escape_codes.insert("/", "%2F");
-        escape_codes.insert(":", "%3A");
-        escape_codes.insert(";", "%3B");
-        escape_codes.insert("<", "%3C");
-        escape_codes.insert("=", "%3D");
-        escape_codes.insert(">", "%3E");
-        escape_codes.insert("?", "%3F");
-        escape_codes.insert("@", "%40");
-        escape_codes.insert("[", "%5B");
-        escape_codes.insert("\\", "%5C");
-        escape_codes.insert("]", "%5D");
-        escape_codes.insert("^", "%5E");
-        escape_codes.insert("`", "%60");
-        escape_codes.insert("{", "%7B");
-        escape_codes.insert("|", "%7C");
-        escape_codes.insert("}", "%7D");
-        escape_codes
-    };
 }
+
+const URI_CODES: [(char, &str); 24] = [
+    (' ', "%20"),
+    ('\"', "%22"),
+    ('#', "%23"),
+    ('$', "%24"),
+    ('%', "%25"),
+    ('&', "%26"),
+    ('+', "%2B"),
+    (',', "%2C"),
+    ('/', "%2F"),
+    (':', "%3A"),
+    (';', "%3B"),
+    ('<', "%3C"),
+    ('=', "%3D"),
+    ('>', "%3E"),
+    ('?', "%3F"),
+    ('@', "%40"),
+    ('[', "%5B"),
+    ('\\', "%5C"),
+    (']', "%5D"),
+    ('^', "%5E"),
+    ('`', "%60"),
+    ('{', "%7B"),
+    ('|', "%7C"),
+    ('}', "%7D"),
+];
 
 #[derive(Clone)]
 pub struct FeatherUrl {
@@ -270,16 +269,16 @@ impl FeatherUrl {
 
 pub fn encode_uri_component(component: &str) -> String {
     let mut res = String::from(component);
-    for (uri_char, uri_replace) in URI_ESCAPE_CODES.clone() {
-        res = res.replace(uri_char, uri_replace);
+    for (uri_char, uri_replace) in URI_CODES.clone().iter() {
+        res = res.replace(&uri_char.to_string(), uri_replace);
     }
     res
 }
 
 pub fn decode_uri_component(component: &str) -> String {
     let mut res = String::from(component);
-    for (uri_replace, uri_char) in URI_ESCAPE_CODES.clone() {
-        res = res.replace(uri_char, uri_replace);
+    for (uri_replace, uri_char) in URI_CODES.clone().iter() {
+        res = res.replace(uri_char, &uri_replace.to_string());
     }
     res
 }
