@@ -93,10 +93,10 @@
         <div id="termsel" class="{ismultiplierselshown ? "opacity-100" : "opacity-0"} border border-gray-200 transform -translate-y-1/2 -translate-x-1/2 w-10/12 transition-opacity duration-1000 rounded-xl absolute -bottom-4 left-1/2">
             <strong class="text-center mt-2 block" style="color: #fff;">Slowmotion (decrease the speed of the "process" output)</strong>
             <div class="border border-gray-200 flex m-4 rounded-lg">
-                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 1} selected={multiplier === 1} tabindex={2}><b class="m-auto">1x</b></button>
-                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 100} selected={multiplier === 100} tabindex={2}><b class="m-auto">100x</b></button>
-                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 1000} selected={multiplier === 1000} tabindex={2}><b class="m-auto">1000x</b></button>
-                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 2500} selected={multiplier === 2500} tabindex={2}><b class="m-auto">2500x</b></button>
+                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 1} selected={multiplier === 1}><b class="m-auto">1x</b></button>
+                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 100} selected={multiplier === 100}><b class="m-auto">100x</b></button>
+                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 1000} selected={multiplier === 1000}><b class="m-auto">1000x</b></button>
+                <button class="flex flex-grow py-2" style="color: #fff;" on:focus={() => multiplier = 2500} selected={multiplier === 2500}><b class="m-auto">2500x</b></button>
             </div>
         </div>
     </div>
