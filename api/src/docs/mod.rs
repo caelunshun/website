@@ -100,7 +100,13 @@ impl<'a> DocsParser<'a> {
                 }
                 Event::End(Tag::Heading(level)) => {
                     if in_heading {
-                        let html = format!("<h{} id=\"h-{}\">{}</h{}>", level, crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()), cur_heading, level);
+                        let html = format!(
+                            "<h{} id=\"h-{}\">{}</h{}>",
+                            level,
+                            crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()),
+                            cur_heading,
+                            level
+                        );
                         new_p.push(Event::Html(CowStr::from(html)));
                         cur_heading = String::new();
                         in_heading = false;
@@ -176,7 +182,13 @@ impl<'a> DocsParser<'a> {
                 }
                 Event::End(Tag::Heading(level)) => {
                     if in_heading {
-                        let html = format!("<h{} id=\"h-{}\">{}</h{}>", level, crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()), cur_heading, level);
+                        let html = format!(
+                            "<h{} id=\"h-{}\">{}</h{}>",
+                            level,
+                            crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()),
+                            cur_heading,
+                            level
+                        );
                         new_p.push(Event::Html(CowStr::from(html)));
                         cur_heading = String::new();
                         in_heading = false;
@@ -208,7 +220,10 @@ mod tests {
     #[test]
     fn heading() {
         let to_parse = "# Lol";
-        let parser = DocsParser::new(to_parse, crate::featherurl::FeatherUrl::from("http://localhost:3000/"));
+        let parser = DocsParser::new(
+            to_parse,
+            crate::featherurl::FeatherUrl::from("http://localhost:3000/"),
+        );
         assert_eq!("<h1 id=\"h-lol\">Lol</h1>", parser.parse());
     }
 }
