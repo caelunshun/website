@@ -65,7 +65,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.downloads as arch}
                         <li>
-                            <a href="/plugins/{name}/{version}/{arch}"  
+                            <a href="/plugins/{name}/{version}/{arch}"
                                 class="mr-2 border-b-2 border-feather-accent">{arch}</a>
                         </li>
                     {/each}
@@ -76,7 +76,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.owners as owner}
                         <li>
-                            <a href="/users/{owner.id}" 
+                            <a href="/users/{owner.id}"
                                 class="mr-2 border-b-2 border-feather-accent">{owner}</a>
                         </li>
                     {/each}
@@ -106,7 +106,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.categories as category}
                         <li>
-                            <a href="/plugins" 
+                            <a href="/plugins"
                                 class="mr-2 border-b-2 border-feather-accent">{category}</a>
                         </li>
                     {/each}
@@ -117,7 +117,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.versions as version}
                         <li>
-                            <a href="/plugins" 
+                            <a href="/plugins"
                                 class="mr-2 border-b-2 border-feather-accent">{version}</a>
                         </li>
                     {/each}

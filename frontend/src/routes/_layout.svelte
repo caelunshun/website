@@ -70,10 +70,10 @@
     >
         <a href="/" class="flex items-center" ><Logo class="h-8 sm:h-12" /><div class="ml-3 text-4xl block"><span>Feather</span></div></a>
         <ul class="md:flex items-center md:space-x-6 space-y-4 md:space-y-0 mt-4 md:mt-0 text-normal sm:text-xl font-bold {isDropdownShown ? "" : "hidden md:block"}">
-            <li><a href="/association" >Association</a></li>
-            <li><a href="/plugins" >Plugins</a></li>
-            <li><a href="/docs" >Docs</a></li>
-            <li><a href="/faq" >FAQ</a></li>
+            <li><a href="/association">Association</a></li>
+            <li><a href="/plugins">Plugins</a></li>
+            <li><a href="/docs">Docs</a></li>
+            <li><a href="/faq">FAQ</a></li>
             <hr class="md:hidden">
             <!-- where should we put the link to the main git repo -->
             <!-- <li><a href="https://github.com/feather-rs/feather"><GithubMark class="h-8 sm:h-12 fill-current text-feather-light hover:text-white" /></a></li> -->
@@ -135,7 +135,6 @@
     </bold>
     <div 
         class="w-16 h-8 flex items-center mx-auto sm:mx-2 my-2 sm:my-0 {$preferences.dark ? "bg-gray-900" : "bg-gray-300"} rounded-full cursor-pointer" 
-         
         role="switch"
         aria-checked={$preferences.dark}
         aria-label="Toggle Dark Mode"

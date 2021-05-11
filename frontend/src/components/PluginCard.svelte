@@ -17,7 +17,6 @@
             <div class="mr-4">
                 <div class="flex items-end">
                     <a href="/plugins/{name}" 
-                        
                         class="text-2xl font-bold hover:text-gray-600">
                         {name}
                     </a>
@@ -31,10 +30,10 @@
             </div>
             <ul class="flex space-x-2 mt-2">
                 {#if homepage}
-                    <li><a href={homepage} class="font-bold border-b-2 border-feather-accent hover:text-gray-600" >Homepage</a></li>
+                    <li><a href={homepage} class="font-bold border-b-2 border-feather-accent hover:text-gray-600">Homepage</a></li>
                 {/if}
                 {#if repository}
-                    <li><a href={homepage} class="font-bold border-b-2 border-feather-accent hover:text-gray-600" >Repository</a></li>
+                    <li><a href={homepage} class="font-bold border-b-2 border-feather-accent hover:text-gray-600">Repository</a></li>
                 {/if}
             </ul>
         </div>
