@@ -1,6 +1,7 @@
 const { tailwindExtractor } = require("tailwindcss/lib/lib/purgeUnusedStyles");
 
 module.exports = {
+  darkMode: "class",
   purge: {
     content: [
       "./src/**/*.html",
@@ -30,18 +31,75 @@ module.exports = {
       colors: {
         feather: {
           light: "#BADEDA",
-          dark: "#005E66",
+          dark: "#57804d",
           accent: "#E29578",
+          a: "#006D77",
+          b: "#83c58e",
+          c: "#EDF6F9",
+          d: "#FFDDD2",
+          e: "#E29578",
         },
       },
+      typography: (theme) => ({
+        dark: {
+          css: {
+            color: theme("colors.gray.300"),
+            a: {
+              color: theme("colors.gray.200"),
+            },
+            h1: {
+              color: theme("colors.gray.50"),
+            },
+            h2: {
+              color: theme("colors.gray.50"),
+            },
+            h3: {
+              color: theme("colors.gray.50"),
+            },
+            h4: {
+              color: theme("colors.gray.50"),
+            },
+            h5: {
+              color: theme("colors.gray.50"),
+            },
+            h6: {
+              color: theme("colors.gray.50"),
+            },
+            strong: {
+              color: theme("colors.gray.50"),
+            },
+            code: {
+              color: theme("colors.gray.50"),
+            },
+            figcaption: {
+              color: theme("colors.gray.50"),
+            },
+            p: {
+              color: theme("colors.gray.50"),
+            },
+            blockquote: {
+              color: theme("colors.gray.50"),
+            },
+          },
+        },
+      }),
     },
     minWidth: {
       "1/2": "50%",
       "70p": "70%",
     },
+    maxHeight: {
+      120: "30rem",
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ["active"],
+      ringWidth: ["active"],
+      boxShadow: ["active"],
+      typography: ["dark"],
+      textColor: ["active"],
+    },
   },
   plugins: [
     require("@tailwindcss/typography")

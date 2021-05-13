@@ -1,13 +1,11 @@
+mod builder;
 mod summary;
-mod summary_parser;
 
+pub use builder::*;
 pub use summary::*;
-pub use summary_parser::*;
 
-use anyhow::Result;
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Parser, Tag};
-use std::{iter, path::Path, str::FromStr};
-use url::Url;
+use std::path::Path;
 
 use syntect::{
     highlighting::{Theme, ThemeSet},
@@ -23,12 +21,17 @@ lazy_static! {
     pub static ref SYNTAXSET: SyntaxSet = {
         let mut builder: SyntaxSetBuilder = SyntaxSet::load_defaults_newlines().into_builder();
         builder
-            .add_from_folder(Path::new("./syntaxes/TOML"), true)
+            .add_from_folder(Path::new("./markdown/TOML"), true)
             .expect("Failed to load TOML Syntax. Is it up-to-date?");
         builder.build()
     };
-    pub static ref THEMESET: ThemeSet = ThemeSet::load_defaults();
-    pub static ref THEME: Theme = THEMESET.themes["base16-ocean.dark"].clone();
+    pub static ref THEMESET: ThemeSet = {
+        let mut ts = ThemeSet::load_defaults();
+        ts.add_from_folder(Path::new("./markdown/Themes"))
+            .expect("Failed to load Themes!");
+        ts
+    };
+    pub static ref THEME: Theme = THEMESET.themes["GitHub Dark"].clone();
 }
 
 pub struct DocsParser<'a> {
@@ -44,12 +47,15 @@ impl<'a> DocsParser<'a> {
         }
     }
 
-    pub fn parse(mut self) -> String {
+    pub fn parse(self) -> String {
         let mut syntax = SYNTAXSET.find_syntax_by_extension("rs").unwrap();
 
         let mut new_p = Vec::new();
         let mut to_highlight = String::new();
         let mut in_code_block = false;
+
+        let mut cur_heading = String::new();
+        let mut in_heading = false;
 
         let mut output = String::new();
         for mut event in self.events {
@@ -89,9 +95,28 @@ impl<'a> DocsParser<'a> {
                         in_code_block = false;
                     }
                 }
+                Event::Start(Tag::Heading(_)) => {
+                    in_heading = true;
+                }
+                Event::End(Tag::Heading(level)) => {
+                    if in_heading {
+                        let html = format!(
+                            "<h{} id=\"h-{}\">{}</h{}>",
+                            level,
+                            crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()),
+                            cur_heading,
+                            level
+                        );
+                        new_p.push(Event::Html(CowStr::from(html)));
+                        cur_heading = String::new();
+                        in_heading = false;
+                    }
+                }
                 Event::Text(t) => {
                     if in_code_block {
                         to_highlight.push_str(&t);
+                    } else if in_heading {
+                        cur_heading.push_str(&t);
                     } else {
                         new_p.push(event);
                     }
@@ -103,5 +128,102 @@ impl<'a> DocsParser<'a> {
         }
         html::push_html(&mut output, new_p.into_iter());
         output
+    }
+
+    pub fn static_parse_links(base: FeatherUrl, src: String) -> (String, Vec<String>) {
+        let events = Parser::new(src.as_str());
+        let mut links: Vec<String> = Vec::new();
+
+        let mut syntax = SYNTAXSET.find_syntax_by_extension("rs").unwrap();
+
+        let mut new_p = Vec::new();
+        let mut to_highlight = String::new();
+        let mut in_code_block = false;
+
+        let mut cur_heading = String::new();
+        let mut in_heading = false;
+
+        let mut output = String::new();
+        for mut event in events {
+            match &mut event {
+                Event::Start(Tag::Link(_, href, _)) => {
+                    if !href.starts_with("http") {
+                        let mut abc = base.clone();
+                        abc.join(href.trim_end_matches(".md"));
+                        let finished_url = abc.to_string_basic();
+                        *href = CowStr::from(finished_url.clone());
+                        if !links.contains(&finished_url) {
+                            links.push(finished_url.clone());
+                        }
+                    }
+                    new_p.push(event);
+                }
+                Event::Start(Tag::CodeBlock(cb)) => {
+                    if let CodeBlockKind::Fenced(token) = cb {
+                        in_code_block = true;
+                        if let Some(syn) = SYNTAXSET.find_syntax_by_token(token) {
+                            syntax = syn;
+                        } else {
+                            syntax = SYNTAXSET.find_syntax_by_extension("rs").unwrap();
+                        }
+                    }
+                }
+                Event::End(Tag::CodeBlock(_)) => {
+                    if in_code_block {
+                        let html =
+                            highlighted_html_for_string(&to_highlight, &SYNTAXSET, &syntax, &THEME);
+                        new_p.push(Event::Html(CowStr::from(html)));
+                        to_highlight = String::new();
+                        in_code_block = false;
+                    }
+                }
+                Event::Start(Tag::Heading(_)) => {
+                    in_heading = true;
+                }
+                Event::End(Tag::Heading(level)) => {
+                    if in_heading {
+                        let html = format!(
+                            "<h{} id=\"h-{}\">{}</h{}>",
+                            level,
+                            crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()),
+                            cur_heading,
+                            level
+                        );
+                        new_p.push(Event::Html(CowStr::from(html)));
+                        cur_heading = String::new();
+                        in_heading = false;
+                    }
+                }
+                Event::Text(t) => {
+                    if in_code_block {
+                        to_highlight.push_str(&t);
+                    } else if in_heading {
+                        cur_heading.push_str(&t);
+                    } else {
+                        new_p.push(event);
+                    }
+                }
+                e => {
+                    new_p.push(e.clone());
+                }
+            }
+        }
+        html::push_html(&mut output, new_p.into_iter());
+        (output, links)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::docs::DocsParser;
+
+    #[test]
+    fn heading() {
+        let to_parse = "# Lol";
+        let parser = DocsParser::new(
+            to_parse,
+            crate::featherurl::FeatherUrl::from("http://localhost:3000/"),
+        );
+        assert_eq!("<h1 id=\"h-lol\">Lol</h1>", parser.parse());
     }
 }

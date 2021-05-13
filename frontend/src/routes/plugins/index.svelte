@@ -63,9 +63,9 @@
 
 <div class="container mx-auto flex flex-1 p-4 flex-col-reverse lg:flex-row">
     <div class="flex flex-1 flex-col my-4">
-        <form class="flex justify-between items-center border border-feather-light w-full rounded text-xl px-4 py-2">
-            <input class="flex-1" type="text" placeholder="Search..." bind:value={search} />
-            <SearchIcon class="ml-4 h-6 w-6 text-feather-dark" />
+        <form class="flex justify-between items-center border border-feather-light focus-within:border-green-400 dark:focus-within:border-white w-full rounded text-xl px-4 py-2">
+            <input class="flex-1 bg-transparent outline-none" role="search" type="text" placeholder="Search..." bind:value={search} />
+            <SearchIcon class="ml-4 h-6 w-6 text-feather-dark cursor-pointer" />
         </form>
         <ul class="flex flex-col flex-1 space-y-4 mt-8">
             {#each plugins as plugin}
@@ -84,7 +84,7 @@
             Show categories
         {/if}
         </button>
-        <ul class="flex flex-wrap lg:flex-nowrap lg:flex-col {!show_categories ? "hidden" : "block"} lg:block" >
+        <ul class="flex flex-wrap lg:flex-nowrap lg:flex-col {!show_categories ? "hidden" : "block"} lg:block">
             {#each categories as category}
                 <li class="mr-4 my-2">
                     <label class="flex items-center">

@@ -1,23 +1,14 @@
-use pulldown_cmark::Parser;
-use reqwest::Client;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, str::FromStr, sync::Arc};
-use tokio::sync::RwLock;
-use warp::{http, path::Tail, Filter, Rejection, Reply};
+use std::{collections::HashMap, env};
+use warp::{path::Tail, Filter, Rejection, Reply};
 
-use crate::{
-    docs::{DocsParser, Summary, SummaryParser},
-    featherurl::FeatherUrl,
-    with_state,
-};
+use crate::{docs::Documents, docs::Summary, with_state};
 
 #[derive(Default, Serialize)]
 pub struct Docs {
     summary: Option<String>,
     pages: HashMap<String, String>,
 }
-
-type Cache = Arc<RwLock<Docs>>;
 
 // pub fn cache(
 //     cache: Option<impl Reply>,
@@ -36,54 +27,90 @@ pub struct SummaryResponse {
     summary: Summary,
 }
 
-pub fn routes() -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
-    let cache: Cache = Default::default();
-    warp::path("docs").and(filter_summary(cache.clone()).or(filter_page(cache)))
+pub fn routes(
+    documents: Documents,
+) -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
+    warp::path("docs").and(
+        filter_summary(documents.clone())
+            .or(filter_webhook(documents.clone()).or(filter_page(documents))),
+    )
 }
 
 pub fn filter_summary(
-    cache: Cache,
+    documents: Documents,
 ) -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
     warp::get()
         .and(warp::path("summary"))
         .and(warp::path::end())
-        .and(with_state(cache))
+        .and(with_state(documents))
         .and_then(handle_summary)
 }
 
-pub async fn handle_summary(cache: Cache) -> Result<impl Reply, Rejection> {
-    //     if let Some(summary) = cache.read().await.summary {
-    //         Ok(warp::reply::json(&summary)
-    //     } else {
-    //         let summary = ();
-    //         cache.write().await.summary = Some(summary);
-    //         summary
-    //     };
+pub async fn handle_summary(documents: Documents) -> Result<impl Reply, Rejection> {
+    let map = documents.lock().await;
 
-    let response =
-        reqwest::get("https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/SUMMARY.md")
-            .await
-            .map_err(|_| warp::reject())?;
+    let mut result: Result<String, Rejection> = Err(warp::reject());
 
-    let summary = response.text().await.map_err(|_| warp::reject())?;
+    if let Some(stuff) = map.get("summary") {
+        result = Ok(stuff.clone())
+    }
 
-    let html = DocsParser::new(&summary, FeatherUrl::from("http://localhost:3000/docs/")).parse();
+    drop(map);
 
-    //let summary = SummaryParser::new(&summary)
-    //    .parse()
-    //    .map_err(|_| warp::reject())?;
+    result
+}
 
-    Ok(html)
+pub fn filter_webhook(
+    documents: Documents,
+) -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
+    warp::post()
+        .and(warp::path("webhook"))
+        .and(warp::path(
+            env::var("DOCS_WEBHOOK_SECRET").unwrap_or("foobar".to_owned()),
+        ))
+        .and(warp::path::end())
+        .and(warp::header::exact("Content-Type", "application/json"))
+        .and(warp::header::<String>("X-GitHub-Event"))
+        .and(warp::body::bytes())
+        .and(with_state(documents))
+        .and_then(handle_webhook)
+}
+
+pub async fn handle_webhook(
+    event: String,
+    body: bytes::Bytes,
+    documents: Documents,
+) -> Result<impl Reply, Rejection> {
+    match event.as_str() {
+        "push" => {
+            let push_json: crate::types::PushAction = parse_json(&body).unwrap();
+            if push_json.r#ref == "refs/heads/Docs" {
+                tokio::spawn(crate::docs::create_docs(documents));
+            }
+        }
+        "ping" => {
+            log::info!("Recieved a Ping from GitHub Webhook! => Set up correctly");
+        }
+        _ => {}
+    }
+    Ok(warp::reply())
+}
+
+fn parse_json<T>(bytes: &[u8]) -> Result<T, serde_json::Error>
+where
+    T: serde::de::DeserializeOwned,
+{
+    serde_json::from_slice(&bytes).map_err(|e| e)
 }
 
 pub fn filter_page(
-    cache: Cache,
+    documents: Documents,
 ) -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
     warp::get()
         .and(warp::path("page"))
         .and(warp::path::tail())
-        .and(warp::query::query::<DocsPageQuery>())
-        .and(with_state(cache))
+        /*.and(warp::query::query::<DocsPageQuery>())*/
+        .and(with_state(documents))
         .and_then(handle_page)
 }
 
@@ -97,34 +124,16 @@ pub struct DocsPageQuery {
     base_url: String,
 }
 
-pub async fn handle_page(
-    tail: Tail,
-    query: DocsPageQuery,
-    cache: Cache,
-) -> Result<impl Reply, Rejection> {
-    let response = reqwest::get(&format!(
-        "https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/{}.md",
-        tail.as_str()
-    ))
-    .await
-    .map_err(|_| warp::reject())?;
+pub async fn handle_page(tail: Tail, documents: Documents) -> Result<impl Reply, Rejection> {
+    let map = documents.lock().await;
 
-    if response.status() != http::StatusCode::OK {
-        return Err(warp::reject());
+    let mut result: Result<String, Rejection> = Err(warp::reject());
+
+    if let Some(stuff) = map.get(&tail.as_str().to_lowercase()) {
+        result = Ok(stuff.clone())
     }
 
-    let mut page: String = response.text().await.map_err(|_| warp::reject())?;
+    drop(map);
 
-    if tail.as_str() == "quill/ecs" {
-        page = page.replace("# ECS", "# ECS\n> See also [ECS](../ecs.md)\n");
-    }
-
-    let parser = Parser::new(&page);
-    let mut html = DocsParser::new(
-        &page,
-        FeatherUrl::from(&format!("http://localhost:3000/docs/{}", tail.as_str())[..]),
-    )
-    .parse();
-
-    Ok(html)
+    result
 }

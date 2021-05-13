@@ -85,18 +85,40 @@ html, body {
     }
 }
 
+.dlinstr {
+    @apply text-gray-500 text-xl md:absolute md:w-full md:top-14 md:left-2 px-2 md:px-0 z-10;
+}
+.dlinstr * {
+    @apply my-2 !important;
+}
+.dlinstr h4 {
+    @apply text-2xl;
+}
+.dlinstr h5 {
+    @apply font-semibold;
+}
+
 ::-webkit-scrollbar {
-    width: 10px;
+    @apply w-2.5;
 }
 
 ::-webkit-scrollbar-track {
-    background: #dfe6e9; 
+    @apply bg-gray-900;
+}
+
+.markdown pre::-webkit-scrollbar {
+    @apply h-2.5;
+}
+
+.markdown pre::-webkit-scrollbar-track {
+    background-color: #0d1117;
+    @apply rounded-md md:rounded-lg xl:rounded-xl;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #95a5a6;
+    @apply bg-gray-400 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #7f8c8d; 
+    @apply bg-gray-500; 
 }

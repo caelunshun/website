@@ -53,8 +53,9 @@
             </div>
             <div class="flex flex-col mt-8">
                 <span class="text-lg font-bold">Install</span>
-                <div
-                    class="flex justify-betwteen border-2 border-feather-light px-2 py-1 rounded font-mono bg-white hover:bg-feather-light items-center">
+                <div 
+                    class="quillcmd border-feather-light bg-transparent dark:hover:text-gray-900 hover:bg-feather-light focus-within:bg-green-500 focus-within:text-black"
+                    on:click={() => navigator.clipboard.writeText("quill install " + name)}>
                     <code class="flex flex-1 text-sm">quill install {name}</code>
                     <CopyIcon class="h-4 w-4" />
                 </div>
@@ -64,7 +65,7 @@
                 <ul class="flex flex-wrap">
                     {#each plugin.downloads as arch}
                         <li>
-                            <a href="/plugins/{name}/{version}/{arch}" 
+                            <a href="/plugins/{name}/{version}/{arch}"
                                 class="mr-2 border-b-2 border-feather-accent">{arch}</a>
                         </li>
                     {/each}
@@ -133,3 +134,9 @@
         </section>
     </div>
 </div>
+
+<style>
+    .quillcmd {
+        @apply flex justify-between border-2 px-2 py-1 rounded font-mono items-center cursor-pointer;
+    }
+</style>

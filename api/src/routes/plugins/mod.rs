@@ -1,7 +1,6 @@
 use chrono::{DateTime, Utc};
 use semver::Version;
 use serde::{Deserialize, Serialize};
-use sqlx::query;
 use warp::{Filter, Rejection, Reply};
 
 use crate::{

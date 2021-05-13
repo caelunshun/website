@@ -11,7 +11,7 @@
             "$src/*": ["src/*"]
         }
     },
-    "include": ["src/**/*", "src/node_modules", "types/moduletypes.d.ts", "types/SvelteFeatehrIcons.d.ts"],
+    "include": ["src/**/*", "src/node_modules", "types/main.d.ts", "types/SvelteFeatherIcons.d.ts"],
     "exclude": ["node_modules/*", "__sapper__/*", "static/*"]
     
 }

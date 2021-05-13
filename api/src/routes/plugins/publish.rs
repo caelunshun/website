@@ -1,6 +1,4 @@
-use futures::{Stream, StreamExt};
-use sqlx::query;
-use tokio_util::io::StreamReader;
+use futures::Stream;
 use warp::{Buf, Filter, Rejection, Reply};
 
 use crate::{authenticated, with_state, DB};

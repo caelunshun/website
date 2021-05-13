@@ -3,6 +3,7 @@ pub mod docs;
 pub mod featherurl;
 pub mod github;
 pub mod rejections;
+pub mod types;
 
 mod routes;
 pub use routes::routes;
