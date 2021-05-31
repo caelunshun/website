@@ -1,6 +1,6 @@
 <script>
-    import Card from "$components/Card.svelte"
-    import PluginCard from "$components/PluginCard.svelte"
+    import Card from "$lib/components/Card.svelte"
+    import PluginCard from "$lib/components/PluginCard.svelte"
 
     let plugins = [
         {
