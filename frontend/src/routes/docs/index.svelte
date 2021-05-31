@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import { goto } from "@sapper/app";
+    import { goto } from "$app/navigation";
 
     onMount(async () => {
         await goto("/docs/introduction");

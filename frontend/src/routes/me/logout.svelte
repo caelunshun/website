@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { token } from "$stores/local";
+    import { goto } from "$app/navigation";
+    import { token } from "$lib/stores/local";
 
     onMount(async () => {
         $token = {};

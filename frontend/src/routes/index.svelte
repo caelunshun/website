@@ -1,10 +1,9 @@
 <script lang="ts">
-import FeatherStartTerminalWrapper from "$components/FeatherStartTerminalWrapper.svelte";
-import GithubMark from "$assets/github-mark.svg";
-import {DownloadIcon} from "svelte-feather-icons";
+import FeatherStartTerminalWrapper from "$lib/components/FeatherStartTerminalWrapper.svelte";
+import GithubMark from "$lib/assets/github-mark.svg?component";
+import { DownloadIcon } from "svelte-feather-icons";
 
-import {preferences} from "$stores/local";
-import {goto} from "@sapper/app";
+import {preferences} from "$lib/stores/local";
 </script>
 
 
@@ -15,16 +14,15 @@ import {goto} from "@sapper/app";
             <a href="https://www.rust-lang.org/">Rust</a>.</p>
     </div>
     <button 
-        class="bg-green-600 dark:bg-green-700 text-white font-bold px-8 py-6 text-2xl flex rounded m-4 sm:m-8" 
-        on:click={async () => await goto("download")}
-    >
-        Download <DownloadIcon class="w-8 h-8 ml-4 my-auto" />
+        class="bg-green-600 dark:bg-green-700 text-white font-bold px-8 py-6 text-2xl flex rounded m-4 sm:m-8">
+        Download
+        <DownloadIcon class="w-8 h-8 ml-4 my-auto" />
     </button>
     
 </section>
-<!--section class="container mx-auto items-center justify-center py-4 text-white">
+<section class="container mx-auto items-center justify-center py-4 text-white">
     <FeatherStartTerminalWrapper />
-</section-->
+</section>
 <section class="typography">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8">Why Feather?</h1>
@@ -56,7 +54,9 @@ import {goto} from "@sapper/app";
                 </p>
             </div>
             <div class="m-4 sm:m-8">
-                <h2 class="text-3xl flex">Open Source <GithubMark class="mx-2 {$preferences.dark ? "text-gray-50" : "text-black"} fill-current h-8" /></h2>
+                <h2 class="text-3xl flex">Open Source 
+                    <GithubMark class="mx-2 {$preferences.dark ? "text-gray-50" : "text-black"} fill-current h-8" />
+                </h2>
                 <p class="mt-4 text-lg">
                     <!--Please add lots of irrelevant text here so that it looks good.-->
                     Feather is Open Source and the Source code can be browsed on 

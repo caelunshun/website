@@ -1,5 +1,6 @@
 <script lang="ts">
     import {ChevronLeftIcon} from "svelte-feather-icons";
+    import { browser } from "$app/env";
 
     export let name: string;
     export let OSIcon: any;
@@ -11,7 +12,7 @@
 
     let stuff: HTMLDivElement;
 
-    if(process.browser) {
+    if(browser) {
         setTimeout(() => setSpacer(stuff ? stuff.clientHeight : 0), 50);
         setInterval(() => setSpacer(stuff ? stuff.clientHeight : 0), 1000);
     }

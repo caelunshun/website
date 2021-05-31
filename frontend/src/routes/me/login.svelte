@@ -5,9 +5,10 @@
 </script>
 
 <script lang="ts">
-    import { goto } from "@sapper/app";
+    import { API_BASE_URL } from "$lib/env"; 
+    import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-    import { token } from "$stores/local";
+    import { token } from "$lib/stores/local";
 
     export let code: string;
 
@@ -16,7 +17,7 @@
             await goto("/me");
         } else if (code) {
             const response = await fetch(
-                `process.env.FEATHER_API/me/authorization?code=${code}`
+                `${API_BASE_URL}/me/authorization?code=${code}`
             );
             if (response.status === 200) {
                 const { secret } = await response.json();

@@ -1,16 +1,17 @@
 <script lang="ts">
-    import AppleIcon from '$assets/os/apple.svg';
-    import WindowsIcon from '$assets/os/windows.svg';
-    import LinuxIcon from '$assets/os/linux.svg';
-    import DockerIcon from '$assets/os/docker.svg';
+    import AppleIcon from '$lib/assets/os/apple.svg?component';
+    import WindowsIcon from '$lib/assets/os/windows.svg?component';
+    import LinuxIcon from '$lib/assets/os/linux.svg?component';
+    import DockerIcon from '$lib/assets/os/docker.svg?component';
     import {PackageIcon} from 'svelte-feather-icons';
+    import {browser} from "$app/env";
 
-    import OSTab from "$components/download/SystemTab.svelte";
+    import OSTab from "$lib/components/download/SystemTab.svelte";
 
     let isMobile = false;
 
     let selectedTabIndex = -1;
-    if(process.browser) {
+    if(browser) {
         if(navigator.userAgent.indexOf("Win") != -1) selectedTabIndex = 2;
         else if(navigator.userAgent.indexOf("Android") != -1) selectedTabIndex = -1;
         else if(navigator.userAgent.indexOf("like Mac") != -1) selectedTabIndex = -1;

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {preferences} from "$stores/local";
+    import {preferences} from "$lib/stores/local";
 </script>
 
 <svelte:head>

@@ -1,5 +1,5 @@
 <script>
-    import Card from "$components/Card.svelte"
+    import Card from "$lib/components/Card.svelte"
 
     export let name
     export let description

@@ -1,5 +1,5 @@
 <script context="module">
-    import PluginVersion from "$components/PluginVersion.svelte"
+    import PluginVersion from "$lib/components/PluginVersion.svelte"
     export async function preload({ params: { name } }) {
 		return { name };
 	}
