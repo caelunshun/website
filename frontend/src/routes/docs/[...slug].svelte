@@ -1,12 +1,13 @@
 <script context="module" lang="ts">
-    import * as docscache from '$stores/docscache';
+    import * as docscache from '$lib/stores/docscache';
+    import { API_BASE_URL } from "$lib/env"; 
 
-    export async function preload({ params: { slug } }: {params: {slug: string[]}}) {
+    export async function load({ params: { slug } }: {params: {slug: string[]}}) {
         let slugpath = slug.join("/");
         if(docscache.has(slugpath)) {
             return { html: docscache.get(slugpath) }
         } else {
-            const response = await this.fetch(`process.env.FEATHER_API/docs/page/${encodeURI(slugpath)}?base_url=${encodeURIComponent("/")}`)
+            const response = await this.fetch(`${API_BASE_URL}/docs/page/${encodeURI(slugpath)}?base_url=${encodeURIComponent("/")}`)
             let markdown_html = await response.text();
             markdown_html = markdown_html.replaceAll("https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/", "/docs/");
             docscache.set(slugpath, markdown_html);

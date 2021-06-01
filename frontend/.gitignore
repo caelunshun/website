@@ -1,10 +1,5 @@
-._*
-.vscode
 .DS_Store
-/.history/
-/node_modules/
-__sapper__/
-/src/node_modules/@sapper/
-/static/global.css
-/static/global.css.map
-LHR.html
+node_modules
+/.svelte-kit
+/build
+/functions

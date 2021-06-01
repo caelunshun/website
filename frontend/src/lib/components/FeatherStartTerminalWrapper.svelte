@@ -1,6 +1,6 @@
 <script lang="ts">
 import Terminal from "./Terminal.svelte";
-import type {Output} from '../types';
+import type {Output} from "../types";
 function rn() {
     let date = new Date();
     return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()},${date.getMilliseconds()} `

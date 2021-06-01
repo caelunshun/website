@@ -1,6 +1,7 @@
 <script context="module">
-    export async function preload() {
-        const response = await this.fetch('process.env.FEATHER_API/association/budget')
+    import { API_BASE_URL } from "$lib/env";
+    export async function load() {
+        const response = await this.fetch(`${API_BASE_URL}/association/budget`)
         let markdown_html = await response.text();
         return { html: markdown_html };
     }

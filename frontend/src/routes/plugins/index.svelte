@@ -1,6 +1,6 @@
 <script lang="ts">
     import { SearchIcon } from "svelte-feather-icons"
-    import PluginCard from "$components/PluginCard.svelte"
+    import PluginCard from "$lib/components/PluginCard.svelte"
 
     let search = ""
     let selected_categories = []

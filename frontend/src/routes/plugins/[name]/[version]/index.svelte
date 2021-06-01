@@ -1,6 +1,6 @@
 <script context="module">
-    import PluginVersion from "$components/PluginVersion.svelte"
-	export async function preload({ params }) {
+    import PluginVersion from "$lib/components/PluginVersion.svelte"
+	export async function load({ params }) {
 		const { name, version } = params;
 
 		return { name, version };

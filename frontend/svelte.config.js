@@ -1,19 +1,21 @@
-const sveltePreprocess = require("svelte-preprocess");
-const postcss = require("./postcss.config");
+import preprocess from "svelte-preprocess";
+import svelteSVG from "vite-plugin-svelte-svg";
 
-const createPreprocessors = ({ sourceMap }) => [
-	sveltePreprocess({
-		sourceMap,
-		defaults: {
-			style: "postcss",
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	// Consult https://github.com/sveltejs/svelte-preprocess
+	// for more information about preprocessors
+	preprocess: preprocess(),
+
+	kit: {
+		// hydrate the <div id="svelte"> element in src/app.html
+		target: '#svelte',
+		vite: {
+			plugins: [
+				svelteSVG(),
+			]
 		},
-		postcss,
-	}),
-	// You could have more preprocessors, like mdsvex
-];
-
-module.exports = {
-	createPreprocessors,
-	// Options for `svelte-check` and the VS Code extension
-	preprocess: createPreprocessors({ sourceMap: true }),
+	},
 };
+
+export default config;

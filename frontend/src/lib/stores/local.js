@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import { browser } from "$app/env";
 
 const createLocalStore = (key, startValue) => {
   const {
@@ -28,7 +29,7 @@ export const token = createLocalStore("token", {});
 
 export const preferences = (() => {
   let darkM = false;
-  if (process.browser) {
+  if (browser) {
     darkM = window.matchMedia("(prefers-color-scheme: dark)").matches;
   }
   const a = createLocalStore("pref", { dark: darkM });

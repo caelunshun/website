@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { token, preferences } from "$stores/local";
+    import { token } from "$lib/stores/local";
 	import Logo from "$assets/chicken2.svg";
 	import GithubMark from "$assets/github-mark.svg"
     import { LockIcon, SettingsIcon, MenuIcon, ChevronDownIcon } from "svelte-feather-icons"
     import { onMount } from "svelte";
     import {scale} from 'svelte/transition';
+    
 
     let isDropdownShown: boolean = false;
     let isAccountDropdownShown: boolean = false;

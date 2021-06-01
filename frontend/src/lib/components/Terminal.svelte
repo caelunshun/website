@@ -1,6 +1,7 @@
 <script lang="ts">
-    import {onMount} from 'svelte';
-    import type {Output, TerminalOutput} from '../types';
+    import {onMount} from "svelte";
+    import type {Output, TerminalOutput} from "$lib/types";
+    import {browser} from "$app/env";
 
     export let outputs: Output[] = [];
     let lines: TerminalOutput[] = [];
@@ -34,7 +35,7 @@
     }
 
     onMount(() => {
-        if(process.browser) {
+        if(browser) {
             createTerm();
             interval();
         }

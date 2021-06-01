@@ -1,13 +1,14 @@
 <script context="module">
     import timeago from "timeago-simple";
-    import Card from "$components/Card.svelte";
+    import Card from "$lib/components/Card.svelte";
 </script>
 
 <script lang="ts">
-    import { goto } from "@sapper/app";
+    import { API_BASE_URL } from "$lib/env"; 
+    import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-    import { token } from "$stores/local";
-    import Loading from "$components/Loading.svelte";
+    import { token } from "$lib/stores/local";
+    import Loading from "$lib/components/Loading.svelte";
 
     function timeout(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -20,7 +21,7 @@
     });
 
     const me = async () => {
-        const response = await fetch("process.env.FEATHER_API/me/", {
+        const response = await fetch(`${API_BASE_URL}}/me/`, {
             headers: {
                 "Authorization": $token.secret,
             }
