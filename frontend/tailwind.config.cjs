@@ -38,6 +38,44 @@ module.exports = {
         },
       },
       typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
+          }
+        },
+        sm: {
+          css: {
+            code: {
+              fontWeight: '600',
+            }
+          }
+        },
+        lg: {
+          css: {
+            code: {
+              fontWeight: '600',
+            }
+          }
+        },
+        xl: {
+          css: {
+            code: {
+              fontWeight: '600',
+            }
+          }
+        },
+        '2xl': {
+          css: {
+            code: {
+              fontWeight: '600',
+            }
+          }
+        },
         dark: {
           css: {
             color: theme("colors.gray.300"),

@@ -38,13 +38,6 @@ html, body {
     @apply text-lg;
 }
 
-.markdown code:before {
-    content: "" !important;
-}
-.markdown code:after {
-    content: "" !important;
-}
-
 .summary > h1:first-child {
     @apply hidden;
 }

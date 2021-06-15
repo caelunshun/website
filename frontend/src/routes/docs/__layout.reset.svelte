@@ -1,48 +1,49 @@
-<script context="module">
+<script context="module" lang="ts">
     import { API_BASE_URL } from "$lib/env"; 
     import * as docscache from '$lib/stores/docscache';
-
-    export async function load() {
+    import type {DocResponse} from "$lib/types";
+	
+    /** @type {import('@sveltejs/kit').Load} */
+    export async function load({fetch}) {
         if(docscache.has("$summary")) {
-            return { html: docscache.get("$summary") }
+            return { props: {summaryHtml: docscache.get("$summary")} }
         } else {
-            const response = await this.fetch(`${API_BASE_URL}/docs/summary`)
-            let markdown_html = await response.text();
-            markdown_html = markdown_html.replaceAll("https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/", "/docs/");
+            const response_fetch = await fetch(`${API_BASE_URL}/docs/summary`)
+            let response_str = await response_fetch.text();
+            let response: DocResponse = JSON.parse(response_str);
+            let markdown_html = response.html;
+            markdown_html = markdown_html.replace(/https\:\/\/raw\.githubusercontent\.com\/Defman\/feather\/Docs\/docs\/src\//g, "/docs/");
             docscache.set("$summary", markdown_html);
-            return { html: markdown_html };
+            return { props: {summaryHtml: markdown_html} };
         }
     }
 </script>
 
 <script lang="ts">
-    import {MenuIcon, XIcon} from 'svelte-feather-icons';
+    import {MenuIcon, XIcon, ArrowLeftIcon} from 'svelte-feather-icons';
+    import {docheadings} from "$lib/stores/local";
     import {onMount} from 'svelte';
-    export let html: string;
+    export let summaryHtml: string;
     let isAsideShown: boolean = false;
 
     let summaryElem: HTMLElement;
     let docElem: HTMLElement;
 
-    let headings: {name: string, elem: HTMLElement}[] = [];
+    let topics = [];
 
     const docanchorclicklistener = () => {
         if(isAsideShown) isAsideShown = false;
     }
 
     onMount(() => {
-        for(let elem of summaryElem.querySelectorAll('a[href^="/docs/"]')) {
-            (elem as HTMLAnchorElement).addEventListener('click', docanchorclicklistener, false);
-        }
-
-        for(let elem of docElem.querySelectorAll('*[id^="h-"]')) {
-            headings = [...headings, { name: (elem as HTMLElement).innerText, elem: (elem as HTMLElement) }];
-        }
+        summaryElem.querySelectorAll('a[href^="/docs/"]').forEach(elem =>
+            (elem as HTMLAnchorElement).addEventListener('click', docanchorclicklistener, false)
+        );
 
         return () => {
-            for(let elem of summaryElem.querySelectorAll('a[href^="/docs/"]')) {
-                (elem as HTMLAnchorElement).removeEventListener('click', docanchorclicklistener, false);
-            }   
+            summaryElem.querySelectorAll('a[href^="/docs/"]').forEach(elem =>
+                (elem as HTMLAnchorElement).removeEventListener('click', docanchorclicklistener, false)
+            )   
         }
 
     });
@@ -51,13 +52,19 @@
 
 
 <div class="flex flex-1">
-    <aside class="summaryaside md:translate-x-0 {isAsideShown ? "translate-x-0" : "-translate-x-full"} bg-green-600 dark:bg-green-700 text-white">
-        <nav class="summary" bind:this={summaryElem}>
-            {@html html}
-        </nav>
-        <div class="md:hidden absolute top-8 right-8" on:click={() => isAsideShown = false}>
-            <XIcon class="w-12 h-12 p-1 border border-gray-300 rounded-lg" />
+    <aside class="summaryaside transform md:translate-x-0 {isAsideShown ? "translate-x-0" : "-translate-x-full"} bg-green-600 dark:bg-green-700 text-white">
+        <div class="flex justify-between items-center my-3">
+            <a href="/" class="flex items-center">
+                <ArrowLeftIcon class="mr-2 h-8 w-8" />
+                <h4 class="text-xl">Go back</h4>
+            </a>
+            <button class="md:hidden" on:click={() => isAsideShown = false}>
+                <XIcon class="w-10 h-10 p-1 border border-gray-300 rounded-lg" />
+            </button>
         </div>
+        <nav class="summary" bind:this={summaryElem}>
+            {@html summaryHtml}
+        </nav>
     </aside>
     <article class="flex flex-1 flex-col px-8 text-lg overflow-x-scroll md:overflow-x-visible">
         <div class="block md:hidden z-30 mt-4" on:click={() => isAsideShown = true}>
@@ -70,8 +77,8 @@
     <aside class="hidden md:block border-l border-black dark:border-white pl-4 py-4 relative overflow-y-hidden w-1/5">
         <h3 class="text-2xl fixed">Topics</h3>
         <ul class="block mt-8 fixed overflow-y-auto max-h-120 pr-14">
-            {#each headings as heading, idx (idx)}
-                <li class="block text-lg cursor-pointer px-2 my-1 border-l border-blue-500 transition-colors hover:bg-blue-500 duration-300 hover:text-black" on:click={() => {heading.elem.scrollIntoView({behavior: "smooth", block: "center"});}}>{heading.name}</li>
+            {#each $docheadings as heading, idx (idx)}
+                <li class="block text-lg cursor-pointer px-2 my-1 border-l border-blue-500 transition-colors hover:bg-blue-500 duration-300 hover:text-black"><a href={"#" + heading.hash}>{heading.name}</a></li>
             {/each}
         </ul>
     </aside>
@@ -79,6 +86,6 @@
 
 <style>
     .summaryaside {
-        @apply flex-grow md:flex-grow-0 z-40 flex transition-transform transform md:flex-shrink px-12 pb-8 md:static absolute;
+        @apply flex-grow flex-col md:flex-grow-0 z-40 flex transition-transform md:flex-shrink px-12 pb-8 md:static absolute w-screen md:w-auto;
     }
 </style>

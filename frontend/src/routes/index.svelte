@@ -13,11 +13,11 @@ import {preferences} from "$lib/stores/local";
         <p class="text-2xl typography">A highly concurrent, performant, and extensible Minecraft server, powered by 
             <a href="https://www.rust-lang.org/">Rust</a>.</p>
     </div>
-    <button 
-        class="bg-green-600 dark:bg-green-700 text-white font-bold px-8 py-6 text-2xl flex rounded m-4 sm:m-8">
+    <a 
+        class="bg-green-600 dark:bg-green-700 text-white font-bold px-8 py-6 text-2xl flex rounded m-4 sm:m-8" href="download">
         Download
         <DownloadIcon class="w-8 h-8 ml-4 my-auto" />
-    </button>
+    </a>
     
 </section>
 <section class="container mx-auto items-center justify-center py-4 text-white">

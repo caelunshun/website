@@ -24,9 +24,9 @@
 			}
 		};
 		document.addEventListener('click', clicklistener, false);
-		for (let anchorelem of document.querySelectorAll('header a[href^="/"]')) {
-			(anchorelem as HTMLAnchorElement).addEventListener('click', anchorclicklistener, false);
-		}
+		document.querySelectorAll('header a[href^="/"]').forEach(anchorelem =>
+			(anchorelem as HTMLAnchorElement).addEventListener('click', anchorclicklistener, false)
+		);
 	});
 
 	function toggleDarkMode() {

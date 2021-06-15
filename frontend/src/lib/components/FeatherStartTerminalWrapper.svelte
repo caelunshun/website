@@ -22,7 +22,7 @@ let outputs: Output[] = [
     },
     {
         timeout: 0,
-        message: () => "Loading configuration",
+        message: () => (rn() + "INFO  [feather_server] Loaded config"),
         newline: true
     },
     {

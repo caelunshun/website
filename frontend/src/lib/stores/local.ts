@@ -1,13 +1,18 @@
-import { writable } from "svelte/store";
+import { writable, Writable } from "svelte/store";
 import { browser } from "$app/env";
 
-const createLocalStore = (key, startValue) => {
+import type {Topic} from "$lib/types";
+
+interface LocalStore<T> extends Writable<T> {
+  useLocalStorage: () => void;
+}
+
+const createLocalStore = <T>(key: string, startValue: T): LocalStore<T>  => {
   const {
     subscribe,
     set,
     update,
   } = writable(startValue);
-
   return {
     subscribe,
     set,
@@ -25,7 +30,7 @@ const createLocalStore = (key, startValue) => {
   };
 };
 
-export const token = createLocalStore("token", {});
+export const token = createLocalStore("token", {secret: undefined});
 
 export const preferences = (() => {
   let darkM = false;
@@ -36,3 +41,5 @@ export const preferences = (() => {
   // a.useLocalStorage();
   return a;
 })();
+
+export const docheadings = createLocalStore<Topic[]>("docheadings", []);

@@ -1,7 +1,7 @@
 <script context="module">
     import { API_BASE_URL } from "$lib/env";
     export async function load() {
-        const response = await this.fetch(`${API_BASE_URL}/association/budget`)
+        const response = await fetch(`${API_BASE_URL}/association/budget`)
         let markdown_html = await response.text();
         return { html: markdown_html };
     }

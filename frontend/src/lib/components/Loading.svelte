@@ -1,5 +1,5 @@
 <script>
-    import Logo from "$assets/chicken2.svg"
+    import Logo from "$lib/assets/chicken2.svg?component"
 </script>
 
 <div class="flex flex-1 justify-center items-center">

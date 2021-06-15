@@ -19,9 +19,9 @@ let questions: Question[] = [
         "<a href=\"https://webassembly.org/\" target=\"_blank\" rel=\"noopener\">Wasm</a>."
     },
     {
-        question: "Why are plugins written in Wasm and not Lua?",
+        question: "Why are plugins written in Wasm and not Lua (etc.)?",
         answer: "The reason that plugins are written in Wasm is that it allows development in many languages, "+
-        "is pretty performant and doesn't increase Feathers binary size."
+        "is pretty performant <em>(up to 98% in comparison to natively integrated)</em> and doesn't increase Feathers binary size."
     },
     {
         question: "Where can I submit bugs/undefined behavior?",

@@ -5,7 +5,7 @@ pub use builder::*;
 pub use summary::*;
 
 use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Parser, Tag};
-use std::path::Path;
+use std::{path::Path};
 
 use syntect::{
     highlighting::{Theme, ThemeSet},
@@ -130,13 +130,14 @@ impl<'a> DocsParser<'a> {
         output
     }
 
-    pub fn static_parse_links(base: FeatherUrl, src: String) -> (String, Vec<String>) {
+    pub fn static_parse_links(base: FeatherUrl, src: String) -> (String, Vec<String>, Vec<crate::Topic>) {
         let events = Parser::new(src.as_str());
         let mut links: Vec<String> = Vec::new();
+        let mut topics: Vec<crate::Topic> = Vec::new();
+        let mut topic_index = 0;
 
         let mut syntax = SYNTAXSET.find_syntax_by_extension("rs").unwrap();
 
-        let mut new_p = Vec::new();
         let mut to_highlight = String::new();
         let mut in_code_block = false;
 
@@ -144,9 +145,9 @@ impl<'a> DocsParser<'a> {
         let mut in_heading = false;
 
         let mut output = String::new();
-        for mut event in events {
-            match &mut event {
-                Event::Start(Tag::Link(_, href, _)) => {
+        let events = events.filter_map(|mut event| {
+            match event {
+                Event::Start(Tag::Link(_, ref mut href, _)) => {
                     if !href.starts_with("http") {
                         let mut abc = base.clone();
                         abc.join(href.trim_end_matches(".md"));
@@ -156,60 +157,71 @@ impl<'a> DocsParser<'a> {
                             links.push(finished_url.clone());
                         }
                     }
-                    new_p.push(event);
+                    Some(event)
                 }
                 Event::Start(Tag::CodeBlock(cb)) => {
                     if let CodeBlockKind::Fenced(token) = cb {
                         in_code_block = true;
-                        if let Some(syn) = SYNTAXSET.find_syntax_by_token(token) {
+                        if let Some(syn) = SYNTAXSET.find_syntax_by_token(&token) {
                             syntax = syn;
                         } else {
                             syntax = SYNTAXSET.find_syntax_by_extension("rs").unwrap();
                         }
                     }
+                    None
                 }
                 Event::End(Tag::CodeBlock(_)) => {
                     if in_code_block {
                         let html =
                             highlighted_html_for_string(&to_highlight, &SYNTAXSET, &syntax, &THEME);
-                        new_p.push(Event::Html(CowStr::from(html)));
                         to_highlight = String::new();
                         in_code_block = false;
+                        Some(Event::Html(CowStr::from(html)))
+                    } else {
+                        None
                     }
                 }
                 Event::Start(Tag::Heading(_)) => {
                     in_heading = true;
+                    Some(event)
                 }
                 Event::End(Tag::Heading(level)) => {
                     if in_heading {
                         let html = format!(
-                            "<h{} id=\"h-{}\">{}</h{}>",
+                            "<h{} id=\"h-{}-{}\">{}</h{}>",
                             level,
                             crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()),
+                            topic_index,
                             cur_heading,
                             level
                         );
-                        new_p.push(Event::Html(CowStr::from(html)));
+                        topics.push(crate::Topic {hash: format!("h-{}-{}", crate::featherurl::encode_uri_component(&cur_heading.to_lowercase()), topic_index), name: cur_heading.clone()});
                         cur_heading = String::new();
                         in_heading = false;
+                        topic_index+=1;
+                        Some(Event::Html(CowStr::from(html)))
+                    } else {
+                        None
                     }
                 }
-                Event::Text(t) => {
+                Event::Text(ref t) => {
                     if in_code_block {
-                        to_highlight.push_str(&t);
+                        to_highlight.push_str(t);
+                        None
                     } else if in_heading {
-                        cur_heading.push_str(&t);
+                        cur_heading.push_str(t);
+                        None
                     } else {
-                        new_p.push(event);
+                        Some(event)
                     }
                 }
                 e => {
-                    new_p.push(e.clone());
+                    Some(e)
                 }
             }
-        }
-        html::push_html(&mut output, new_p.into_iter());
-        (output, links)
+        });
+        html::push_html(&mut output, events);
+        (output, links, topics)
     }
 }
 

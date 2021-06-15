@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, env};
 use warp::{path::Tail, Filter, Rejection, Reply};
 
-use crate::{docs::Documents, docs::Summary, with_state};
+use crate::{docs::Documents, with_state};
 
 #[derive(Default, Serialize)]
 pub struct Docs {
@@ -21,11 +21,7 @@ pub struct Docs {
 //     }
 // }
 
-#[derive(Serialize)]
-pub struct SummaryResponse {
-    html: String,
-    summary: Summary,
-}
+
 
 pub fn routes(
     documents: Documents,
@@ -52,7 +48,7 @@ pub async fn handle_summary(documents: Documents) -> Result<impl Reply, Rejectio
     let mut result: Result<String, Rejection> = Err(warp::reject());
 
     if let Some(stuff) = map.get("summary") {
-        result = Ok(stuff.clone())
+        result = Ok(serde_json::to_string(stuff).unwrap())
     }
 
     drop(map);
@@ -130,7 +126,7 @@ pub async fn handle_page(tail: Tail, documents: Documents) -> Result<impl Reply,
     let mut result: Result<String, Rejection> = Err(warp::reject());
 
     if let Some(stuff) = map.get(&tail.as_str().to_lowercase()) {
-        result = Ok(stuff.clone())
+        result = Ok(serde_json::to_string(stuff).unwrap())
     }
 
     drop(map);

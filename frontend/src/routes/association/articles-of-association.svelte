@@ -2,7 +2,7 @@
     import { API_BASE_URL } from "$lib/env"; 
 
     export async function preload() {
-        const response = await this.fetch(`${API_BASE_URL}/association/articles-of-association`)
+        const response = await fetch(`${API_BASE_URL}/association/articles-of-association`)
         let markdown_html = await response.text();
         return { html: markdown_html };
     }
