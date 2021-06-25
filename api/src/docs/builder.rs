@@ -20,7 +20,13 @@ pub async fn create_docs(container: Documents) {
     )
     .await
     .expect("FFS!");
-    locked_container.insert("summary".to_owned(), crate::DocResponse {html: summary, topics});
+    locked_container.insert(
+        "summary".to_owned(),
+        crate::DocResponse {
+            html: summary,
+            topics,
+        },
+    );
 
     let mut cur_stage: i32 = 1;
     paths.append(&mut paths_2);
@@ -51,7 +57,13 @@ pub async fn create_docs(container: Documents) {
                 let (cur, mut temp_2_links, cur_topics) = fetch_and_parse(&path_a)
                     .await
                     .expect(&format!("FFS: {}", path));
-                locked_container.insert(shortended_path.to_owned(), crate::DocResponse {html: cur, topics: cur_topics});
+                locked_container.insert(
+                    shortended_path.to_owned(),
+                    crate::DocResponse {
+                        html: cur,
+                        topics: cur_topics,
+                    },
+                );
                 temp_links.append(&mut temp_2_links);
             }
             pathindex += 1;

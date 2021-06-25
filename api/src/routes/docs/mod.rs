@@ -21,8 +21,6 @@ pub struct Docs {
 //     }
 // }
 
-
-
 pub fn routes(
     documents: Documents,
 ) -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {

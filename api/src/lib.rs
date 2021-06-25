@@ -41,7 +41,7 @@ pub fn authenticated(db: DB) -> impl Filter<Extract = (u32,), Error = Rejection>
 #[derive(Serialize)]
 pub struct Topic {
     pub name: String,
-    pub hash: String
+    pub hash: String,
 }
 
 #[derive(Serialize)]
