@@ -1,16 +1,20 @@
 <script context="module">
-    import PluginVersion from "$lib/components/PluginVersion.svelte"
-    export async function preload({ params: { name } }) {
-		return { name };
+	export async function load({
+		page: {
+			params: { name }
+		}
+	}) {
+		return { props: { name: name } };
 	}
 </script>
 
 <script>
-    export let name
+	import PluginVersion from '$lib/components/PluginVersion.svelte';
+	export let name;
 </script>
 
-<PluginVersion name={name} />
+<PluginVersion {name} />
 
 <svelte:head>
-    <title>{name} | Feather Plugins</title>
+	<title>{name} | Feather Plugins</title>
 </svelte:head>
