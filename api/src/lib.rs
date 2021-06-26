@@ -13,6 +13,8 @@ use std::convert::Infallible;
 pub use db::DB;
 use warp::{Filter, Rejection};
 
+use serde::Serialize;
+
 pub fn with_state<S: Clone + Send + 'static>(
     state: S,
 ) -> impl Filter<Extract = (S,), Error = Infallible> + Clone {
@@ -34,4 +36,16 @@ pub fn authenticated(db: DB) -> impl Filter<Extract = (u32,), Error = Rejection>
             Ok::<_, warp::reject::Rejection>(user_id)
         }
     })
+}
+
+#[derive(Serialize)]
+pub struct Topic {
+    pub name: String,
+    pub hash: String,
+}
+
+#[derive(Serialize)]
+pub struct DocResponse {
+    pub html: String,
+    pub topics: Vec<crate::Topic>,
 }
