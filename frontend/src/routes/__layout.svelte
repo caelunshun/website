@@ -199,5 +199,6 @@
 		background-image: url('/netherrack_overlay.webp');
 		background-size: 64px;
 		background-repeat: repeat;
+		transition: background-image 0.3s ease-in-out;
 	}
 </style>
