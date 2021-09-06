@@ -1,118 +1,118 @@
-@import 'typeface-roboto';
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "typeface-roboto";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 html,
 body {
-	@apply h-full flex flex-col;
+    @apply h-full flex flex-col;
 }
 
 .typography a {
-	@apply border-b-2 border-feather-accent font-bold;
+    @apply border-b-2 border-feather-accent font-bold;
 }
 
 .typography p {
-	@apply mt-2;
+    @apply mt-2;
 }
 
 .typography h1,
 .typography h2,
 .typography h3,
 .typography h4 {
-	@apply font-bold font-display mt-4 tracking-wide;
+    @apply font-bold font-display mt-4 tracking-wide;
 }
 
 .typography h1 {
-	@apply text-3xl;
+    @apply text-3xl;
 }
 
 .typography h2 {
-	@apply text-2xl;
+    @apply text-2xl;
 }
 
 .typography h3 {
-	@apply text-xl;
+    @apply text-xl;
 }
 
 .typography h4 {
-	@apply text-lg;
+    @apply text-lg;
 }
 
 .summary > h1:first-child {
-	@apply hidden;
+    @apply hidden;
 }
 
 .summary h1 {
-	@apply text-xl mt-2 md:mt-8;
+    @apply text-xl mt-2 md:mt-8;
 }
 
 .summary ul {
-	counter-reset: item;
-	list-style-type: none;
+    counter-reset: item;
+    list-style-type: none;
 }
 .summary ul ul {
-	@apply pl-4;
+    @apply pl-4;
 }
 .summary ul > li {
-	counter-increment: item;
-	@apply mt-4;
+    counter-increment: item;
+    @apply mt-4;
 }
 .summary ul > li::before {
-	content: counters(item, '.') '. ';
-	@apply font-bold;
+    content: counters(item, ".") ". ";
+    @apply font-bold;
 }
 .summary hr {
-	margin-top: 5px;
+    margin-top: 5px;
 }
 
 .summary > ul:last-child {
-	@apply pb-8;
+    @apply pb-8;
 }
 
 @media (min-width: 1280px) {
-	.summary h1 {
-		font-size: 2rem;
-	}
-	.summary {
-		font-size: 1.3rem;
-	}
+    .summary h1 {
+        font-size: 2rem;
+    }
+    .summary {
+        font-size: 1.3rem;
+    }
 }
 
 .dlinstr {
-	@apply text-gray-500 text-xl md:absolute md:w-full md:top-14 md:left-2 px-2 md:px-0 z-10;
+    @apply text-gray-500 text-xl md:absolute md:w-full md:top-14 md:left-2 px-2 md:px-0 z-10;
 }
 .dlinstr * {
-	@apply my-2 !important;
+    @apply my-2 !important;
 }
 .dlinstr h4 {
-	@apply text-2xl;
+    @apply text-2xl;
 }
 .dlinstr h5 {
-	@apply font-semibold;
+    @apply font-semibold;
 }
 
 ::-webkit-scrollbar {
-	@apply w-2.5;
+    @apply w-2.5;
 }
 
 ::-webkit-scrollbar-track {
-	@apply bg-gray-900;
+    @apply bg-gray-900;
 }
 
 .markdown pre::-webkit-scrollbar {
-	@apply h-2.5;
+    @apply h-2.5;
 }
 
 .markdown pre::-webkit-scrollbar-track {
-	background-color: #0d1117;
-	@apply rounded-md md:rounded-lg xl:rounded-xl;
+    background-color: #0d1117;
+    @apply rounded-md md:rounded-lg xl:rounded-xl;
 }
 
 ::-webkit-scrollbar-thumb {
-	@apply bg-gray-400 rounded-full;
+    @apply bg-gray-400 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	@apply bg-gray-500;
+    @apply bg-gray-500;
 }
