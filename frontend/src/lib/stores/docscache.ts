@@ -2,14 +2,14 @@
 
 const cache = {};
 
-export function set(page, content) {
+export function set(page: string, content: string): void {
     cache[page] = content;
 }
 
-export function has(page) {
+export function has(page: string): boolean {
     return cache[page] !== undefined;
 }
 
-export function get(page) {
+export function get(page: string): string {
     return cache[page];
 }

@@ -14,8 +14,7 @@ module.exports = {
                     ([_match, group, ..._rest]) => group
                 )
             ]
-        },
-        safelist: [/^svelte-[\\d\\w]+$/]
+        }
     },
     theme: {
         fontFamily: {
@@ -163,5 +162,8 @@ module.exports = {
             brightness: ["dark"]
         }
     },
-    plugins: [require("@tailwindcss/typography")]
+    plugins: [
+        require("@tailwindcss/typography"),
+        require("@tailwindcss/forms")({ strategy: "class" })
+    ]
 };

@@ -1,16 +1,13 @@
-<script context="module" lang="ts">
+<script context="module">
     import { API_BASE_URL } from "$lib/env";
     import * as docscache from "$lib/stores/docscache";
-    import type { DocResponse } from "$lib/types";
-    import type { Load } from "@sveltejs/kit";
 
-    /** @type {import('@sveltejs/kit').Load} */
-    export const load: Load = async ({ fetch }) => {
+    export async function load({ fetch }) {
         if (docscache.has("$summary")) {
             return { props: { summaryHtml: docscache.get("$summary") } };
         } else {
             const response_fetch = await fetch(`${API_BASE_URL}/docs/summary`);
-            let response: DocResponse = await response_fetch.json();
+            let response = await response_fetch.json();
             let markdown_html = response.html;
             markdown_html = markdown_html.replace(
                 /https\:\/\/raw\.githubusercontent\.com\/Defman\/feather\/Docs\/docs\/src\//g,
@@ -19,7 +16,7 @@
             docscache.set("$summary", markdown_html);
             return { props: { summaryHtml: markdown_html } };
         }
-    };
+    }
 </script>
 
 <script lang="ts">

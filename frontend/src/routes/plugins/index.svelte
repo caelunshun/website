@@ -108,7 +108,7 @@
             {#each categories as category}
                 <li class="mr-4 my-2">
                     <label class="flex items-center">
-                        <input type="checkbox" bind:group={selected_categories} value={category} />
+                        <input type="checkbox" class="form-checkbox" bind:group={selected_categories} value={category} />
                         <span class="ml-2 font-light text-sm">{category}</span>
                     </label>
                 </li>
