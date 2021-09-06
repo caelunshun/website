@@ -1,6 +1,5 @@
 <script>
-    import Card from "$lib/components/Card.svelte"
-    import PluginCard from "$lib/components/PluginCard.svelte"
+    import PluginCard from "$lib/components/PluginCard.svelte";
 
     let plugins = [
         {
@@ -31,9 +30,8 @@
             downloads_recent: 690,
             updated: 20,
             versions: ["1.16"]
-        },
-    ]
-    let following = []
+        }
+    ];
 </script>
 
 <div class="container mx-auto flex flex-col py-8 px-4">
@@ -43,7 +41,7 @@
             <h2 class="text-xl font-bold">My Plugins</h2>
             <ul>
                 {#each plugins as plugin}
-                    <li class="mt-4"><PluginCard {...plugin} /></li>
+                    <li class="mt-4"><PluginCard {plugin} /></li>
                 {/each}
             </ul>
         </div>

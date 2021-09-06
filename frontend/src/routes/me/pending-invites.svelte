@@ -1,11 +1,11 @@
 <script>
-    import Card from "$lib/components/Card.svelte"
-    import { CheckIcon, XIcon } from "svelte-feather-icons"
+    import Card from "$lib/components/Card.svelte";
+    import { CheckIcon, XIcon } from "svelte-feather-icons";
     let invites = [
         {
             plugin_name: "world-edit"
         }
-    ]
+    ];
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -16,7 +16,9 @@
                 <Card class="flex justify-between">
                     <h2 class="text-xl mr-4">{invite.plugin_name}</h2>
                     <div class="flex">
-                        <button title="Accept the Invite" class="mr-4"><CheckIcon class="h-8 w-8" /></button>
+                        <button title="Accept the Invite" class="mr-4"
+                            ><CheckIcon class="h-8 w-8" /></button
+                        >
                         <button title="Decline the Invite"><XIcon class="h-8 w-8" /></button>
                     </div>
                 </Card>

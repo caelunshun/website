@@ -1,8 +1,10 @@
+@import "typeface-roboto";
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-html, body {
+html,
+body {
     @apply h-full flex flex-col;
 }
 
@@ -17,8 +19,7 @@ html, body {
 .typography h1,
 .typography h2,
 .typography h3,
-.typography h4
-{
+.typography h4 {
     @apply font-bold font-display mt-4 tracking-wide;
 }
 
@@ -38,19 +39,12 @@ html, body {
     @apply text-lg;
 }
 
-.markdown code:before {
-    content: "" !important;
-}
-.markdown code:after {
-    content: "" !important;
-}
-
 .summary > h1:first-child {
     @apply hidden;
 }
 
 .summary h1 {
-    @apply text-xl mt-8;
+    @apply text-xl mt-2 md:mt-8;
 }
 
 .summary ul {
@@ -60,11 +54,11 @@ html, body {
 .summary ul ul {
     @apply pl-4;
 }
-.summary ul > li { 
+.summary ul > li {
     counter-increment: item;
     @apply mt-4;
 }
-.summary ul > li::before { 
+.summary ul > li::before {
     content: counters(item, ".") ". ";
     @apply font-bold;
 }
@@ -120,5 +114,5 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-500; 
+    @apply bg-gray-500;
 }

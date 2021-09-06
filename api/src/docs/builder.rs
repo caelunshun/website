@@ -4,7 +4,7 @@ use std::{collections::HashMap, mem::drop, sync::Arc, thread, time::Duration};
 use tokio::sync::Mutex;
 use warp::{http, Rejection};
 
-pub type Documents = Arc<Mutex<HashMap<String, String>>>;
+pub type Documents = Arc<Mutex<HashMap<String, crate::DocResponse>>>;
 pub type StringList = Arc<Mutex<Vec<String>>>;
 
 const PREPATH_LENGTH: usize =
@@ -15,12 +15,18 @@ pub async fn create_docs(container: Documents) {
     let mut locked_container = container.lock().await;
     locked_container.clear();
 
-    let (summary, mut paths_2) = fetch_and_parse(
+    let (summary, mut paths_2, topics) = fetch_and_parse(
         "https://raw.githubusercontent.com/Defman/feather/Docs/docs/src/SUMMARY.md",
     )
     .await
     .expect("FFS!");
-    locked_container.insert("summary".to_owned(), summary);
+    locked_container.insert(
+        "summary".to_owned(),
+        crate::DocResponse {
+            html: summary,
+            topics,
+        },
+    );
 
     let mut cur_stage: i32 = 1;
     paths.append(&mut paths_2);
@@ -48,10 +54,16 @@ pub async fn create_docs(container: Documents) {
             if !locked_container.contains_key(shortended_path) {
                 let mut path_a = path.clone();
                 path_a.push_str(".md");
-                let (cur, mut temp_2_links) = fetch_and_parse(&path_a)
+                let (cur, mut temp_2_links, cur_topics) = fetch_and_parse(&path_a)
                     .await
                     .expect(&format!("FFS: {}", path));
-                locked_container.insert(shortended_path.to_owned(), cur);
+                locked_container.insert(
+                    shortended_path.to_owned(),
+                    crate::DocResponse {
+                        html: cur,
+                        topics: cur_topics,
+                    },
+                );
                 temp_links.append(&mut temp_2_links);
             }
             pathindex += 1;
@@ -71,7 +83,7 @@ pub async fn create_docs(container: Documents) {
     log::info!("Finished building docs!");
 }
 
-async fn fetch_and_parse(url: &str) -> Result<(String, Vec<String>), Rejection> {
+async fn fetch_and_parse(url: &str) -> Result<(String, Vec<String>, Vec<crate::Topic>), Rejection> {
     let response = reqwest::get(url).await.map_err(|_| warp::reject())?;
 
     if response.status() != http::StatusCode::OK {

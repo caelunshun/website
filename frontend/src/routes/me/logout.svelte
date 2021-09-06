@@ -5,6 +5,6 @@
 
     onMount(async () => {
         $token = {};
-        await goto("/")
-    })
+        await goto("/");
+    });
 </script>
