@@ -2,7 +2,7 @@ const { tailwindExtractor } = require("tailwindcss/lib/lib/purgeUnusedStyles");
 
 module.exports = {
     darkMode: "class",
-    mode: "aot",
+    mode: "jit",
     purge: {
         content: ["./src/**/*.{html,js,svelte,ts}"],
         options: {
