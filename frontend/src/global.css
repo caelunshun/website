@@ -3,9 +3,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-html,
-body {
-    @apply h-full flex flex-col;
+@layer base {
+    html,
+    body,
+    #svelte {
+        @apply min-h-screen flex flex-col;
+    }
 }
 
 @layer components {
