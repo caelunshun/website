@@ -7,7 +7,7 @@
     let questions: Question[] = [
         {
             question: "Is Feather ready for production?",
-            answer: "No! Feather is in big alpha! Many core features still are in work!"
+            answer: "No! Feather is in Alpha! Many core features are still a work in progress!"
         },
         {
             question: "What versions does Feather support?",
