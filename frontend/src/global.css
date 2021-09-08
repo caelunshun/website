@@ -8,79 +8,16 @@ body {
     @apply h-full flex flex-col;
 }
 
-.typography a {
-    @apply border-b-2 border-feather-accent font-bold;
-}
 
-.typography p {
-    @apply mt-2;
-}
-
-.typography h1,
-.typography h2,
-.typography h3,
-.typography h4 {
-    @apply font-bold font-display mt-4 tracking-wide;
-}
-
-.typography h1 {
-    @apply text-3xl;
-}
-
-.typography h2 {
-    @apply text-2xl;
-}
-
-.typography h3 {
-    @apply text-xl;
-}
-
-.typography h4 {
-    @apply text-lg;
-}
-
-.summary > h1:first-child {
-    @apply hidden;
-}
-
-.summary h1 {
-    @apply text-xl mt-2 md:mt-8;
-}
-
-.summary ul {
-    counter-reset: item;
-    list-style-type: none;
-}
-.summary ul ul {
-    @apply pl-4;
-}
-.summary ul > li {
-    counter-increment: item;
-    @apply mt-4;
-}
-.summary ul > li::before {
-    content: counters(item, ".") ". ";
-    @apply font-bold;
-}
-.summary hr {
-    margin-top: 5px;
-}
-
-.summary > ul:last-child {
-    @apply pb-8;
-}
-
-@media (min-width: 1280px) {
-    .summary h1 {
-        font-size: 2rem;
-    }
-    .summary {
-        font-size: 1.3rem;
+@layer components {
+    
+    .prose-auto {
+        @apply prose dark:prose-dark;
     }
 }
 
 .dlinstr {
-    @apply text-gray-500 text-xl md:absolute md:w-full md:top-14 md:left-2 px-2 md:px-0 z-10;
+    @apply text-gray-500 text-lg md:text-xl md:absolute md:w-full md:top-14 md:left-2 px-2 py-4 md:px-0 z-10;
 }
 .dlinstr * {
     @apply my-2 !important;

@@ -12,7 +12,7 @@
         <h1 class="flex items-center text-8xl font-bold font-display text-feather-accent">
             Feather
         </h1>
-        <p class="text-2xl typography">
+        <p class="text-2xl prose-auto max-w-none">
             A highly concurrent, performant, and extensible Minecraft server, powered by
             <a href="https://www.rust-lang.org/">Rust</a>.
         </p>
@@ -28,7 +28,7 @@
 <section class="container mx-auto items-center justify-center py-4 text-white">
     <FeatherStartTerminalWrapper />
 </section>
-<section class="typography">
+<section class="prose-auto max-w-none">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8">Why Feather?</h1>
         <div class="flex flex-wrap lg:flex-nowrap">
@@ -75,7 +75,7 @@
         </div>
     </div>
 </section>
-<section class="typography">
+<section class="prose-auto max-w-none">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8 flex">Why Rust? <Ferris class="mx-2 h-8 w-auto" /></h1>
         <div class="flex flex-wrap lg:flex-nowrap">
@@ -97,7 +97,7 @@
         </div>
     </div>
 </section>
-<section class="typography">
+<section class="prose-auto max-w-none">
     <div class="container mx-auto flex flex-col py-16">
         <h1 class="text-6xl m-4 sm:m-8">Get involved</h1>
         <div class="flex flex-wrap lg:flex-nowrap">

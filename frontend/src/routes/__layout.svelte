@@ -1,33 +1,22 @@
 <script lang="ts">
     import "../global.css";
-    import { token, preferences, achieve } from "$lib/stores/local";
+    import { preferences, achieve } from "$lib/stores/local";
     import { onMount } from "svelte";
-    import { scale, fly } from "svelte/transition";
+    import { fly } from "svelte/transition";
     import Logo from "$lib/assets/chicken2.svg?component";
+    import GithubMark from "$lib/assets/github-mark.svg?component";
     import DarkThemeSwitch from "$lib/components/DarkThemeSwitch.svelte";
-    import { LockIcon, SettingsIcon, MenuIcon, ChevronDownIcon } from "svelte-feather-icons";
+    import { MenuIcon } from "svelte-feather-icons";
     import Achievement from "$lib/components/Achievement.svelte";
 
     let isDropdownShown: boolean = false;
-    let isAccountDropdownShown: boolean = false;
-
-    let accountdropdownli: HTMLLIElement = null;
 
     onMount(() => {
-        const clicklistener = (event: Event) => {
-            if (
-                isAccountDropdownShown &&
-                !accountdropdownli.contains(event.target as HTMLElement)
-            ) {
-                isAccountDropdownShown = false;
-            }
-        };
         const anchorclicklistener = () => {
             if (isDropdownShown) {
                 isDropdownShown = false;
             }
         };
-        document.addEventListener("click", clicklistener, false);
         document
             .querySelectorAll('header a[href^="/"]')
             .forEach((anchorelem) =>
@@ -38,23 +27,6 @@
                 )
             );
     });
-
-    let isEventChannelBlocked = false;
-
-    function toggleAccountDropDown() {
-        if (!isEventChannelBlocked) isAccountDropdownShown = !isAccountDropdownShown;
-    }
-
-    //Apparently Click is fired 50-100ms after focus
-    function blockedEventChannel(e: FocusEvent | MouseEvent) {
-        if (e instanceof FocusEvent) {
-            isAccountDropdownShown = true;
-            isEventChannelBlocked = true;
-            setTimeout(() => (isEventChannelBlocked = false), 100);
-        } else {
-            toggleAccountDropDown();
-        }
-    }
 
     let scrollY: number;
 </script>
@@ -93,76 +65,14 @@
             </div>
         </div>
         <ul
-            class="md:flex w-full md:w-auto items-center md:space-x-6 space-y-4 md:space-y-0 mt-4 md:mt-0 text-normal sm:text-xl font-bold {isDropdownShown
+            class="md:flex w-full md:w-auto items-center md:space-x-6 space-y-2 md:space-y-0 mt-4 md:mt-0 text-normal sm:text-xl font-bold {isDropdownShown
                 ? ''
                 : 'hidden md:block'}"
         >
-            <li class="hover:underline"><a href="/association">Association</a></li>
-            <li class="hover:underline"><a href="/plugins">Plugins</a></li>
-            <li class="hover:underline"><a href="/docs">Docs</a></li>
-            <li class="hover:underline"><a href="/faq">FAQ</a></li>
-            <hr class="md:hidden" />
-            <!-- where should we put the link to the main git repo -->
-            <!-- <li><a href="https://github.com/feather-rs/feather"><GithubMark class="h-8 sm:h-12 fill-current text-feather-light hover:text-white" /></a></li> -->
-            <!-- Should be logged in users avatar -->
-            {#if $token.secret}
-                <li class="noaflex flex md:hidden">
-                    <a href="/me">
-                        <SettingsIcon class="h-6 w-6" />
-                        <span class="mx-2 my-auto">Account</span>
-                    </a>
-                </li>
-                <li class="noaflex font-normal flex md:hidden">
-                    <a href="/me/logout">
-                        <LockIcon class="h-6 w-6" />
-                        <span class="mx-2 my-auto">Logout</span></a
-                    >
-                </li>
-                <li
-                    bind:this={accountdropdownli}
-                    class="noaflex hidden md:flex cursor-pointer hover:underline relative"
-                    tabindex={0}
-                    on:keyup={(e) => {
-                        if (e.code === "Space") toggleAccountDropDown();
-                    }}
-                    on:focus={blockedEventChannel}
-                    on:click={blockedEventChannel}
-                >
-                    <span class="mx-2 my-auto">Account</span>
-                    <div class="my-auto">
-                        <ChevronDownIcon class="text-white h-8 w-8" />
-                    </div>
-                    {#if isAccountDropdownShown}
-                        <div
-                            in:scale={{ duration: 100, start: 0.95 }}
-                            out:scale={{ duration: 75, start: 0.95 }}
-                            class="origin-top-right absolute right-0 w-48 mt-10 bg-gray-800 rounded-lg border border-white"
-                        >
-                            <a
-                                href="/me"
-                                class="block px-4 py-2 hover:bg-green-500 hover:text-green-100 rounded-t-lg"
-                                >Profile</a
-                            >
-                            <hr />
-                            <a
-                                href="/me/logout"
-                                class="block px-4 py-2 hover:bg-green-500 hover:text-green-100 rounded-b-lg"
-                                on:keydown={(e) => {
-                                    if (e.code === "Tab") toggleAccountDropDown();
-                                }}>Logout</a
-                            >
-                        </div>
-                    {/if}
-                </li>
-            {:else}
-                <!-- How should the login button look? -->
-                <li class="hover:underline">
-                    <a href="/me/login" class="flex items-center">
-                        <LockIcon class="h-6 w-6" />
-                        <span class="mx-2 my-auto whitespace-nowrap">Login (GitHub)</span></a
-                    >
-                </li>
-            {/if}
+            <li class="hover:underline text-xl p-2"><a href="/download">Download</a></li>
+            <li class="hover:underline text-xl p-2"><a href="/faq">FAQ</a></li>
+            <hr class="md:hidden">
+            <li class="flex justify-end"><a href="https://github.com/feather-rs/feather" class="flex items-center bg-github p-1.5 rounded-full"><GithubMark class="h-8 md:h-10 fill-current text-white" /><span class="mx-2 flex">GitHub</span></a></li>
         </ul>
     </nav>
 </header>

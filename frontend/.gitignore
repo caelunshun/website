@@ -1,5 +1,7 @@
+/worker-site
 .DS_Store
 node_modules
 /.svelte-kit
 /build
 /functions
+/dist

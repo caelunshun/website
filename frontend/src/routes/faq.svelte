@@ -43,11 +43,11 @@
 <div class="min-h-full container mx-auto py-8 px-2">
     <h2 class="text-4xl font-bold my-4">FAQ &mdash; Feather</h2>
     <hr class="mb-4" />
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 typography">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 prose-auto max-w-none md:prose-lg">
         {#each questions as question, idx (idx)}
             <div>
-                <span class="text-xl font-bold">{question.question}</span>
-                <p class="mt-2 text-lg dark:text-gray-300 text-gray-500">{@html question.answer}</p>
+                <h3 class="text-feather-accent">{question.question}</h3>
+                <p>{@html question.answer}</p>
             </div>
         {/each}
     </div>
