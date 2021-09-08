@@ -2,8 +2,6 @@ import { writable } from "svelte/store";
 import type { Writable } from "svelte/store";
 import { browser } from "$app/env";
 
-import type { Topic } from "$lib/types";
-
 interface LocalStore<T> extends Writable<T> {
     useLocalStorage: () => void;
 }
@@ -27,16 +25,12 @@ const createLocalStore = <T>(key: string, startValue: T): LocalStore<T> => {
     };
 };
 
-export const token = createLocalStore("token", { secret: undefined });
-
 let darkM = true;
 if (browser) {
     darkM = window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 export const preferences = createLocalStore("pref", { dark: darkM });
-// preferences.useLocalStorage();
-
-export const docheadings = createLocalStore<Topic[]>("docheadings", []);
+browser && preferences.useLocalStorage();
 
 export const achieve = createLocalStore("achieve", { isAchievementShown: false });
 
@@ -54,7 +48,7 @@ browser &&
                 setTimeout(() => {
                     achieve.set({ isAchievementShown: false });
                 }, 5000);
-                //localStorage.setItem("wasAchievementShown", "yes");
+                localStorage.setItem("wasAchievementShown", "yes");
             }
         }
     });

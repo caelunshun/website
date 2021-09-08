@@ -40,6 +40,12 @@
         if (spacerHeight < newhe) spacerHeight = newhe;
     }
 
+    function fromSourceSpanKeyEvent(e: KeyboardEvent) {
+        if(e.code === 'Space' || e.code === 'Enter') {
+            setTabIndex(3);
+        }
+    }
+
     let nixcmd =
         '<pre style="background-color:#0d1117;">\n' +
         '<span style="color:#ffa657;">curl --proto </span><span style="color:#a5d6ff;">&#39;=https&#39;</span><span style="color:#ffa657;"> --tlsv1</span><span style="color:#c9d1d9;">.2</span><span style="color:#ffa657;"> -sSf</span><span style="color:#c9d1d9;"> https://sh.feathermc.org </span><span style="color:#ff7b72;">| </span><span style="color:#ffa657;">sh</span></pre>';
@@ -77,6 +83,7 @@
                 Alternatively you can also build Feather <span
                     class="sanchor text-gray-900 dark:text-gray-200"
                     tabindex={0}
+                    on:keydown={fromSourceSpanKeyEvent}
                     on:click={() => {
                         setTabIndex(3);
                     }}>from source</span
@@ -108,6 +115,7 @@
                 Alternatively you can also build Feather <span
                     class="sanchor text-gray-900 dark:text-gray-200"
                     tabindex={0}
+                    on:keydown={fromSourceSpanKeyEvent}
                     on:click={() => {
                         setTabIndex(3);
                     }}>from source</span
@@ -149,6 +157,8 @@
             <p>
                 Alternative: Clone and build <span
                     class="sanchor text-gray-900 dark:text-gray-200"
+                    tabindex={0}
+                    on:keydown={fromSourceSpanKeyEvent}
                     on:click={() => {
                         setTabIndex(3);
                     }}>from source</span
@@ -168,9 +178,11 @@
                 <span
                     class="sanchor text-gray-900 dark:text-gray-200"
                     tabindex={0}
+                    on:keydown={fromSourceSpanKeyEvent}
                     on:click={() => {
                         setTabIndex(0);
-                    }}>Linux</span
+                    }}
+                    >Linux</span
                 >
                 and execute them inside of your Subsystem.
             </p>
@@ -215,15 +227,6 @@
                 '<span style="color:#ffa657;">git</span><span style="color:#c9d1d9;"> clone https://github.com/feather-rs/feather\n' +
                 '</span><span style="color:#d2a8ff;">cd</span><span style="color:#c9d1d9;"> feather\n' +
                 '</span><span style="color:#ffa657;">cargo</span><span style="color:#c9d1d9;"> build</span><span style="color:#ffa657;"> --release</span></pre>\n'}
-            <blockquote>
-                <p>
-                    <strong>Note:</strong> Building via cargo can generate a decent amount of debug
-                    files. If you want to generate the minimalist binary remove
-                    <code>debug = true</code>
-                    from
-                    <code>Cargo.toml</code>!
-                </p>
-            </blockquote>
         </OSTab>
         <OSTab
             curSelIndex={selectedTabIndex}

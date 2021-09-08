@@ -1,0 +1,10 @@
+name = "frontend"
+type = "webpack"
+route = "feathermc.org/*"
+zone_id = "f7f65168ff6fce78cfc13e0617eba17c"
+account_id = "01f238f2d1987ec4d384816d20ddd2ed"
+compatibility_flags = []
+
+[site]
+bucket = "./build"
+entry-point = "./worker-site"

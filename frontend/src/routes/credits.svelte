@@ -2,10 +2,10 @@
     import Link from "$lib/components/ExternalLink.svelte";
 </script>
 
-<div class="container mx-auto">
+<div class="container mx-auto p-4 md:p-8">
     <h2 class="text-2xl font-bold my-4">Tools used to create this website.</h2>
     <hr class="my-2" />
-    <div class="credcontainer">
+    <div class="prose-auto md:prose-lg">
         <h3>
             Frontend <Link
                 class="extlink"
@@ -23,7 +23,7 @@
             <li>Additional: TypeScript & TimeAgo</li>
         </ul>
     </div>
-    <div class="credcontainer">
+    <!-- <div class="prose-auto md:prose-lg">
         <h3>
             Backend <Link
                 class="extlink"
@@ -37,27 +37,9 @@
             <li>Fetching data: reqwest</li>
             <li>Docs parsing: pulldown-cmark & syntect</li>
         </ul>
-    </div>
+    </div> -->
 </div>
 
 <svelte:head>
     <title>Credits | Feather</title>
 </svelte:head>
-
-<style>
-    .credcontainer {
-        @apply my-4;
-    }
-    .credcontainer > h3 {
-        @apply font-bold text-xl;
-    }
-    :global(.extlink) {
-        @apply font-normal text-blue-500 cursor-pointer text-base;
-    }
-    .credcontainer > ul {
-        @apply ml-8 list-disc;
-    }
-    .credcontainer > ul > li {
-        @apply my-2;
-    }
-</style>
