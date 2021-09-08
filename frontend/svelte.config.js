@@ -24,7 +24,7 @@ const config = {
         vite: {
             plugins: [svelteSVG()]
         },
-        adapter: adapterCfw(),
+        adapter: adapterCfw()
     }
 };
 

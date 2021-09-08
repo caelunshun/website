@@ -58,11 +58,13 @@
 {#if curSelIndex === desSelIndex}
     <div
         id="os-tabpanel-{desSelIndex}"
-        class="dlinstr prose markdown dark:prose-dark"
+        class="flex justify-center dlinstr"
         bind:this={stuff}
         role="tabpanel"
         aria-label={name}
     >
-        <slot />
+        <div class="prose-auto max-w-5xl">
+            <slot />
+        </div>
     </div>
 {/if}

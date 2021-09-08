@@ -25,23 +25,20 @@ const createLocalStore = <T>(key: string, startValue: T): LocalStore<T> => {
     };
 };
 
-let darkM = true;
-if (browser) {
-    darkM = window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
-export const preferences = createLocalStore("pref", { dark: darkM });
-browser && preferences.useLocalStorage();
+export const theme = createLocalStore("theme", "light");
+browser && theme.useLocalStorage();
 
 export const achieve = createLocalStore("achieve", { isAchievementShown: false });
 
 let initalSubscribe = true;
 browser &&
-    preferences.subscribe((current) => {
-        if (initalSubscribe) {
-            initalSubscribe = false;
-            return;
+    theme.subscribe((current) => {
+        if (current === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
         }
-        if (current.dark === true) {
+        if (current === "dark") {
             const wasAchievementShown = localStorage.getItem("wasAchievementShown");
             if (!wasAchievementShown) {
                 achieve.set({ isAchievementShown: true });
