@@ -126,7 +126,7 @@
                     free to
                     <a href="/association/join">join at the cost of 10 EUR</a>. All the members are
                     invited once a year by the end of ___ to elect five to ten maintainers. These
-                    maintainers are responsible for the daily mainte-nance of the association and
+                    maintainers are responsible for the daily maintenance of the association and
                     the development of feather. All the money raised through the association goes
                     towards paying for web and demo server; you can read more about it in the
                     <a href="/association/budget">budget</a>.
