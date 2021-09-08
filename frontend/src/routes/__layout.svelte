@@ -207,5 +207,7 @@
         background-size: 64px;
         background-repeat: repeat;
         transition: background-image 0.3s ease-in-out;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated;
     }
 </style>
