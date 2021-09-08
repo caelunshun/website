@@ -94,8 +94,10 @@
         ? 'bg-nether-netherrack-dark netherrack'
         : 'bg-green-600'} text-white sm:flex sm:items-center justify-center transition-colors duration-500"
 >
-    <bold class="text-lg my-2.5 block sm:flex text-center">
-        Made with <span class="text-red-600 sm:mx-1">&#10084;</span> by the Feather Association.
+    <bold class="text-lg my-2 block sm:flex text-center">
+        Made with <span class="{$preferences.dark
+        ? 'blue-heart sm:mx-1'
+        : 'text-red-600 sm:mx-1'}">&#10084;</span> by the Feather Association.
         <a href="credits" class="underline sm:mx-1">Credits</a>
     </bold>
     <DarkThemeSwitch class="mx-auto sm:mx-2 my-2 sm:my-0" />
@@ -117,5 +119,11 @@
         background-size: 64px;
         background-repeat: repeat;
         transition: background-image 0.3s ease-in-out;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated;
+    }
+
+    .blue-heart {
+        color: rgb(17, 188, 255);
     }
 </style>
