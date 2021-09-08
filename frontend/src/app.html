@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" href="/favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <meta name="keywords" content="Rust, Minecraft, Minecraft Server, Minecraft 1.16 Server" />
-        <meta
-            name="description"
-            content="Feather is a highly performant Minecraft server implementation written in Rust. It is currently available for version 1.16 of Minecraft."
-        />
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <script>
-            if (
-                JSON.parse(localStorage.theme) === "dark" ||
-                (!("theme" in localStorage) &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches)
-            ) {
-                document.documentElement.classList.add("dark");
-            } else {
-                document.documentElement.classList.remove("dark");
-            }
-        </script>
+    <meta name="keywords" content="Rust, Minecraft, Minecraft Server, Minecraft 1.16 Server" />
+    <meta name="description"
+        content="Feather is a highly performant Minecraft server implementation written in Rust. It is currently available for version 1.16 of Minecraft." />
 
-        %svelte.head%
-    </head>
+    <script>
+        if (
+            (!("theme" in localStorage) && JSON.parse(localStorage.theme) === "dark" ||
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    </script>
 
-    <body>
-        <div id="svelte">%svelte.body%</div>
-    </body>
+    %svelte.head%
+</head>
+
+<body>
+    <div id="svelte">%svelte.body%</div>
+</body>
+
 </html>
