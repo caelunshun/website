@@ -28,11 +28,7 @@
                 )
             );
     });
-
-    let scrollY: number;
 </script>
-
-<svelte:window bind:scrollY />
 
 <Headroom offset={100}>
     <header
@@ -84,7 +80,7 @@
     </header>
 </Headroom>
 {#if $achieve.isAchievementShown}
-    <div class="fixed right-4 top-28 z-40" transition:fly={{ x: 300, duration: 2000 }}>
+    <div class="fixed right-4 z-40 top-8" transition:fly={{ x: 300, duration: 2000 }}>
         <Achievement title="We Need To Go Deeper!" message="Activate Dark/Nether Theme!" />
     </div>
 {/if}
