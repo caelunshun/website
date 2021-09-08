@@ -40,10 +40,10 @@
     ];
 </script>
 
-<div class="min-h-full container mx-auto py-8 px-2">
+<div class="min-h-full container mx-auto md:p-8 p-4">
     <h2 class="text-4xl font-bold my-4">FAQ &mdash; Feather</h2>
     <hr class="mb-4" />
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 prose-auto max-w-none md:prose-lg">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 prose-auto max-w-none">
         {#each questions as question, idx (idx)}
             <div>
                 <h3 class="text-feather-accent">{question.question}</h3>

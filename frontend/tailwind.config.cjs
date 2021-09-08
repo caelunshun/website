@@ -58,7 +58,7 @@ module.exports = {
                     border: "rgb(85,85,85)",
                     background: "rgb(33,33,33)"
                 },
-                github: "#161B22",
+                github: "#161B22"
             },
             blur: {
                 xs: "2px"
@@ -76,8 +76,8 @@ module.exports = {
                             textDecoration: "none",
                             borderBottom: "2px solid",
                             borderColor: theme("colors.feather.accent"),
-                            fontWeight: "bold",
-                        },
+                            fontWeight: "bold"
+                        }
                     }
                 },
                 sm: {
