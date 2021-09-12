@@ -11,7 +11,6 @@
     },
     "devDependencies": {
         "@cloudflare/wrangler": "^1.19.2",
-        "@feathermc/svelte-adapter": "file:../../svelte-adapter",
         "@sveltejs/kit": "next",
         "@tailwindcss/forms": "^0.3.3",
         "@tailwindcss/typography": "^0.4.0",
