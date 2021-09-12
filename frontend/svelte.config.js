@@ -1,6 +1,6 @@
 import preprocess from "svelte-preprocess";
 import svelteSVG from "vite-plugin-svelte-svg";
-import adapterCfw from "@sveltejs/adapter-cloudflare-workers";
+import adapterCfw from "@feathermc/svelte-adapter";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -8,9 +8,6 @@ const config = {
     // for more information about preprocessors
     preprocess: [
         preprocess({
-            defaults: {
-                style: "postcss"
-            },
             postcss: true
         })
     ],
@@ -22,7 +19,9 @@ const config = {
         },
         target: "#svelte",
         vite: {
-            plugins: [svelteSVG()]
+            plugins: [
+                svelteSVG(),
+            ]
         },
         adapter: adapterCfw()
     }

@@ -119,24 +119,28 @@
                     class="flex flex-grow py-2"
                     style="color: #fff;"
                     on:focus={() => (multiplier = 1)}
+                    on:click={() => (multiplier = 1)}
                     selected={multiplier === 1}><b class="m-auto">1x</b></button
                 >
                 <button
                     class="flex flex-grow py-2"
                     style="color: #fff;"
                     on:focus={() => (multiplier = 100)}
+                    on:click={() => (multiplier = 100)}
                     selected={multiplier === 100}><b class="m-auto">100x</b></button
                 >
                 <button
                     class="flex flex-grow py-2"
                     style="color: #fff;"
                     on:focus={() => (multiplier = 1000)}
+                    on:click={() => (multiplier = 1000)}
                     selected={multiplier === 1000}><b class="m-auto">1000x</b></button
                 >
                 <button
                     class="flex flex-grow py-2"
                     style="color: #fff;"
                     on:focus={() => (multiplier = 2500)}
+                    on:click={() => (multiplier = 2500)}
                     selected={multiplier === 2500}><b class="m-auto">2500x</b></button
                 >
             </div>
