@@ -406,6 +406,17 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+<<<<<<< HEAD
+=======
+"@sveltejs/adapter-cloudflare-workers@next":
+  version "1.0.0-next.21"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-cloudflare-workers/-/adapter-cloudflare-workers-1.0.0-next.21.tgz#9f3cb46e6110510bb301b1169a8db504422d2e72"
+  integrity sha512-mcaCoWA+9k8tgP9T0Jkse0m1ghAawL8KeHy/T+/EZ7aHyl7KAZ8YkU27HYKIlaQz4fINtdP+BQj25gZvt7RlcA==
+  dependencies:
+    "@iarna/toml" "^2.2.5"
+    esbuild "^0.12.5"
+
+>>>>>>> 51dcd95b5f61ae4427300d16ae045ad38d3b0218
 "@sveltejs/kit@next":
   version "1.0.0-next.168"
   resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.168.tgz#9050edecc70b7468c81762b228110d2fac958a11"
