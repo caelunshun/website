@@ -100,15 +100,3 @@
     </bold>
     <DarkThemeSwitch class="mx-auto sm:mx-2 my-2 sm:my-0" />
 </footer>
-
-<style>
-    /* li > a {
-        @apply tracking-wide md:tracking-normal mx-auto hover:underline focus:text-blue-400 transition-colors;
-    }
-    li > a:not(.noaflex) {
-        @apply flex;
-    }
-    li:not(.noaflex) {
-        @apply flex;
-    } */
-</style>

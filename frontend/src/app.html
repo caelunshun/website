@@ -20,17 +20,17 @@
         content="Feather is a highly performant Minecraft server implementation written in Rust. It is currently available for version 1.16 of Minecraft." />
 
     <script>
-if (!("theme" in localStorage))
-    localStorage.setItem(
-        "theme",
-        JSON.stringify(
-            window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-        ));
-if (JSON.parse(localStorage.getItem("theme")) === "dark") {
-    document.documentElement.classList.add("dark");
-} else {
-    document.documentElement.classList.remove("dark");
-}
+        if (!("theme" in localStorage))
+            localStorage.setItem(
+                "theme",
+                JSON.stringify(
+                    window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+                ));
+        if (JSON.parse(localStorage.getItem("theme")) === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
     </script>
 
     %svelte.head%
