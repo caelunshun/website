@@ -3,16 +3,43 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-html,
-body {
-    @apply h-full flex flex-col;
+@layer base {
+    html,
+    body,
+    #svelte {
+        @apply min-h-screen flex flex-col;
+    }
 }
 
-
 @layer components {
-    
     .prose-auto {
-        @apply prose dark:prose-dark;
+        @apply prose dark:prose-dark lg:prose-lg;
+    }
+
+    .netherrack {
+        background-image: url("/netherrack_overlay.webp");
+        background-size: 64px;
+        background-repeat: repeat;
+        transition: background-image 0.3s ease-in-out;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated;
+    }
+
+    .blue-heart {
+        color: rgb(17, 188, 255);
+    }
+
+    .mc-clock-after {
+        position: absolute;
+        z-index: -1;
+        background-image: url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4THEAAAAvD8ADEDegGJIkZjkS1fm/TiNpKGjbhimO7oEa/otkCtpGgU7IiyKsIBgx8x8A/GOC+k7lI8fUAptIklW99ynn+NcDAV/EN0A5r38PRxYi+j8Bzn4BQEOmm1t6rhWmmwPIHEIIBdkytx7cKWyZC4GYAQA=);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        transition: transform 0.3s;
+    }
+    .clockdark {
+        transform: rotate(180deg);
     }
 }
 

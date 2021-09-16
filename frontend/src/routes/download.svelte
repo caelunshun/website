@@ -41,7 +41,7 @@
     }
 
     function fromSourceSpanKeyEvent(e: KeyboardEvent) {
-        if(e.code === 'Space' || e.code === 'Enter') {
+        if (e.code === "Space" || e.code === "Enter") {
             setTabIndex(3);
         }
     }
@@ -51,7 +51,7 @@
         '<span style="color:#ffa657;">curl --proto </span><span style="color:#a5d6ff;">&#39;=https&#39;</span><span style="color:#ffa657;"> --tlsv1</span><span style="color:#c9d1d9;">.2</span><span style="color:#ffa657;"> -sSf</span><span style="color:#c9d1d9;"> https://sh.feathermc.org </span><span style="color:#ff7b72;">| </span><span style="color:#ffa657;">sh</span></pre>';
 </script>
 
-<div class="container mx-auto">
+<div class="container mx-auto py-8">
     <h2 class="text-4xl font-bold my-4 mx-4 md:mx-0">Download</h2>
     <hr class="w-10/12 mx-auto md:w-full" />
     <h3 class="text-3xl font-semibold my-4 mx-4 md:mx-0">Platforms</h3>
@@ -213,7 +213,9 @@
                         rel="noopener">here</a
                     >
                 </li>
-                <li>Go into the project directory and run <code>cargo build --release</code></li>
+                <li>
+                    Go into the project directory and run <code>cargo build --release</code>
+                </li>
                 <li>
                     Wait for the build to finish. The finished version should be in <code
                         >target/release/</code
