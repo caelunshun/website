@@ -7,11 +7,7 @@
     html,
     body,
     #svelte {
-<<<<<<< HEAD
         @apply min-h-screen w-screen flex flex-col overflow-x-hidden;
-=======
-        @apply min-h-screen flex flex-col;
->>>>>>> 51dcd95b5f61ae4427300d16ae045ad38d3b0218
     }
 }
 
@@ -21,11 +17,7 @@
     }
 
     .netherrack {
-<<<<<<< HEAD
         background-image: url("$lib/assets/netherrack_overlay.webp");
-=======
-        background-image: url("/netherrack_overlay.webp");
->>>>>>> 51dcd95b5f61ae4427300d16ae045ad38d3b0218
         background-size: 64px;
         background-repeat: repeat;
         transition: background-image 0.3s ease-in-out;

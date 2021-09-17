@@ -1,21 +1,14 @@
 <script lang="ts">
     import { ChevronLeftIcon } from "svelte-feather-icons";
-    import { browser } from "$app/env";
 
     export let name: string;
     export let OSIcon: any;
     export let curSelIndex: number;
     export let desSelIndex: number;
     export let setSelIndex: (newi: number) => void;
-    export let setSpacer: (newh: number) => void;
     export let fill: boolean = true;
 
     let stuff: HTMLDivElement;
-
-    if (browser) {
-        setTimeout(() => setSpacer(stuff ? stuff.clientHeight : 0), 50);
-        setInterval(() => setSpacer(stuff ? stuff.clientHeight : 0), 1000);
-    }
 
     function keyupEvent(e: KeyboardEvent) {
         if (e.code === "Space") {
@@ -63,7 +56,7 @@
         role="tabpanel"
         aria-label={name}
     >
-        <div class="prose-auto max-w-5xl">
+        <div class="prose-auto max-w-full md:max-w-5xl">
             <slot />
         </div>
     </div>

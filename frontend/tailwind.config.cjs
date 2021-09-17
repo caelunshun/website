@@ -51,6 +51,10 @@ module.exports = {
             blur: {
                 xs: "2px"
             },
+            height: {
+                bigscreen: "80vh",
+                smallscreen: "50vh"
+            },
             typography: (theme) => ({
                 DEFAULT: {
                     css: {

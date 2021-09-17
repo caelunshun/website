@@ -99,20 +99,4 @@
         <a href="credits" class="underline sm:mx-1">Credits</a>
     </bold>
     <DarkThemeSwitch class="mx-auto sm:mx-2 my-2 sm:my-0" />
-<<<<<<< HEAD
 </footer>
-=======
-</footer>
-
-<style>
-    /* li > a {
-        @apply tracking-wide md:tracking-normal mx-auto hover:underline focus:text-blue-400 transition-colors;
-    }
-    li > a:not(.noaflex) {
-        @apply flex;
-    }
-    li:not(.noaflex) {
-        @apply flex;
-    } */
-</style>
->>>>>>> 51dcd95b5f61ae4427300d16ae045ad38d3b0218

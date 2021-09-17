@@ -26,18 +26,12 @@
         });
     }
 
-    let spacerHeight: number = 0;
     function setTabIndex(newindex: number) {
         if (selectedTabIndex === newindex && isMobile) selectedTabIndex = -1;
         else {
             selectedTabIndex = newindex;
             document.getElementById("os-tab-" + newindex).focus();
         }
-        spacerHeight = 0;
-    }
-
-    function setSpacerHeight(newhe: number) {
-        if (spacerHeight < newhe) spacerHeight = newhe;
     }
 
     function fromSourceSpanKeyEvent(e: KeyboardEvent) {
@@ -66,7 +60,6 @@
             name="Linux"
             setSelIndex={setTabIndex}
             OSIcon={LinuxIcon}
-            setSpacer={setSpacerHeight}
         >
             <h4>Download</h4>
             <p>To get Feather running on a Linux system first either run the download script:</p>
@@ -98,7 +91,6 @@
             name="MacOS"
             setSelIndex={setTabIndex}
             OSIcon={AppleIcon}
-            setSpacer={setSpacerHeight}
         >
             <h4>Download</h4>
             <p>To get Feather running on a MacOS system first either run the download script:</p>
@@ -130,7 +122,6 @@
             name="Windows"
             setSelIndex={setTabIndex}
             OSIcon={WindowsIcon}
-            setSpacer={setSpacerHeight}
         >
             <h4>Native Windows</h4>
             <h5>Download</h5>
@@ -193,7 +184,6 @@
             setSelIndex={setTabIndex}
             OSIcon={PackageIcon}
             fill={false}
-            setSpacer={setSpacerHeight}
         >
             <h4>Prerequirements</h4>
             <ul>
@@ -235,7 +225,6 @@
             name="Docker"
             setSelIndex={setTabIndex}
             OSIcon={DockerIcon}
-            setSpacer={setSpacerHeight}
         >
             <h4>Container</h4>
             <p>
@@ -249,7 +238,11 @@
             </p>
         </OSTab>
     </div>
-    <div style="height: {spacerHeight}px" class="hidden md:block my-1" />
+    <div
+        class="hidden md:block my-1 {selectedTabIndex === 2 || selectedTabIndex === 3
+            ? 'h-bigscreen'
+            : 'h-smallscreen'}"
+    />
 </div>
 
 <svelte:head>
