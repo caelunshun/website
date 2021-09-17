@@ -65,7 +65,7 @@ module.exports = {
             },
             height: {
                 bigscreen: "80vh",
-                smallscreen: "50vh",
+                smallscreen: "50vh"
             },
             typography: (theme) => ({
                 DEFAULT: {

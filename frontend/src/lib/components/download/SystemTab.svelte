@@ -1,23 +1,14 @@
 <script lang="ts">
     import { ChevronLeftIcon } from "svelte-feather-icons";
-    import { browser } from "$app/env";
 
     export let name: string;
     export let OSIcon: any;
     export let curSelIndex: number;
     export let desSelIndex: number;
     export let setSelIndex: (newi: number) => void;
-    export let setSpacer: (newh: number) => void;
     export let fill: boolean = true;
 
     let stuff: HTMLDivElement;
-
-    function tabClick(index: number) {
-        setSelIndex(index);
-        window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(() => setSpacer(stuff ? stuff.clientHeight : 0));
-        });
-    }
 
     function keyupEvent(e: KeyboardEvent) {
         if (e.code === "Space") {
