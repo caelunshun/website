@@ -99,6 +99,9 @@
         <a href="credits" class="underline sm:mx-1">Credits</a>
     </bold>
     <DarkThemeSwitch class="mx-auto sm:mx-2 my-2 sm:my-0" />
+<<<<<<< HEAD
+</footer>
+=======
 </footer>
 
 <style>
@@ -112,3 +115,4 @@
         @apply flex;
     } */
 </style>
+>>>>>>> 51dcd95b5f61ae4427300d16ae045ad38d3b0218
