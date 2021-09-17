@@ -12,9 +12,11 @@
 
     let stuff: HTMLDivElement;
 
-    if (browser) {
-        setTimeout(() => setSpacer(stuff ? stuff.clientHeight : 0), 50);
-        setInterval(() => setSpacer(stuff ? stuff.clientHeight : 0), 1000);
+    function tabClick(index: number) {
+        setSelIndex(index);
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => setSpacer(stuff ? stuff.clientHeight : 0));
+        });
     }
 
     function keyupEvent(e: KeyboardEvent) {
@@ -63,7 +65,7 @@
         role="tabpanel"
         aria-label={name}
     >
-        <div class="prose-auto max-w-5xl">
+        <div class="prose-auto max-w-full md:max-w-5xl">
             <slot />
         </div>
     </div>

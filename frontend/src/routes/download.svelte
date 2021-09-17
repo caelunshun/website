@@ -250,7 +250,7 @@
             </p>
         </OSTab>
     </div>
-    <div style="height: {spacerHeight}px" class="hidden md:block my-1" />
+    <div class="hidden md:block my-1 {selectedTabIndex === 2 || selectedTabIndex === 3 ? "h-bigscreen" : "h-smallscreen"}" />
 </div>
 
 <svelte:head>
