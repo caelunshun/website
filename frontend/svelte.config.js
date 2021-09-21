@@ -19,9 +19,7 @@ const config = {
         },
         target: "#svelte",
         vite: {
-            plugins: [
-                svelteSVG(),
-            ]
+            plugins: [svelteSVG()]
         },
         adapter: adapterCfw()
     }

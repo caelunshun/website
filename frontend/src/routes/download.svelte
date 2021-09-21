@@ -46,9 +46,9 @@
 </script>
 
 <div class="container mx-auto py-8">
-    <h2 class="text-4xl font-bold my-4 mx-4 md:mx-0">Download</h2>
+    <h1 class="text-4xl font-bold my-4 mx-4 md:mx-0">Download</h1>
     <hr class="w-10/12 mx-auto md:w-full" />
-    <h3 class="text-3xl font-semibold my-4 mx-4 md:mx-0">Platforms</h3>
+    <h2 class="text-3xl font-semibold my-4 mx-4 md:mx-0">Platforms</h2>
     <div
         class="md:relative md:flex flex-grow md:border-b border-gray-500 text-gray-500 dark:text-gray-50 w-full"
         role="tablist"
@@ -61,7 +61,7 @@
             setSelIndex={setTabIndex}
             OSIcon={LinuxIcon}
         >
-            <h4>Download</h4>
+            <h3>Download</h3>
             <p>To get Feather running on a Linux system first either run the download script:</p>
             {@html nixcmd}
             <p>
@@ -71,7 +71,7 @@
                     rel="noopener">GitHub release</a
                 > and unzip it.
             </p>
-            <h5>Alternative</h5>
+            <h4>Alternative</h4>
             <p>
                 Alternatively you can also build Feather <span
                     class="sanchor text-gray-900 dark:text-gray-200"
@@ -82,7 +82,7 @@
                     }}>from source</span
                 >. This will guarantee that you have the latest version of Feather.
             </p>
-            <h4>Running</h4>
+            <h3>Running</h3>
             <p>Second simply head into its directory and run <code>./feather-server</code></p>
         </OSTab>
         <OSTab
@@ -92,7 +92,7 @@
             setSelIndex={setTabIndex}
             OSIcon={AppleIcon}
         >
-            <h4>Download</h4>
+            <h3>Download</h3>
             <p>To get Feather running on a MacOS system first either run the download script:</p>
             {@html nixcmd}
             <p>
@@ -102,7 +102,7 @@
                     rel="noopener">GitHub release</a
                 > and unzip it.
             </p>
-            <h5>Alternative</h5>
+            <h4>Alternative</h4>
             <p>
                 Alternatively you can also build Feather <span
                     class="sanchor text-gray-900 dark:text-gray-200"
@@ -113,7 +113,7 @@
                     }}>from source</span
                 >. This will guarantee that you have the latest version of Feather.
             </p>
-            <h4>Running</h4>
+            <h3>Running</h3>
             <p>Second simply head into its directory and run <code>./feather-server</code></p>
         </OSTab>
         <OSTab
@@ -123,8 +123,8 @@
             setSelIndex={setTabIndex}
             OSIcon={WindowsIcon}
         >
-            <h4>Native Windows</h4>
-            <h5>Download</h5>
+            <h3>Native Windows</h3>
+            <h4>Download</h4>
             <button
                 class="bg-blue-500 ring-blue-500 text-white rounded-lg px-4 py-2 ring-offset-2 hover:bg-blue-700 focus:bg-blue-700 transition-colors duration-200 active:ring"
                 tabindex={0}
@@ -155,9 +155,9 @@
                     }}>from source</span
                 >. This will guarantee that you have the latest version of Feather.
             </p>
-            <h5>Running</h5>
+            <h4>Running</h4>
             <p>Second execute the <code>feather-server.exe</code> executable via a Terminal.</p>
-            <h4>Subsystem</h4>
+            <h3>Subsystem</h3>
             <p>
                 If you want to run Feather from a
                 <a
@@ -185,14 +185,14 @@
             OSIcon={PackageIcon}
             fill={false}
         >
-            <h4>Prerequirements</h4>
+            <h3>Prerequirements</h3>
             <ul>
                 <li>
                     <a href="https://rustup.rs/" target="_blank" rel="noopener">Rust</a> (latest toolchain
                     version)
                 </li>
             </ul>
-            <h4>Cloning and Installing</h4>
+            <h3>Cloning and Installing</h3>
             <p>To clone and install Feather from source do the following:</p>
             <ol>
                 <li>
@@ -212,7 +212,7 @@
                 </li>
                 <li>To start the server run <code>feather-server</code> (in a Terminal)</li>
             </ol>
-            <h5>Script in one:</h5>
+            <h4>Script in one:</h4>
             <!--Idk why but it works this way but not if it is added in manually (maybe because svelte compiles it to rough)-->
             {@html '<pre style="background-color:#0d1117;">\n' +
                 '<span style="color:#ffa657;">git</span><span style="color:#c9d1d9;"> clone https://github.com/feather-rs/feather\n' +
@@ -226,7 +226,7 @@
             setSelIndex={setTabIndex}
             OSIcon={DockerIcon}
         >
-            <h4>Container</h4>
+            <h3>Container</h3>
             <p>
                 If you want to use Feather via Docker there currently is the following Container
                 available:
@@ -249,7 +249,7 @@
     <title>Download | Feather</title>
 </svelte:head>
 
-<style>
+<style lang="postcss">
     .sanchor {
         @apply underline cursor-pointer font-medium;
     }

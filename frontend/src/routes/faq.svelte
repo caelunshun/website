@@ -54,8 +54,8 @@
 </div>
 
 <svelte:head>
-    <title>FAQ | Feather</title>
+    <title>Frequently Asked Questions | Feather</title>
 </svelte:head>
 
-<style>
+<style lang="postcss">
 </style>

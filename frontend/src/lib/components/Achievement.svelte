@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<style>
+<style lang="postcss">
     .corner {
         background-image: url(data:image/webp;base64,UklGRmAAAABXRUJQVlA4WAoAAAAQAAAAAwAAAwAAQUxQSBEAAAABDzD/ERFCIYAAKBJoIvof9ABWUDggKAAAAJABAJ0BKgQABAACADQlpAAC50WsAAD++gx+PY2orKBtnzCoXHaAAAA=);
         image-rendering: pixelated;
