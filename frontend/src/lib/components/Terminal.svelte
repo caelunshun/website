@@ -148,7 +148,7 @@
     </div>
 </div>
 
-<style>
+<style lang="postcss">
     #termbar {
         background-color: #dad9d9;
     }

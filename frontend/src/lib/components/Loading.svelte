@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<style>
+<style lang="postcss">
     @keyframes heartbeat {
         0% {
             transform: scale(0.75);

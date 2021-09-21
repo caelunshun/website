@@ -30,10 +30,10 @@
 </section>
 <section class="prose-auto max-w-none">
     <div class="container mx-auto py-16 md:px-8 px-4">
-        <h1>Why Feather?</h1>
+        <h2>Why Feather?</h2>
         <div class="grid xl:grid-cols-4 lg:grid-cols-2 grid-cols-1 gap-8 ">
             <div>
-                <h2>It's wicked fast</h2>
+                <h3>It's wicked fast</h3>
                 <p>
                     Not "stupid fast." Wicked fast. Feather's architecture is built from the ground
                     up for performance and elegance. Written in Rust &mdash; a native language as
@@ -42,7 +42,7 @@
                 </p>
             </div>
             <div>
-                <h2>Powerful plugins</h2>
+                <h3>Powerful plugins</h3>
                 <p>
                     Feather plugins can achieve incredible flexibility through Feather's
                     data-oriented API. Our plugin system has been written from the start to support
@@ -51,7 +51,7 @@
                 </p>
             </div>
             <div>
-                <h2>More flexibility</h2>
+                <h3>More flexibility</h3>
                 <p>
                     Thanks to Feather's modular architec-ture, users can configure gameplay features
                     to meet their needs. Without writing code, you can configure Feather to the
@@ -59,10 +59,10 @@
                 </p>
             </div>
             <div>
-                <h2>
+                <h3>
                     Open Source
                     <GithubMark class="mx-2 dark:text-gray-50 text-black fill-current h-8 inline" />
-                </h2>
+                </h3>
                 <p>
                     <!--Please add lots of irrelevant text here so that it looks good.-->
                     Feather is Open Source and the Source code can be browsed on
@@ -77,10 +77,10 @@
 </section>
 <section class="prose-auto max-w-none">
     <div class="container mx-auto flex flex-col py-16 md:px-8 px-4">
-        <h1>Why Rust? <Ferris class="mx-2 h-8 w-auto my-auto inline" /></h1>
+        <h2>Why Rust? <Ferris class="mx-2 h-8 w-auto my-auto inline" /></h2>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-8">
             <div>
-                <h2>Performance</h2>
+                <h3>Performance</h3>
                 <p>
                     Rust is blazingly fast and memory-efficient: with no runtime or garbage
                     collector, it can power performance-critical services, run on embedded devices,
@@ -88,7 +88,7 @@
                 </p>
             </div>
             <div>
-                <h2>Reliability</h2>
+                <h3>Reliability</h3>
                 <p>
                     Rust’s rich type system and ownership model guarantee memory-safety and
                     thread-safety &mdash; preventing many classes of bugs at compile-time.
@@ -99,10 +99,10 @@
 </section>
 <section class="prose-auto max-w-none">
     <div class="container mx-auto flex flex-col py-16 md:px-8 px-4">
-        <h1>Get involved</h1>
+        <h2>Get involved</h2>
         <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
             <div>
-                <h2>Issue tracker</h2>
+                <h3>Issue tracker</h3>
                 <p>
                     Want to contribute? Check out our <a
                         href="https://github.com/feather-rs/feather/issues">issue tracker</a
@@ -111,7 +111,7 @@
                 </p>
             </div>
             <div>
-                <h2>Discord</h2>
+                <h3>Discord</h3>
                 <p>
                     Our Discord server is our central information hub. We'd love to hear your
                     thoughts on Feather! Here you get information about new releases, can ask
@@ -120,16 +120,14 @@
                 </p>
             </div>
             <div>
-                <h2>Association</h2>
+                <h3>Association</h3>
                 <p>
                     Feather is run and funded by an open nonprofit association, where everyone is
-                    free to
-                    <a href="/association/join">join at the cost of 10 EUR</a>. All the members are
-                    invited once a year by the end of ___ to elect five to ten maintainers. These
-                    maintainers are responsible for the daily maintenance of the association and the
-                    development of feather. All the money raised through the association goes
-                    towards paying for web and demo server; you can read more about it in the
-                    <a href="/association/budget">budget</a>.
+                    free to join at the cost of 10 EUR. All the members are invited once a year by
+                    the end of ___ to elect five to ten maintainers. These maintainers are
+                    responsible for the daily maintenance of the association and the development of
+                    feather. All the money raised through the association goes towards paying for
+                    web and demo server; you can read more about it in the budget.
                 </p>
             </div>
         </div>
@@ -140,7 +138,7 @@
     <title>Feather | Wicked Fast Minecraft</title>
 </svelte:head>
 
-<style>
+<style lang="postcss">
     section:nth-child(odd) {
         @apply bg-blue-50;
     }

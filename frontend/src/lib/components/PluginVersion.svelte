@@ -148,7 +148,7 @@
     </div>
 </div>
 
-<style>
+<style lang="postcss">
     .quillcmd {
         @apply flex justify-between border-2 px-2 py-1 rounded font-mono items-center cursor-pointer;
     }

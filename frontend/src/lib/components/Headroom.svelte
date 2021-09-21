@@ -39,7 +39,7 @@
     <slot />
 </div>
 
-<style>
+<style lang="postcss">
     div {
         position: fixed;
         width: 100%;
