@@ -50,7 +50,7 @@
         {
             timeout: 0.1,
             message: () =>
-                rn() + "INFO  [feather_common::world_source::region] Chunk worker started",
+                rn() + "INFO  [feather_common::region_worker] Chunk worker started",
             newline: true
         },
         {
